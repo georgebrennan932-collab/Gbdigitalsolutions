@@ -1,20 +1,14 @@
-﻿import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useEffect, useMemo, useState } from 'react'
 import {
   ArrowRight,
-  BarChart3,
   Bot,
-  BriefcaseBusiness,
   CheckCircle2,
   Code2,
   Layers,
-  Mail,
-  MessageSquare,
-  Settings,
-  Shield,
+  Menu,
   Smartphone,
-  Wallet,
-  Workflow,
+  X,
 } from 'lucide-react'
 import './App.css'
 
@@ -34,1069 +28,796 @@ function getAsset(fileName) {
   return assetMap[fileName.toLowerCase()] ?? null
 }
 
-function getPageFromHash() {
-  if (typeof window === 'undefined') {
-    return 'home'
+function normalizePath(pathname) {
+  if (!pathname) {
+    return '/'
   }
 
-  return window.location.hash === '#about' ? 'about' : 'home'
+  const trimmed = pathname.replace(/\/+$/, '')
+  return trimmed.length === 0 ? '/' : trimmed
 }
 
-const services = [
-  {
-    title: 'Websites',
-    description: 'Modern responsive websites built for speed, trust, and conversion.',
-    icon: Layers,
-  },
-  {
-    title: 'Mobile Apps',
-    description: 'Cross-platform Android and iOS products with polished mobile UX.',
-    icon: Smartphone,
-  },
-  {
-    title: 'AI Solutions',
-    description: 'Business automation, copilots, and intelligent workflows that scale.',
-    icon: Bot,
-  },
-  {
-    title: 'Custom Software',
-    description: 'Internal systems, dashboards, and tools designed around your team.',
-    icon: Code2,
-  },
-]
-
-const heroShowcase = [
-  {
-    name: 'PlateMate',
-    descriptor: 'Nutrition & Fitness App',
-    image: 'platemate-case.png',
-    device: 'phone',
-    caseStudyIndex: 0,
-  },
-  {
-    name: 'NightPal',
-    descriptor: 'Personal Safety App',
-    image: 'nightpal-case.png',
-    device: 'phone',
-    caseStudyIndex: 1,
-  },
-  {
-    name: 'Vault by James',
-    descriptor: 'E-commerce Platform',
-    image: 'vault-case.png',
-    device: 'laptop',
-    caseStudyIndex: 2,
-  },
-]
-
-const caseStudies = [
-  {
-    name: 'PlateMate Evolve',
-    summary: 'Food platform UX focused on conversion and repeat ordering.',
-    problem:
-      'Users were dropping off before checkout because the journey felt busy and unclear on mobile.',
-    solution:
-      'Redesigned the purchase flow, simplified navigation, and introduced cleaner product discovery.',
-    tags: ['React', 'Node', 'Stripe', 'Analytics'],
-    image: 'platemate-case.png',
-  },
-  {
-    name: 'NightPal',
-    summary: 'Mobile safety app designed for rapid emergency response and trusted contact alerts.',
-    problem:
-      'In an emergency, every second counts. Many safety apps require multiple taps before users can get help.',
-    solution:
-      'Developed a mobile safety app focused on rapid emergency response, enabling users to alert trusted contacts, share their live location and access essential safety tools with minimal interaction.',
-    tags: ['Mobile', 'Realtime', 'Maps', 'Firebase'],
-    image: 'nightpal-case.png',
-  },
-  {
-    name: 'Vault by James',
-    summary: 'Secure content vault for premium members and protected assets.',
-    problem:
-      'Digital products and member resources needed secure access control without friction.',
-    solution:
-      'Created a gated architecture with role-based access and seamless login journeys.',
-    tags: ['Next.js', 'Auth', 'Cloud', 'Payments'],
-    image: 'vault-case.png',
-  },
-]
-
-const aboutFeatureCards = [
-  {
-    title: 'Direct Communication',
-    text: "You'll work directly with the developer from start to finish.",
-    icon: MessageSquare,
-  },
-  {
-    title: 'Tailored Solutions',
-    text: 'Every website and application is built around your business requirements.',
-    icon: Layers,
-  },
-  {
-    title: 'Future Ready',
-    text: 'Modern technologies including AI, automation, and scalable cloud solutions.',
-    icon: Bot,
-  },
-  {
-    title: 'Long-Term Support',
-    text: 'Launch is only the beginning. Ongoing improvements and support are always available.',
-    icon: Workflow,
-  },
-]
-
-const aboutTimeline = [
-  'British Army',
-  'Registered Nurse',
-  'Software Developer',
-  'Founder of GB Digital Solutions',
-]
-
-const howIWorkSteps = [
-  'Discovery Call',
-  'Proposal',
-  'Prototype',
-  'Weekly Progress',
-  'Testing',
-  'Launch',
-  'Support',
-]
-
-const trustReasons = [
-  {
-    title: 'Direct Communication',
-    text: "You'll work directly with the person designing and building your project, ensuring clear communication and quick decisions from start to finish.",
-    icon: MessageSquare,
-  },
-  {
-    title: 'Built Around Your Business',
-    text: 'No templates or one-size-fits-all solutions. Every website and application is designed around your goals, your customers and your workflow.',
-    icon: Layers,
-  },
-  {
-    title: 'Modern Technology',
-    text: 'Built using current technologies including React, Node.js, AI integration, cloud hosting and responsive design to ensure your solution is ready for the future.',
-    icon: Code2,
-  },
-  {
-    title: 'Ongoing Support',
-    text: 'Launching your website or application is just the beginning. Continued support, updates and future improvements are always available.',
-    icon: Workflow,
-  },
-]
-
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 }
 
 const whatsappPrefill =
-  'Hi George, I found your website and I\'m interested in discussing a project.'
+  "Hi George, I found GB Digital Solutions and I'd like to discuss a project."
 const whatsappLink = `https://wa.me/447707287340?text=${encodeURIComponent(whatsappPrefill)}`
-const businessPhone = '07707 287340'
 
-const contactReasons = [
+const navItems = [
+  { label: 'Home', path: '/' },
+  { label: 'Services', path: '/services' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'About', path: '/about' },
+  { label: 'Contact', path: '/contact' },
+]
+
+const sellingPoints = [
+  'Former British Army',
+  'Former NHS Nurse',
+  'Published Commercial Apps',
+]
+
+const servicesPreview = [
+  { title: 'Websites', icon: Layers },
+  { title: 'Mobile Apps', icon: Smartphone },
+  { title: 'AI & Automation', icon: Bot },
+  { title: 'Custom Software', icon: Code2 },
+]
+
+const projects = [
   {
-    title: 'Direct Communication',
-    text: "You'll always speak directly with the developer building your project.",
-    icon: MessageSquare,
+    slug: 'platemate',
+    path: '/projects/platemate',
+    name: 'PlateMate',
+    shortDescription: 'A conversion-focused food ordering platform with cleaner mobile checkout.',
+    overview:
+      'PlateMate was rebuilt as a high-performance ordering experience focused on faster decisions, less friction, and stronger repeat usage.',
+    problem:
+      'The old journey overloaded users with options and unclear steps, causing significant drop-off before payment.',
+    solution:
+      'The flow was restructured into a guided path with clearer actions, simplified navigation, and stronger feedback during checkout.',
+    technologies: ['React', 'Node.js', 'Stripe', 'Analytics'],
+    results: [
+      'Smoother checkout journey with fewer abandoned sessions.',
+      'Improved mobile usability and faster path to purchase.',
+      'Clear reporting for marketing and product decisions.',
+    ],
+    externalLinks: [
+      { label: 'Book Similar Build', href: '/contact' },
+      { label: 'View All Projects', href: '/projects' },
+    ],
+    heroImage: 'platemate-case.png',
+    screenshots: ['platemate-case.png', 'hero.png', 'vault-case.png'],
+    gallery: ['platemate-case.png', 'nightpal-case.png', 'vault-case.png'],
   },
   {
-    title: 'Fast Response',
-    text: 'Most enquiries receive a reply within a few hours.',
-    icon: Workflow,
+    slug: 'nightpal',
+    path: '/projects/nightpal',
+    name: 'NightPal',
+    shortDescription: 'A personal safety app built for rapid emergency alerts and location sharing.',
+    overview:
+      'NightPal is a mobile-first safety product designed to reduce response time when users feel at risk.',
+    problem:
+      'Many safety apps bury emergency actions behind multiple screens, delaying critical support in high-stress moments.',
+    solution:
+      'NightPal introduced one-tap emergency actions, instant trusted-contact alerts, and live location sharing with a clearer interaction model.',
+    technologies: ['React Native', 'Firebase', 'Realtime Messaging', 'Maps'],
+    results: [
+      'Faster emergency activation flow with fewer taps.',
+      'Improved confidence during solo travel and late shifts.',
+      'A scalable architecture for future safety features.',
+    ],
+    externalLinks: [
+      { label: 'Discuss a Safety Product', href: '/contact' },
+      { label: 'Back to Projects', href: '/projects' },
+    ],
+    heroImage: 'nightpal-case.png',
+    screenshots: ['nightpal-case.png', 'hero.png', 'platemate-case.png'],
+    gallery: ['nightpal-case.png', 'vault-case.png', 'platemate-case.png'],
   },
   {
-    title: 'Tailored Advice',
-    text: 'Every project starts with understanding your business, not selling unnecessary features.',
-    icon: Settings,
-  },
-  {
-    title: 'No Obligation',
-    text: 'Happy to discuss ideas, even if you are not ready to start yet.',
-    icon: BriefcaseBusiness,
+    slug: 'vault',
+    path: '/projects/vault',
+    name: 'Vault by James',
+    shortDescription: 'A secure members platform for premium content and protected digital assets.',
+    overview:
+      'Vault by James is a gated platform that balances premium brand experience with enterprise-grade access control.',
+    problem:
+      'The business needed a secure way to deliver paid content without creating login friction for customers.',
+    solution:
+      'A role-based system was implemented with streamlined sign-in, protected content zones, and clear account journeys.',
+    technologies: ['Next.js', 'Authentication', 'Cloud Hosting', 'Payments'],
+    results: [
+      'Reliable access control for paid member content.',
+      'Reduced support requests related to account access.',
+      'A platform foundation ready for further growth.',
+    ],
+    externalLinks: [
+      { label: 'Start Your Platform', href: '/contact' },
+      { label: 'Browse More Work', href: '/projects' },
+    ],
+    heroImage: 'vault-case.png',
+    screenshots: ['vault-case.png', 'hero.png', 'nightpal-case.png'],
+    gallery: ['vault-case.png', 'platemate-case.png', 'nightpal-case.png'],
   },
 ]
 
-const trustBannerItems = [
+const services = [
   {
-    text: '10% Discount for UK Armed Forces & Veterans',
-    icon: Shield,
+    name: 'Websites',
+    forWho: 'Businesses that need a premium digital presence and clear conversion path.',
+    benefits: [
+      'Fast, responsive user experience across devices.',
+      'Clear service messaging and stronger conversion journeys.',
+      'Scalable structure ready for growth.',
+    ],
+    timeline: 'Typical delivery: 3 to 6 weeks',
+    technologies: ['React', 'Vite', 'Modern CSS', 'Analytics'],
   },
   {
-    text: 'Free Initial Consultation',
-    icon: MessageSquare,
+    name: 'Mobile Apps',
+    forWho: 'Founders and teams launching iOS and Android experiences.',
+    benefits: [
+      'Consistent cross-platform experience.',
+      'Performance-focused architecture for production use.',
+      'App journeys designed for real-world usage.',
+    ],
+    timeline: 'Typical delivery: 8 to 14 weeks',
+    technologies: ['React Native', 'Firebase', 'REST APIs', 'Push Notifications'],
   },
   {
-    text: "Already have a quote? We'll happily review it and see if we can provide a better solution or better value.",
-    icon: Wallet,
+    name: 'AI Solutions',
+    forWho: 'Teams looking to embed practical AI into customer or internal products.',
+    benefits: [
+      'Smarter workflows with measurable value.',
+      'AI features designed around operational needs.',
+      'Clear governance and maintainable implementation.',
+    ],
+    timeline: 'Typical delivery: 4 to 10 weeks',
+    technologies: ['OpenAI APIs', 'Python', 'Node.js', 'Vector Search'],
+  },
+  {
+    name: 'Business Automation',
+    forWho: 'Businesses losing time to repetitive manual tasks.',
+    benefits: [
+      'Reduced admin effort and handover delays.',
+      'More reliable internal processes.',
+      'Operational visibility through automation dashboards.',
+    ],
+    timeline: 'Typical delivery: 3 to 8 weeks',
+    technologies: ['Zapier', 'Make', 'Custom APIs', 'Workflow Engines'],
+  },
+  {
+    name: 'Custom Software',
+    forWho: 'Companies that need internal systems built around their exact workflow.',
+    benefits: [
+      'Software aligned to business operations.',
+      'Improved team productivity and consistency.',
+      'Future-proof architecture for additional modules.',
+    ],
+    timeline: 'Typical delivery: 6 to 16 weeks',
+    technologies: ['React', 'Node.js', 'PostgreSQL', 'Cloud Infrastructure'],
   },
 ]
 
-function AboutPage({ aboutPortrait }) {
-  return (
-    <div className="site-shell">
-      <div className="bg-aurora" aria-hidden="true" />
-      <div className="bg-grid" aria-hidden="true" />
-      <div className="network-bg" aria-hidden="true">
-        <svg viewBox="0 0 1400 900" preserveAspectRatio="none">
-          <path d="M80 180 L340 260 L620 180 L900 310 L1240 190" />
-          <path d="M170 500 L420 420 L700 560 L1020 480 L1300 610" />
-          <path d="M120 730 L360 640 L700 720 L1030 660 L1260 760" />
-          <path d="M620 180 L700 560 L700 720" />
-          <path d="M340 260 L420 420 L360 640" />
-          <path d="M900 310 L1020 480 L1030 660" />
-        </svg>
-        {[...Array(14)].map((_, i) => (
-          <span key={i} style={{ '--n': i }} />
-        ))}
-      </div>
+const businessHours = [
+  'Monday to Friday: 09:00 to 18:00',
+  'Saturday: 10:00 to 14:00',
+  'Sunday: Closed',
+]
 
-      <header className="topbar section-wrap">
-        <a className="brand" href="#home" aria-label="GB Digital Solutions Home">
-          <span className="brand-dot" aria-hidden="true" />
-          GB Digital Solutions
-        </a>
-        <nav className="nav-links" aria-label="Primary navigation">
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </header>
+const faqs = [
+  {
+    q: 'How quickly can we start?',
+    a: 'Most projects can begin within 1 to 2 weeks after scoping.',
+  },
+  {
+    q: 'Do you work with small businesses?',
+    a: 'Yes. Projects are scoped to fit growth-stage teams and established businesses.',
+  },
+  {
+    q: 'Can you improve an existing product?',
+    a: 'Yes. Audits, redesigns, and phased rebuilds are all available.',
+  },
+]
 
-      <main>
-        <section className="section-wrap about-page-header">
-          <motion.p className="eyebrow" variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.5 }}>
-            About George Brennan
-          </motion.p>
-          <motion.h1 variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.6, delay: 0.08 }}>
-            Meet the Developer Behind GB Digital Solutions
-          </motion.h1>
-          <motion.p
-            className="hero-subheading"
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.6, delay: 0.16 }}
-          >
-            Building websites, mobile apps and custom software designed around real business problems.
-          </motion.p>
-        </section>
-
-        <section className="section-wrap about-section">
-          <div className="about-layout">
-            <motion.div
-              className="about-visual"
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="about-floating-icons" aria-hidden="true">
-                <span>
-                  <Bot size={16} /> AI
-                </span>
-                <span>
-                  <Workflow size={16} /> Automation
-                </span>
-                <span>
-                  <Shield size={16} /> Secure
-                </span>
-                <span>
-                  <BarChart3 size={16} /> Growth
-                </span>
-              </div>
-              <div className="about-portrait-card" role="img" aria-label="Professional portrait">
-                {aboutPortrait ? (
-                  <img className="about-portrait-image" src={aboutPortrait} alt="George Brennan" loading="lazy" />
-                ) : (
-                  <div className="about-portrait-fallback" aria-hidden="true" />
-                )}
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="about-content"
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-            >
-              <h2 className="section-title">Meet the Developer Behind GB Digital Solutions</h2>
-              <p className="about-subheading">
-                Building websites, mobile apps and custom software designed around real business problems.
-              </p>
-              <div className="about-identity">
-                <p className="about-name">George Brennan</p>
-                <p className="about-title">Founder, GB Digital Solutions</p>
-              </div>
-
-              <div className="about-copy">
-                <p>Hi, I'm George Brennan, founder of GB Digital Solutions.</p>
-                <p>
-                  I build websites, mobile apps and custom software that help businesses work smarter,
-                  improve customer experience and save time.
-                </p>
-                <p>
-                  Before becoming a software developer, I served in the British Army and later worked
-                  as a registered nurse within the NHS.
-                </p>
-                <p>
-                  Those careers taught me how to solve problems under pressure, communicate effectively,
-                  and build systems people can depend on.
-                </p>
-                <p>
-                  Today I combine that real-world experience with modern software development to create
-                  practical digital solutions rather than software for the sake of technology.
-                </p>
-                <p>
-                  Whether you need a business website, booking platform, mobile app, AI integration,
-                  or bespoke software, every project is designed around your goals rather than a
-                  one-size-fits-all template.
-                </p>
-                <p>
-                  I believe the best software starts with understanding the problem. Technology is simply
-                  the tool used to solve it.
-                </p>
-              </div>
-
-              <div className="about-feature-grid">
-                {aboutFeatureCards.map((feature, index) => {
-                  const Icon = feature.icon
-
-                  return (
-                    <motion.article
-                      key={feature.title}
-                      className="about-feature-card"
-                      variants={fadeUp}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{ duration: 0.4, delay: index * 0.06 }}
-                      whileHover={{ y: -5 }}
-                    >
-                      <div className="about-feature-icon">
-                        <Icon size={16} />
-                      </div>
-                      <h3>{feature.title}</h3>
-                      <p>{feature.text}</p>
-                    </motion.article>
-                  )
-                })}
-              </div>
-
-            </motion.div>
-          </div>
-
-          <motion.div
-            className="about-timeline-wrap"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.55 }}
-          >
-            <h3>Problem-Solving Experience Timeline</h3>
-            <div className="about-timeline">
-              {aboutTimeline.map((item) => (
-                <div key={item} className="about-timeline-item">
-                  <span className="timeline-dot" aria-hidden="true" />
-                  <p>{item}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
-
-        <section className="section-wrap about-cta">
-          <motion.h2
-            className="section-title"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5 }}
-          >
-            Let's Build Something That Makes A Difference
-          </motion.h2>
-          <motion.p
-            className="section-copy"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.55, delay: 0.1 }}
-          >
-            Whether you're starting a new business, modernizing an existing one or have an idea you'd
-            like to bring to life, I'd love to hear about it.
-          </motion.p>
-          <motion.div
-            className="about-cta-actions"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-          >
-            <a className="btn btn-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer">
-              <MessageSquare size={16} />
-              Start a WhatsApp Chat
-            </a>
-            <a className="btn btn-secondary" href="#home">
-              Back to Home
-            </a>
-          </motion.div>
-        </section>
-      </main>
-
-      <footer className="footer section-wrap">
-        <p>© {new Date().getFullYear()} GB Digital Solutions. All rights reserved.</p>
-        <div className="footer-links">
-          <a href="#home">Home</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <div className="social-links" aria-label="Social links">
-          <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
-            <Workflow size={16} />
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-            <MessageSquare size={16} />
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
-            <Mail size={16} />
-          </a>
-        </div>
-      </footer>
-    </div>
-  )
+function getProjectByPath(pathname) {
+  return projects.find((project) => project.path === pathname) ?? null
 }
 
 function App() {
-  const [activePage, setActivePage] = useState(getPageFromHash)
-  const [activeShowcase, setActiveShowcase] = useState(0)
-  const [activeCaseStudy, setActiveCaseStudy] = useState(0)
-  const [mobileCarouselIndex, setMobileCarouselIndex] = useState(0)
+  const [path, setPath] = useState(() => normalizePath(window.location.pathname))
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   useEffect(() => {
-    const handleHashChange = () => {
-      setActivePage(getPageFromHash())
+    const onPopState = () => {
+      setPath(normalizePath(window.location.pathname))
+      setMenuOpen(false)
+      window.scrollTo({ top: 0, behavior: 'auto' })
     }
 
-    window.addEventListener('hashchange', handleHashChange)
-
-    return () => window.removeEventListener('hashchange', handleHashChange)
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
   }, [])
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveShowcase((prev) => (prev + 1) % heroShowcase.length)
-    }, 7000)
+  const activeProject = useMemo(() => getProjectByPath(path), [path])
 
-    return () => clearInterval(timer)
-  }, [])
+  const navigateTo = (to) => {
+    const nextPath = normalizePath(to)
 
-  useEffect(() => {
-    const carouselTimer = setInterval(() => {
-      setMobileCarouselIndex((prev) => {
-        const next = (prev + 1) % heroShowcase.length
-        setActiveCaseStudy(heroShowcase[next].caseStudyIndex)
-        return next
-      })
-    }, 5500)
+    if (nextPath === path) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
 
-    return () => clearInterval(carouselTimer)
-  }, [])
-
-  const heroCarouselItem = heroShowcase[mobileCarouselIndex]
-  const heroCarouselImage = getAsset(heroCarouselItem.image)
-
-  const handlePreviousHero = () => {
-    setMobileCarouselIndex((prev) => (prev - 1 + heroShowcase.length) % heroShowcase.length)
-    setActiveCaseStudy((prev) => (prev - 1 + caseStudies.length) % caseStudies.length)
+    window.history.pushState({}, '', nextPath)
+    setPath(nextPath)
+    setMenuOpen(false)
+    window.scrollTo({ top: 0, behavior: 'auto' })
   }
 
-  const handleNextHero = () => {
-    setMobileCarouselIndex((prev) => (prev + 1) % heroShowcase.length)
-    setActiveCaseStudy((prev) => (prev + 1) % caseStudies.length)
+  const handleNavigate = (event, to) => {
+    if (
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      event.button !== 0
+    ) {
+      return
+    }
+
+    event.preventDefault()
+    navigateTo(to)
   }
 
-  const showcaseItem = heroShowcase[activeShowcase]
-  const activeStudy = caseStudies[activeCaseStudy]
-  const aboutPortrait = getAsset('about-portrait.png')
-  const caseImage = getAsset(activeStudy.image)
+  const renderLinkButton = ({ to, children, className = 'btn btn-primary' }) => (
+    <a href={to} className={className} onClick={(event) => handleNavigate(event, to)}>
+      {children}
+    </a>
+  )
 
-  if (activePage === 'about') {
-    return <AboutPage aboutPortrait={aboutPortrait} />
+  const renderHeader = () => (
+    <header className="topbar shell">
+      <a className="brand" href="/" onClick={(event) => handleNavigate(event, '/')}>
+        <span className="brand-mark" aria-hidden="true" />
+        GB Digital Solutions
+      </a>
+
+      <button
+        type="button"
+        className="nav-toggle"
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        onClick={() => setMenuOpen((prev) => !prev)}
+      >
+        {menuOpen ? <X size={18} /> : <Menu size={18} />}
+      </button>
+
+      <nav className={`nav-links ${menuOpen ? 'open' : ''}`} aria-label="Primary navigation">
+        {navItems.map((item) => {
+          const isActive =
+            path === item.path || (item.path === '/projects' && path.startsWith('/projects/'))
+
+          return (
+            <a
+              key={item.path}
+              href={item.path}
+              className={isActive ? 'active' : ''}
+              onClick={(event) => handleNavigate(event, item.path)}
+            >
+              {item.label}
+            </a>
+          )
+        })}
+      </nav>
+    </header>
+  )
+
+  const renderHomePage = () => (
+    <main>
+      <section className="hero shell">
+        <motion.p
+          className="eyebrow"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.45 }}
+        >
+          Boutique Software Consultancy
+        </motion.p>
+        <motion.h1
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.55, delay: 0.08 }}
+        >
+          Bespoke Software That Moves Your Business Forward
+        </motion.h1>
+        <motion.p
+          className="hero-copy"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.55, delay: 0.16 }}
+        >
+          Premium websites, mobile apps, and custom systems designed for ambitious companies.
+        </motion.p>
+        <motion.div
+          className="hero-actions"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.55, delay: 0.24 }}
+        >
+          {renderLinkButton({ to: '/contact', children: 'Start Your Project' })}
+          {renderLinkButton({
+            to: '/projects',
+            className: 'btn btn-ghost',
+            children: 'View Projects',
+          })}
+        </motion.div>
+      </section>
+
+      <section className="section shell compact-section">
+        <h2>Why Choose GB Digital Solutions</h2>
+        <div className="ticks-grid">
+          {sellingPoints.map((point) => (
+            <article key={point} className="tick-card">
+              <CheckCircle2 size={18} />
+              <p>{point}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section shell compact-section">
+        <div className="section-head-row">
+          <h2>Services Preview</h2>
+          <a
+            href="/services"
+            onClick={(event) => handleNavigate(event, '/services')}
+            className="text-link"
+          >
+            Explore Services <ArrowRight size={16} />
+          </a>
+        </div>
+        <div className="service-grid">
+          {servicesPreview.map((service) => {
+            const Icon = service.icon
+            return (
+              <a
+                key={service.title}
+                href="/services"
+                onClick={(event) => handleNavigate(event, '/services')}
+                className="service-card"
+              >
+                <Icon size={20} />
+                <h3>{service.title}</h3>
+              </a>
+            )
+          })}
+        </div>
+      </section>
+
+      <section className="section shell compact-section">
+        <div className="section-head-row">
+          <h2>Featured Projects</h2>
+          <a
+            href="/projects"
+            onClick={(event) => handleNavigate(event, '/projects')}
+            className="text-link"
+          >
+            Full Portfolio <ArrowRight size={16} />
+          </a>
+        </div>
+
+        <div className="project-grid">
+          {projects.map((project) => {
+            const projectImage = getAsset(project.heroImage)
+
+            return (
+              <article key={project.slug} className="project-card">
+                <div className="project-thumb">
+                  {projectImage ? (
+                    <img src={projectImage} alt={`${project.name} preview`} loading="lazy" />
+                  ) : (
+                    <div className="image-placeholder">Project Preview</div>
+                  )}
+                </div>
+                <h3>{project.name}</h3>
+                <p>{project.shortDescription}</p>
+                <a
+                  href={project.path}
+                  onClick={(event) => handleNavigate(event, project.path)}
+                  className="btn btn-secondary"
+                >
+                  View Case Study
+                </a>
+              </article>
+            )
+          })}
+        </div>
+      </section>
+
+      <section className="cta shell">
+        <h2>Ready to build your project?</h2>
+        {renderLinkButton({ to: '/contact', children: 'Start Your Project' })}
+      </section>
+    </main>
+  )
+
+  const renderServicesPage = () => (
+    <main className="page shell">
+      <section className="page-hero">
+        <p className="eyebrow">Services</p>
+        <h1>Software Services Built Around Business Outcomes</h1>
+        <p>
+          Each service is structured for practical delivery, measurable value, and long-term
+          maintainability.
+        </p>
+      </section>
+
+      <section className="stacked-sections">
+        {services.map((service) => (
+          <article key={service.name} className="detail-card">
+            <h2>{service.name}</h2>
+            <p>
+              <strong>Who it is for:</strong> {service.forWho}
+            </p>
+            <p>
+              <strong>Typical delivery time:</strong> {service.timeline}
+            </p>
+            <div className="detail-columns">
+              <div>
+                <h3>Benefits</h3>
+                <ul>
+                  {service.benefits.map((benefit) => (
+                    <li key={benefit}>{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3>Technologies Used</h3>
+                <div className="tag-list">
+                  {service.technologies.map((tech) => (
+                    <span key={tech}>{tech}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {renderLinkButton({
+              to: '/contact',
+              className: 'btn btn-secondary',
+              children: 'Start This Service',
+            })}
+          </article>
+        ))}
+      </section>
+    </main>
+  )
+
+  const renderProjectsPage = () => (
+    <main className="page shell">
+      <section className="page-hero">
+        <p className="eyebrow">Projects</p>
+        <h1>Portfolio</h1>
+        <p>Selected client-facing software and product builds from GB Digital Solutions.</p>
+      </section>
+
+      <section className="project-grid full">
+        {projects.map((project) => {
+          const projectImage = getAsset(project.heroImage)
+
+          return (
+            <article key={project.slug} className="project-card">
+              <div className="project-thumb">
+                {projectImage ? (
+                  <img src={projectImage} alt={`${project.name} hero`} loading="lazy" />
+                ) : (
+                  <div className="image-placeholder">Project Hero Image</div>
+                )}
+              </div>
+              <h2>{project.name}</h2>
+              <p>{project.shortDescription}</p>
+              <a
+                href={project.path}
+                onClick={(event) => handleNavigate(event, project.path)}
+                className="btn btn-secondary"
+              >
+                Open Project Page
+              </a>
+            </article>
+          )
+        })}
+      </section>
+    </main>
+  )
+
+  const renderProjectDetailPage = (project) => {
+    const heroImage = getAsset(project.heroImage)
+
+    return (
+      <main className="page shell">
+        <section className="page-hero project-hero">
+          <p className="eyebrow">Case Study</p>
+          <h1>{project.name}</h1>
+          <p>{project.overview}</p>
+          <a
+            href="/projects"
+            onClick={(event) => handleNavigate(event, '/projects')}
+            className="text-link"
+          >
+            Back to Projects <ArrowRight size={16} />
+          </a>
+        </section>
+
+        <section className="detail-card project-hero-image">
+          {heroImage ? (
+            <img src={heroImage} alt={`${project.name} hero visual`} loading="lazy" />
+          ) : (
+            <div className="image-placeholder tall">Hero Image Placeholder</div>
+          )}
+        </section>
+
+        <section className="detail-card">
+          <h2>Project Overview</h2>
+          <p>{project.overview}</p>
+        </section>
+
+        <section className="detail-card split">
+          <div>
+            <h2>The Problem</h2>
+            <p>{project.problem}</p>
+          </div>
+          <div>
+            <h2>The Solution</h2>
+            <p>{project.solution}</p>
+          </div>
+        </section>
+
+        <section className="detail-card">
+          <h2>Technologies Used</h2>
+          <div className="tag-list">
+            {project.technologies.map((tech) => (
+              <span key={tech}>{tech}</span>
+            ))}
+          </div>
+        </section>
+
+        <section className="detail-card">
+          <h2>Screenshots</h2>
+          <div className="media-grid">
+            {project.screenshots.map((shot, index) => {
+              const image = getAsset(shot)
+              return (
+                <div key={`${project.slug}-shot-${index}`} className="media-card">
+                  {image ? (
+                    <img src={image} alt={`${project.name} screenshot ${index + 1}`} loading="lazy" />
+                  ) : (
+                    <div className="image-placeholder">Screenshot {index + 1}</div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        <section className="detail-card">
+          <h2>Results</h2>
+          <ul>
+            {project.results.map((result) => (
+              <li key={result}>{result}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="detail-card">
+          <h2>Gallery</h2>
+          <div className="gallery-grid">
+            {project.gallery.map((assetName, index) => {
+              const image = getAsset(assetName)
+              return (
+                <div key={`${project.slug}-gallery-${index}`} className="gallery-card">
+                  {image ? (
+                    <img src={image} alt={`${project.name} gallery image ${index + 1}`} loading="lazy" />
+                  ) : (
+                    <div className="image-placeholder">Gallery Image {index + 1}</div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        <section className="detail-card">
+          <h2>Links</h2>
+          <div className="inline-actions">
+            {project.externalLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={(event) => handleNavigate(event, link.href)}
+                className="btn btn-secondary"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </section>
+      </main>
+    )
+  }
+
+  const renderAboutPage = () => {
+    const portrait = getAsset('about-portrait.png')
+
+    return (
+      <main className="page shell">
+        <section className="page-hero about-hero">
+          <p className="eyebrow">About</p>
+          <h1>Who I Am</h1>
+          <p>
+            I am George Brennan, founder of GB Digital Solutions, focused on delivering practical,
+            premium software for real business challenges.
+          </p>
+        </section>
+
+        <section className="detail-card split about-intro">
+          <div>
+            <h2>Background</h2>
+            <ul>
+              <li>Former British Army</li>
+              <li>Former NHS Nurse</li>
+              <li>Software Developer and Founder</li>
+            </ul>
+            <h2>Why I Started GB Digital Solutions</h2>
+            <p>
+              I wanted to build a consultancy where software is delivered with discipline, clarity,
+              and accountability from day one.
+            </p>
+            <h2>How I Approach Projects</h2>
+            <p>
+              Every project starts with understanding your operations, then delivering focused
+              software in clear stages with direct communication throughout.
+            </p>
+          </div>
+          <div className="portrait-wrap">
+            {portrait ? (
+              <img src={portrait} alt="Professional portrait placeholder" loading="lazy" />
+            ) : (
+              <div className="image-placeholder tall">Professional Photo Placeholder</div>
+            )}
+          </div>
+        </section>
+      </main>
+    )
+  }
+
+  const renderContactPage = () => {
+    const onSubmit = (event) => {
+      event.preventDefault()
+      setFormSubmitted(true)
+    }
+
+    return (
+      <main className="page shell">
+        <section className="page-hero">
+          <p className="eyebrow">Contact</p>
+          <h1>Start Your Project</h1>
+          <p>Share your goals and timeline, and we can map out the best next step.</p>
+        </section>
+
+        <section className="detail-card contact-grid">
+          <div>
+            <h2>Direct Contact</h2>
+            <div className="inline-actions">
+              <a href={whatsappLink} target="_blank" rel="noreferrer" className="btn btn-primary">
+                WhatsApp
+              </a>
+            </div>
+            <p>
+              <strong>Phone:</strong> 07707 287340
+            </p>
+            <p>
+              <strong>Email:</strong> hello@gbdigitalsolutions.co.uk
+            </p>
+
+            <h3>Business Hours</h3>
+            <ul>
+              {businessHours.map((hour) => (
+                <li key={hour}>{hour}</li>
+              ))}
+            </ul>
+          </div>
+
+          <form onSubmit={onSubmit} className="contact-form">
+            <label htmlFor="name">Name</label>
+            <input id="name" name="name" type="text" required />
+
+            <label htmlFor="email">Email</label>
+            <input id="email" name="email" type="email" required />
+
+            <label htmlFor="project">Project Type</label>
+            <input id="project" name="project" type="text" required />
+
+            <label htmlFor="message">Project Brief</label>
+            <textarea id="message" name="message" rows="5" required />
+
+            <button type="submit" className="btn btn-primary">
+              Send Enquiry
+            </button>
+            {formSubmitted ? <p className="success-note">Thanks. Your enquiry has been captured.</p> : null}
+          </form>
+        </section>
+
+        <section className="detail-card faq-block">
+          <h2>FAQ</h2>
+          {faqs.map((faq) => (
+            <article key={faq.q} className="faq-item">
+              <h3>{faq.q}</h3>
+              <p>{faq.a}</p>
+            </article>
+          ))}
+        </section>
+      </main>
+    )
+  }
+
+  const renderNotFoundPage = () => (
+    <main className="page shell">
+      <section className="page-hero">
+        <p className="eyebrow">Not Found</p>
+        <h1>Page not found</h1>
+        <p>The page you requested does not exist.</p>
+        {renderLinkButton({ to: '/', className: 'btn btn-primary', children: 'Return Home' })}
+      </section>
+    </main>
+  )
+
+  const renderPage = () => {
+    if (path === '/') {
+      return renderHomePage()
+    }
+
+    if (path === '/services') {
+      return renderServicesPage()
+    }
+
+    if (path === '/projects') {
+      return renderProjectsPage()
+    }
+
+    if (activeProject) {
+      return renderProjectDetailPage(activeProject)
+    }
+
+    if (path === '/about') {
+      return renderAboutPage()
+    }
+
+    if (path === '/contact') {
+      return renderContactPage()
+    }
+
+    return renderNotFoundPage()
   }
 
   return (
     <div className="site-shell">
-      <div className="bg-aurora" aria-hidden="true" />
-      <div className="bg-grid" aria-hidden="true" />
-      <div className="network-bg" aria-hidden="true">
-        <svg viewBox="0 0 1400 900" preserveAspectRatio="none">
-          <path d="M80 180 L340 260 L620 180 L900 310 L1240 190" />
-          <path d="M170 500 L420 420 L700 560 L1020 480 L1300 610" />
-          <path d="M120 730 L360 640 L700 720 L1030 660 L1260 760" />
-          <path d="M620 180 L700 560 L700 720" />
-          <path d="M340 260 L420 420 L360 640" />
-          <path d="M900 310 L1020 480 L1030 660" />
-        </svg>
-        {[...Array(14)].map((_, i) => (
-          <span key={i} style={{ '--n': i }} />
-        ))}
-      </div>
-
-      <motion.div
-        className="announcement-shell"
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: 'easeOut' }}
-      >
-        <div className="section-wrap announcement-bar" aria-label="Trust highlights">
-          {trustBannerItems.map((item) => {
-            const Icon = item.icon
-
-            return (
-              <p key={item.text} className="announcement-item">
-                <Icon size={15} />
-                <span>{item.text}</span>
-              </p>
-            )
-          })}
-        </div>
-      </motion.div>
-
-      <header className="topbar section-wrap">
-        <a className="brand" href="#home" aria-label="GB Digital Solutions Home">
-          <span className="brand-dot" aria-hidden="true" />
-          GB Digital Solutions
-        </a>
-        <nav className="nav-links" aria-label="Primary navigation">
-          <a href="#about">About</a>
-          <a href="#what-we-build">What We Build</a>
-          <a href="#case-studies">Case Studies</a>
-          <a href="#how-i-work">How I Work</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </header>
-
-      <main>
-        <section className="hero section-wrap" id="home">
-          <div className="hero-particles" aria-hidden="true">
-            {[...Array(14)].map((_, i) => (
-              <span key={i} style={{ '--i': i }} />
-            ))}
-          </div>
-
-          <div className="hero-layout">
-            <div className="hero-left">
-              <motion.p className="eyebrow" variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.5 }}>
-                Building digital solutions around real business problems.
-              </motion.p>
-
-              <motion.h1 variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.6, delay: 0.08 }}>
-                Software That Solves Real Business Problems
-              </motion.h1>
-
-              <motion.div
-                className="hero-credibility-strip"
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.6, delay: 0.12 }}
-              >
-                <span>
-                  <CheckCircle2 size={14} /> Former British Army
-                </span>
-                <span>
-                  <CheckCircle2 size={14} /> Former NHS Nurse
-                </span>
-                <span>
-                  <CheckCircle2 size={14} /> Published Apps on Google Play
-                </span>
-              </motion.div>
-
-              <motion.p
-                className="hero-subheading"
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.6, delay: 0.18 }}
-              >
-                I design and build websites, mobile apps, AI-powered tools and business software
-                that help businesses save time, improve customer experiences and grow.
-              </motion.p>
-
-              <motion.p
-                className="hero-story"
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.6, delay: 0.24 }}
-              >
-                Built by a former British Army soldier and NHS nurse who understands real
-                operational challenges and develops practical digital solutions around them.
-              </motion.p>
-
-              <motion.div
-                className="hero-actions"
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                <a className="btn btn-primary" href="#contact">
-                  Start Your Project
-                </a>
-                <a className="btn btn-secondary" href="#case-studies">
-                  View My Work
-                </a>
-              </motion.div>
-
-              <motion.div
-                className="hero-solution-badges"
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.6, delay: 0.36 }}
-              >
-                <span>
-                  <CheckCircle2 size={15} /> Websites
-                </span>
-                <span>
-                  <CheckCircle2 size={15} /> Mobile Apps
-                </span>
-                <span>
-                  <CheckCircle2 size={15} /> AI & Automation
-                </span>
-              </motion.div>
-            </div>
-
-            <motion.div
-              className="hero-right"
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.65, delay: 0.18 }}
-            >
-              <div className="hero-device-carousel" aria-label="Featured project carousel">
-                <button type="button" className="hero-carousel-nav hero-carousel-prev" onClick={handlePreviousHero} aria-label="Previous project">
-                  <ArrowRight size={16} />
-                </button>
-
-                <AnimatePresence mode="wait">
-                  <motion.a
-                    key={heroCarouselItem.name}
-                    href="#case-studies"
-                    onClick={() => setActiveCaseStudy(heroCarouselItem.caseStudyIndex)}
-                    className={`hero-device-card hero-device-carousel-card ${heroCarouselItem.device === 'phone' ? 'is-phone' : 'is-laptop'}`}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.35 }}
-                  >
-                    <div className="hero-device-frame">
-                      <div className="hero-device-screen-real">
-                        {heroCarouselImage ? (
-                          <img src={heroCarouselImage} alt={`${heroCarouselItem.name} project preview`} loading="lazy" />
-                        ) : (
-                          <div className="hero-device-fallback">{heroCarouselItem.name}</div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="hero-device-meta">
-                      <p>{heroCarouselItem.name} - {heroCarouselItem.descriptor}</p>
-                      <h3>{heroCarouselItem.name}</h3>
-                    </div>
-                  </motion.a>
-                </AnimatePresence>
-
-                <button type="button" className="hero-carousel-nav hero-carousel-next" onClick={handleNextHero} aria-label="Next project">
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-
-              <div className="hero-carousel-dots" aria-label="Project carousel navigation">
-                {heroShowcase.map((project, index) => (
-                  <button
-                    key={project.name}
-                    type="button"
-                    className={`hero-carousel-dot ${mobileCarouselIndex === index ? 'active' : ''}`}
-                    onClick={() => {
-                      setMobileCarouselIndex(index)
-                      setActiveCaseStudy(project.caseStudyIndex)
-                    }}
-                    aria-label={`Show ${project.name}`}
-                  />
-                ))}
-              </div>
-
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={showcaseItem.name}
-                  className="hero-featured-label"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.35 }}
-                >
-                  Featured Project: {showcaseItem.name}
-                </motion.p>
-              </AnimatePresence>
-
-              <div className="hero-device-stack">
-                {heroShowcase.map((project, index) => {
-                  const image = getAsset(project.image)
-
-                  return (
-                    <motion.a
-                      key={project.name}
-                      href="#case-studies"
-                      onClick={() => setActiveCaseStudy(project.caseStudyIndex)}
-                      className={`hero-device-card ${project.device === 'phone' ? 'is-phone' : 'is-laptop'} ${index === activeShowcase ? 'is-active' : ''} card-${index + 1}`}
-                      transition={{ duration: 7 + index, repeat: Infinity, ease: 'easeInOut' }}
-                      whileHover={{ y: -12, scale: 1.02 }}
-                    >
-                      <div className="hero-device-frame">
-                        <div className="hero-device-screen-real">
-                          {image ? (
-                            <img src={image} alt={`${project.name} project preview`} loading="lazy" />
-                          ) : (
-                            <div className="hero-device-fallback">{project.name}</div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="hero-device-meta">
-                        <p>{project.name} - {project.descriptor}</p>
-                        <h3>{project.name}</h3>
-                      </div>
-                    </motion.a>
-                  )
-                })}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section className="section-wrap services-section" id="services">
-          <motion.h2
-            className="section-title"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.5 }}
-          >
-            Services
-          </motion.h2>
-          <div className="services-grid">
-            {services.map((service, index) => {
-              const Icon = service.icon
-              return (
-                <motion.article
-                  key={service.title}
-                  className="service-card"
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.45, delay: index * 0.08 }}
-                  whileHover={{ y: -8, scale: 1.01 }}
-                >
-                  <div className="service-icon">
-                    <Icon size={18} />
-                  </div>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                </motion.article>
-              )
-            })}
-          </div>
-        </section>
-
-        <section className="section-wrap" id="case-studies">
-          <motion.h2
-            className="section-title"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.5 }}
-          >
-            Interactive Project Case Studies
-          </motion.h2>
-          <p className="section-copy">
-            Show the problem, the solution, the stack, screenshots, and a live demo path for every project.
-          </p>
-
-          <div className="case-study-shell">
-            <div className="case-study-list" role="tablist" aria-label="Case studies">
-              {caseStudies.map((study, index) => (
-                <button
-                  key={study.name}
-                  type="button"
-                  role="tab"
-                  className={`case-study-tab ${activeCaseStudy === index ? 'active' : ''}`}
-                  aria-selected={activeCaseStudy === index}
-                  onClick={() => setActiveCaseStudy(index)}
-                >
-                  <h3>{study.name}</h3>
-                  <p>{study.summary}</p>
-                </button>
-              ))}
-            </div>
-
-            <AnimatePresence mode="wait">
-              <motion.article
-                key={activeStudy.name}
-                className="case-study-panel"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.35 }}
-              >
-                <div
-                  className={`project-image ${caseImage ? 'has-media' : ''}`}
-                  role="img"
-                  aria-label={`${activeStudy.name} screenshot placeholder`}
-                >
-                  {caseImage ? (
-                    <img src={caseImage} alt={`${activeStudy.name} screenshot`} loading="lazy" />
-                  ) : (
-                    <span>Project Screenshot Area</span>
-                  )}
-                </div>
-                <div className="case-study-content">
-                  <h3>{activeStudy.name}</h3>
-                  <p>
-                    <strong>The problem:</strong> {activeStudy.problem}
-                  </p>
-                  <p>
-                    <strong>The solution:</strong> {activeStudy.solution}
-                  </p>
-                  <div className="tag-row">
-                    {activeStudy.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              </motion.article>
-            </AnimatePresence>
-          </div>
-        </section>
-
-        <section className="section-wrap" id="how-i-work">
-          <h2 className="section-title">How I Work</h2>
-          <p className="section-copy">
-            A clear, transparent delivery path so you always know what happens next.
-          </p>
-          <div className="how-work-track">
-            {howIWorkSteps.map((step, index) => (
-              <motion.div
-                key={step}
-                className="how-work-step"
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.35, delay: index * 0.06 }}
-              >
-                <span>{index + 1}</span>
-                <h3>{step}</h3>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        <section className="section-wrap trust-section" id="why-choose">
-          <motion.h2
-            className="section-title"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.5 }}
-          >
-            Why Businesses Choose GB Digital Solutions
-          </motion.h2>
-
-          <p className="section-copy">Technology should solve problems, not create them.</p>
-          <p className="section-copy trust-intro">
-            Every project is built with a focus on usability, performance and delivering real value.
-            Whether it is a business website, mobile app or custom software, the objective is always
-            the same: create solutions that make your business work better.
-          </p>
-
-          <div className="trust-grid">
-            {trustReasons.map((item, index) => {
-              const Icon = item.icon
-
-              return (
-                <motion.article
-                  key={item.title}
-                  className="trust-card"
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.4, delay: index * 0.07 }}
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="trust-icon">
-                    <Icon size={18} />
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </motion.article>
-              )
-            })}
-          </div>
-
-          <motion.div
-            className="commitment-card"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h3>My Commitment</h3>
-            <p>
-              When you work with GB Digital Solutions, you are not just hiring a developer. You are
-              partnering with someone who genuinely wants your project to succeed.
-            </p>
-            <p>
-              I believe the best software comes from understanding the problem before writing a
-              single line of code. If I think there is a better solution, I will tell you. If I think
-              a feature will not add value, I will say so.
-            </p>
-            <p className="trust-quote">I build software I would be proud to put my own name to.</p>
-          </motion.div>
-        </section>
-
-        <section className="section-wrap contact-redesign" id="contact">
-          <div className="contact-particles" aria-hidden="true">
-            {[...Array(10)].map((_, i) => (
-              <span key={i} style={{ '--c': i }} />
-            ))}
-          </div>
-
-          <motion.h2
-            className="section-title"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5 }}
-          >
-            Let's Build Something Together
-          </motion.h2>
-          <motion.p
-            className="section-copy contact-intro"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.55, delay: 0.08 }}
-          >
-            You do not need a detailed technical specification. If you have an idea or simply a
-            problem you would like technology to solve, I would love to hear about it. Let's have a
-            conversation and work out the best solution together.
-          </motion.p>
-
-          <motion.article
-            className="whatsapp-hero-card"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.55 }}
-          >
-            <div className="whatsapp-hero-body">
-              <div className="whatsapp-icon-wrap">
-                <MessageSquare size={30} />
-              </div>
-              <div>
-                <h3>Let's Talk About Your Project</h3>
-                <p>
-                  Whether you need a website, mobile app or custom software, send me a WhatsApp
-                  message and let's discuss your idea.
-                </p>
-                <p className="contact-response-time">Usually replies within a few hours.</p>
-              </div>
-            </div>
-            <a className="btn btn-whatsapp btn-whatsapp-hero" href={whatsappLink} target="_blank" rel="noreferrer">
-              Start a WhatsApp Chat
-            </a>
-            <p className="whatsapp-reassurance">
-              No obligation. No sales pressure. Just a conversation about your idea.
-            </p>
-          </motion.article>
-
-          <div className="contact-method-grid contact-method-grid-single">
-            <motion.article
-              className="contact-method-card"
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.4, delay: 0.04 }}
-            >
-              <Smartphone size={18} />
-              <h3>Business Number</h3>
-              <a href="tel:+447707287340">{businessPhone}</a>
-              <p>Available during normal business hours.</p>
-            </motion.article>
-          </div>
-
-          <div className="contact-reasons-grid">
-            {contactReasons.map((item, index) => {
-              const Icon = item.icon
-
-              return (
-                <motion.article
-                  key={item.title}
-                  className="contact-reason-card"
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.4, delay: index * 0.06 }}
-                >
-                  <div className="contact-reason-icon">
-                    <Icon size={16} />
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </motion.article>
-              )
-            })}
-          </div>
-        </section>
-      </main>
-
-      <footer className="footer section-wrap">
-        <p>© {new Date().getFullYear()} GB Digital Solutions. All rights reserved.</p>
+      {renderHeader()}
+      {renderPage()}
+      <footer className="footer shell">
+        <p>GB Digital Solutions</p>
         <div className="footer-links">
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#what-we-build">What We Build</a>
-          <a href="#case-studies">Case Studies</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <div className="social-links" aria-label="Social links">
-          <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
-            <Workflow size={16} />
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-            <MessageSquare size={16} />
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
-            <Mail size={16} />
-          </a>
+          {navItems.map((item) => (
+            <a key={item.path} href={item.path} onClick={(event) => handleNavigate(event, item.path)}>
+              {item.label}
+            </a>
+          ))}
         </div>
       </footer>
     </div>
