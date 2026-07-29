@@ -202,7 +202,7 @@ const projects = [
     solution:
       'Built meal logging with barcode scanning, photo logging and voice input, then paired it with AI coaching, macro and calorie tracking, and progress dashboards inside one mobile experience.',
     technologies: ['React Native', 'Node.js', 'OpenAI API', 'Firebase', 'Nutrition Data APIs'],
-    screenshots: ['platemate-case.png', 'hero.png'],
+    screenshots: ['platemate-case.png'],
     outcome: [
       'Users can log meals in seconds using barcode, photo or voice.',
       'AI coaching gives clearer daily guidance based on nutrition patterns.',
