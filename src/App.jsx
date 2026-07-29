@@ -60,12 +60,134 @@ const sellingPoints = [
   'Published Commercial Apps',
 ]
 
-const servicesPreview = [
-  { title: 'Websites', icon: Layers },
-  { title: 'Mobile Apps', icon: Smartphone },
-  { title: 'AI & Automation', icon: Bot },
-  { title: 'Custom Software', icon: Code2 },
+const servicePages = [
+  {
+    slug: 'website-development',
+    path: '/services/website-development',
+    navTitle: 'Website Development',
+    cardTitle: 'Website Development',
+    icon: Layers,
+    whoFor: 'Businesses that need a premium website that clearly communicates value and drives enquiries or sales.',
+    typicalProjects: [
+      'Service-led business websites',
+      'Company profile and authority sites',
+      'Conversion-focused landing page systems',
+    ],
+    features: [
+      'Responsive design for mobile and desktop',
+      'Fast page performance and clear content hierarchy',
+      'Enquiry funnels and analytics-ready setup',
+    ],
+    technologies: ['React', 'Vite', 'Modern CSS', 'Analytics'],
+    startingPrice: 'Estimated starting price: from GBP 2,500',
+    faq: [
+      {
+        q: 'How long does a business website take?',
+        a: 'Most website projects are delivered in 3 to 6 weeks depending on page count and integrations.',
+      },
+      {
+        q: 'Can you improve my existing site instead of rebuilding?',
+        a: 'Yes. A focused redesign can often improve conversion without starting from scratch.',
+      },
+    ],
+  },
+  {
+    slug: 'mobile-app-development',
+    path: '/services/mobile-app-development',
+    navTitle: 'Mobile App Development',
+    cardTitle: 'Mobile App Development',
+    icon: Smartphone,
+    whoFor: 'Founders and teams building customer-facing or internal mobile experiences for iOS and Android.',
+    typicalProjects: [
+      'On-demand service applications',
+      'Safety and field-operational apps',
+      'Member and community platforms',
+    ],
+    features: [
+      'Cross-platform mobile build with native-feeling UX',
+      'Secure authentication and real-time data integration',
+      'Scalable architecture for future releases',
+    ],
+    technologies: ['React Native', 'Firebase', 'REST APIs', 'Push Notifications'],
+    startingPrice: 'Estimated starting price: from GBP 8,000',
+    faq: [
+      {
+        q: 'Do you build for both Android and iOS?',
+        a: 'Yes. The delivery approach supports both platforms from one product codebase.',
+      },
+      {
+        q: 'Can you help with app launch planning?',
+        a: 'Yes. Launch preparation, QA and release support are included in project planning.',
+      },
+    ],
+  },
+  {
+    slug: 'ai-automation',
+    path: '/services/ai-automation',
+    navTitle: 'AI & Automation',
+    cardTitle: 'AI & Automation',
+    icon: Bot,
+    whoFor: 'Businesses that want to reduce manual workload and embed practical AI into operations.',
+    typicalProjects: [
+      'AI-assisted customer support workflows',
+      'Document and data processing automations',
+      'Internal assistant tools for repetitive tasks',
+    ],
+    features: [
+      'Automation mapped to real operational bottlenecks',
+      'AI workflows with human review points where needed',
+      'Monitoring for quality, reliability and ROI',
+    ],
+    technologies: ['OpenAI APIs', 'Python', 'Node.js', 'Workflow Engines'],
+    startingPrice: 'Estimated starting price: from GBP 3,500',
+    faq: [
+      {
+        q: 'Will AI replace my existing workflow?',
+        a: 'Not necessarily. Most projects improve the current process in stages to reduce risk.',
+      },
+      {
+        q: 'Can automation connect to our existing tools?',
+        a: 'Yes. Integrations are designed around your current systems where possible.',
+      },
+    ],
+  },
+  {
+    slug: 'custom-software',
+    path: '/services/custom-software',
+    navTitle: 'Custom Software',
+    cardTitle: 'Custom Software',
+    icon: Code2,
+    whoFor: 'Companies that have outgrown off-the-shelf tools and need software designed around their operations.',
+    typicalProjects: [
+      'Operations dashboards and internal portals',
+      'Custom CRM and workflow systems',
+      'Multi-role business management platforms',
+    ],
+    features: [
+      'Software architecture tailored to your processes',
+      'Secure role-based access and auditable workflows',
+      'Incremental delivery with clear milestones',
+    ],
+    technologies: ['React', 'Node.js', 'PostgreSQL', 'Cloud Infrastructure'],
+    startingPrice: 'Estimated starting price: from GBP 10,000',
+    faq: [
+      {
+        q: 'Can this integrate with current systems?',
+        a: 'Yes. Integrations are planned from the outset to avoid disruption.',
+      },
+      {
+        q: 'How do we control scope and cost?',
+        a: 'Projects are split into milestones with clear deliverables and transparent pricing.',
+      },
+    ],
+  },
 ]
+
+const servicesPreview = servicePages.map((service) => ({
+  title: service.cardTitle,
+  icon: service.icon,
+  path: service.path,
+}))
 
 const projects = [
   {
@@ -80,18 +202,21 @@ const projects = [
     solution:
       'The flow was restructured into a guided path with clearer actions, simplified navigation, and stronger feedback during checkout.',
     technologies: ['React', 'Node.js', 'Stripe', 'Analytics'],
-    results: [
+    screenshots: ['platemate-case.png', 'hero.png', 'vault-case.png'],
+    outcome: [
       'Smoother checkout journey with fewer abandoned sessions.',
       'Improved mobile usability and faster path to purchase.',
       'Clear reporting for marketing and product decisions.',
     ],
-    externalLinks: [
-      { label: 'Book Similar Build', href: '/contact' },
-      { label: 'View All Projects', href: '/projects' },
+    challenges: [
+      'Balancing richer product discovery with minimal checkout friction.',
+      'Maintaining speed while handling image-heavy menus on mobile.',
+    ],
+    futureImprovements: [
+      'Personalized product recommendations based on order history.',
+      'Advanced retention flows for repeat and subscription customers.',
     ],
     heroImage: 'platemate-case.png',
-    screenshots: ['platemate-case.png', 'hero.png', 'vault-case.png'],
-    gallery: ['platemate-case.png', 'nightpal-case.png', 'vault-case.png'],
   },
   {
     slug: 'nightpal',
@@ -105,18 +230,21 @@ const projects = [
     solution:
       'NightPal introduced one-tap emergency actions, instant trusted-contact alerts, and live location sharing with a clearer interaction model.',
     technologies: ['React Native', 'Firebase', 'Realtime Messaging', 'Maps'],
-    results: [
+    screenshots: ['nightpal-case.png', 'hero.png', 'platemate-case.png'],
+    outcome: [
       'Faster emergency activation flow with fewer taps.',
       'Improved confidence during solo travel and late shifts.',
       'A scalable architecture for future safety features.',
     ],
-    externalLinks: [
-      { label: 'Discuss a Safety Product', href: '/contact' },
-      { label: 'Back to Projects', href: '/projects' },
+    challenges: [
+      'Designing high-stress interactions that remain usable under pressure.',
+      'Handling battery impact while supporting reliable live location updates.',
+    ],
+    futureImprovements: [
+      'Wearable-trigger integrations for faster emergency activation.',
+      'Expanded incident timeline reporting for post-event review.',
     ],
     heroImage: 'nightpal-case.png',
-    screenshots: ['nightpal-case.png', 'hero.png', 'platemate-case.png'],
-    gallery: ['nightpal-case.png', 'vault-case.png', 'platemate-case.png'],
   },
   {
     slug: 'vault',
@@ -130,96 +258,30 @@ const projects = [
     solution:
       'A role-based system was implemented with streamlined sign-in, protected content zones, and clear account journeys.',
     technologies: ['Next.js', 'Authentication', 'Cloud Hosting', 'Payments'],
-    results: [
+    screenshots: ['vault-case.png', 'hero.png', 'nightpal-case.png'],
+    outcome: [
       'Reliable access control for paid member content.',
       'Reduced support requests related to account access.',
       'A platform foundation ready for further growth.',
     ],
-    externalLinks: [
-      { label: 'Start Your Platform', href: '/contact' },
-      { label: 'Browse More Work', href: '/projects' },
+    challenges: [
+      'Keeping strict content protection without degrading user experience.',
+      'Managing multiple account roles and permissions cleanly.',
+    ],
+    futureImprovements: [
+      'Tiered membership journeys with dynamic content personalization.',
+      'Expanded analytics for content engagement and retention.',
     ],
     heroImage: 'vault-case.png',
-    screenshots: ['vault-case.png', 'hero.png', 'nightpal-case.png'],
-    gallery: ['vault-case.png', 'platemate-case.png', 'nightpal-case.png'],
-  },
-]
-
-const services = [
-  {
-    name: 'Websites',
-    forWho: 'Businesses that need a premium digital presence and clear conversion path.',
-    benefits: [
-      'Fast, responsive user experience across devices.',
-      'Clear service messaging and stronger conversion journeys.',
-      'Scalable structure ready for growth.',
-    ],
-    timeline: 'Typical delivery: 3 to 6 weeks',
-    technologies: ['React', 'Vite', 'Modern CSS', 'Analytics'],
-  },
-  {
-    name: 'Mobile Apps',
-    forWho: 'Founders and teams launching iOS and Android experiences.',
-    benefits: [
-      'Consistent cross-platform experience.',
-      'Performance-focused architecture for production use.',
-      'App journeys designed for real-world usage.',
-    ],
-    timeline: 'Typical delivery: 8 to 14 weeks',
-    technologies: ['React Native', 'Firebase', 'REST APIs', 'Push Notifications'],
-  },
-  {
-    name: 'AI Solutions',
-    forWho: 'Teams looking to embed practical AI into customer or internal products.',
-    benefits: [
-      'Smarter workflows with measurable value.',
-      'AI features designed around operational needs.',
-      'Clear governance and maintainable implementation.',
-    ],
-    timeline: 'Typical delivery: 4 to 10 weeks',
-    technologies: ['OpenAI APIs', 'Python', 'Node.js', 'Vector Search'],
-  },
-  {
-    name: 'Business Automation',
-    forWho: 'Businesses losing time to repetitive manual tasks.',
-    benefits: [
-      'Reduced admin effort and handover delays.',
-      'More reliable internal processes.',
-      'Operational visibility through automation dashboards.',
-    ],
-    timeline: 'Typical delivery: 3 to 8 weeks',
-    technologies: ['Zapier', 'Make', 'Custom APIs', 'Workflow Engines'],
-  },
-  {
-    name: 'Custom Software',
-    forWho: 'Companies that need internal systems built around their exact workflow.',
-    benefits: [
-      'Software aligned to business operations.',
-      'Improved team productivity and consistency.',
-      'Future-proof architecture for additional modules.',
-    ],
-    timeline: 'Typical delivery: 6 to 16 weeks',
-    technologies: ['React', 'Node.js', 'PostgreSQL', 'Cloud Infrastructure'],
-  },
-]
-
-const faqs = [
-  {
-    q: 'How quickly can we start?',
-    a: 'Most projects can begin within 1 to 2 weeks after scoping.',
-  },
-  {
-    q: 'Do you work with small businesses?',
-    a: 'Yes. Projects are scoped to fit growth-stage teams and established businesses.',
-  },
-  {
-    q: 'Can you improve an existing product?',
-    a: 'Yes. Audits, redesigns, and phased rebuilds are all available.',
   },
 ]
 
 function getProjectByPath(pathname) {
   return projects.find((project) => project.path === pathname) ?? null
+}
+
+function getServiceByPath(pathname) {
+  return servicePages.find((service) => service.path === pathname) ?? null
 }
 
 function App() {
@@ -239,6 +301,7 @@ function App() {
   }, [])
 
   const activeProject = useMemo(() => getProjectByPath(path), [path])
+  const activeService = useMemo(() => getServiceByPath(path), [path])
 
   const navigateTo = (to) => {
     const nextPath = normalizePath(to)
@@ -251,6 +314,7 @@ function App() {
     window.history.pushState({}, '', nextPath)
     setPath(nextPath)
     setMenuOpen(false)
+    setFormStatus('idle')
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
 
@@ -294,7 +358,9 @@ function App() {
       <nav className={`nav-links ${menuOpen ? 'open' : ''}`} aria-label="Primary navigation">
         {navItems.map((item) => {
           const isActive =
-            path === item.path || (item.path === '/projects' && path.startsWith('/projects/'))
+            path === item.path ||
+            (item.path === '/projects' && path.startsWith('/projects/')) ||
+            (item.path === '/services' && path.startsWith('/services/'))
 
           return (
             <a
@@ -312,7 +378,7 @@ function App() {
   )
 
   const renderHomePage = () => (
-    <main>
+    <main className="home-main">
       <section className="hero shell">
         <motion.p
           className="eyebrow"
@@ -321,7 +387,7 @@ function App() {
           animate="visible"
           transition={{ duration: 0.45 }}
         >
-          Boutique Software Consultancy
+          GB Digital Solutions
         </motion.p>
         <motion.h1
           variants={fadeUp}
@@ -329,7 +395,7 @@ function App() {
           animate="visible"
           transition={{ duration: 0.55, delay: 0.08 }}
         >
-          Bespoke Software That Moves Your Business Forward
+          Custom Software Built Around Your Business
         </motion.h1>
         <motion.p
           className="hero-copy"
@@ -338,7 +404,8 @@ function App() {
           animate="visible"
           transition={{ duration: 0.55, delay: 0.16 }}
         >
-          Premium websites, mobile apps, and custom systems designed for ambitious companies.
+          Websites, mobile apps and business systems designed to solve real problems, not just look
+          good.
         </motion.p>
         <motion.div
           className="hero-actions"
@@ -357,7 +424,7 @@ function App() {
       </section>
 
       <section className="section shell compact-section">
-        <h2>Why Choose GB Digital Solutions</h2>
+        <h2>Why Choose GB Digital</h2>
         <div className="ticks-grid">
           {sellingPoints.map((point) => (
             <article key={point} className="tick-card">
@@ -385,8 +452,8 @@ function App() {
             return (
               <a
                 key={service.title}
-                href="/services"
-                onClick={(event) => handleNavigate(event, '/services')}
+                href={service.path}
+                onClick={(event) => handleNavigate(event, service.path)}
                 className="service-card"
               >
                 <Icon size={20} />
@@ -448,48 +515,98 @@ function App() {
     <main className="page shell">
       <section className="page-hero">
         <p className="eyebrow">Services</p>
-        <h1>Software Services Built Around Business Outcomes</h1>
+        <h1>Built for Business Outcomes, Not Generic Templates</h1>
         <p>
-          Each service is structured for practical delivery, measurable value, and long-term
-          maintainability.
+          Choose a service below to view detailed delivery scope, technologies, pricing guidance,
+          and FAQs.
         </p>
       </section>
 
-      <section className="stacked-sections">
-        {services.map((service) => (
-          <article key={service.name} className="detail-card">
-            <h2>{service.name}</h2>
-            <p>
-              <strong>Who it is for:</strong> {service.forWho}
-            </p>
-            <p>
-              <strong>Typical delivery time:</strong> {service.timeline}
-            </p>
-            <div className="detail-columns">
-              <div>
-                <h3>Benefits</h3>
-                <ul>
-                  {service.benefits.map((benefit) => (
-                    <li key={benefit}>{benefit}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3>Technologies Used</h3>
-                <div className="tag-list">
-                  {service.technologies.map((tech) => (
-                    <span key={tech}>{tech}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-            {renderLinkButton({
-              to: '/contact',
-              className: 'btn btn-secondary',
-              children: 'Start This Service',
-            })}
-          </article>
-        ))}
+      <section className="service-grid full-service-grid">
+        {servicePages.map((service) => {
+          const Icon = service.icon
+          return (
+            <a
+              key={service.slug}
+              href={service.path}
+              onClick={(event) => handleNavigate(event, service.path)}
+              className="service-card service-link-card"
+            >
+              <Icon size={20} />
+              <h3>{service.cardTitle}</h3>
+              <p>View service details</p>
+            </a>
+          )
+        })}
+      </section>
+    </main>
+  )
+
+  const renderServiceDetailPage = (service) => (
+    <main className="page shell">
+      <section className="page-hero project-hero">
+        <p className="eyebrow">Service</p>
+        <h1>{service.navTitle}</h1>
+        <a
+          href="/services"
+          onClick={(event) => handleNavigate(event, '/services')}
+          className="text-link"
+        >
+          Back to Services <ArrowRight size={16} />
+        </a>
+      </section>
+
+      <section className="detail-card service-detail-card">
+        <p>
+          <strong>Who it is for:</strong> {service.whoFor}
+        </p>
+        <p>
+          <strong>{service.startingPrice}</strong>
+        </p>
+
+        <div className="detail-columns">
+          <div>
+            <h3>Typical Projects</h3>
+            <ul>
+              {service.typicalProjects.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Features</h3>
+            <ul>
+              {service.features.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <h3>Technologies</h3>
+        <div className="tag-list">
+          {service.technologies.map((tech) => (
+            <span key={tech}>{tech}</span>
+          ))}
+        </div>
+
+        <h3>FAQ</h3>
+        <div className="faq-block service-faq-block">
+          {service.faq.map((faq) => (
+            <article key={faq.q} className="faq-item">
+              <h3>{faq.q}</h3>
+              <p>{faq.a}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="inline-actions">
+          {renderLinkButton({
+            to: '/contact',
+            className: 'btn btn-primary',
+            children: 'Start This Service',
+          })}
+        </div>
       </section>
     </main>
   )
@@ -557,11 +674,6 @@ function App() {
           )}
         </section>
 
-        <section className="detail-card">
-          <h2>Project Overview</h2>
-          <p>{project.overview}</p>
-        </section>
-
         <section className="detail-card split">
           <div>
             <h2>The Problem</h2>
@@ -601,45 +713,32 @@ function App() {
         </section>
 
         <section className="detail-card">
-          <h2>Results</h2>
+          <h2>Outcome</h2>
           <ul>
-            {project.results.map((result) => (
-              <li key={result}>{result}</li>
+            {project.outcome.map((item) => (
+              <li key={item}>{item}</li>
             ))}
           </ul>
         </section>
 
         <section className="detail-card">
-          <h2>Gallery</h2>
-          <div className="gallery-grid">
-            {project.gallery.map((assetName, index) => {
-              const image = getAsset(assetName)
-              return (
-                <div key={`${project.slug}-gallery-${index}`} className="gallery-card">
-                  {image ? (
-                    <img src={image} alt={`${project.name} gallery image ${index + 1}`} loading="lazy" />
-                  ) : (
-                    <div className="image-placeholder">Gallery Image {index + 1}</div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
+          <h2>Challenges</h2>
+          <ul>
+            {project.challenges.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </section>
 
         <section className="detail-card">
-          <h2>Links</h2>
-          <div className="inline-actions">
-            {project.externalLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(event) => handleNavigate(event, link.href)}
-                className="btn btn-secondary"
-              >
-                {link.label}
-              </a>
+          <h2>Future Improvements</h2>
+          <ul>
+            {project.futureImprovements.map((item) => (
+              <li key={item}>{item}</li>
             ))}
+          </ul>
+          <div className="inline-actions">
+            {renderLinkButton({ to: '/contact', className: 'btn btn-primary', children: 'Start Your Project' })}
           </div>
         </section>
       </main>
@@ -655,8 +754,9 @@ function App() {
           <p className="eyebrow">About</p>
           <h1>Who I Am</h1>
           <p>
-            I am George Brennan, founder of GB Digital Solutions, focused on delivering practical,
-            premium software for real business challenges.
+            I am George Brennan, founder of GB Digital Solutions. My path from the British Army and
+            NHS nursing into software development shaped how I build solutions: practical,
+            disciplined, and outcome-focused.
           </p>
         </section>
 
@@ -666,17 +766,19 @@ function App() {
             <ul>
               <li>Former British Army</li>
               <li>Former NHS Nurse</li>
-              <li>Software Developer and Founder</li>
+              <li>Self-taught developer</li>
             </ul>
-            <h2>Why I Started GB Digital Solutions</h2>
+
+            <h2>Why I Started Building Software</h2>
             <p>
-              I wanted to build a consultancy where software is delivered with discipline, clarity,
-              and accountability from day one.
+              I started GB Digital Solutions to help businesses move beyond generic tools and get
+              software built around real operational needs.
             </p>
-            <h2>How I Approach Projects</h2>
+
+            <h2>My Approach</h2>
             <p>
-              Every project starts with understanding your operations, then delivering focused
-              software in clear stages with direct communication throughout.
+              I focus on clear scoping, practical delivery milestones, and direct collaboration so
+              decisions are faster and outcomes are measurable.
             </p>
           </div>
           <div className="portrait-wrap">
@@ -727,30 +829,26 @@ function App() {
         <section className="page-hero">
           <p className="eyebrow">Contact</p>
           <h1>Start Your Project</h1>
-          <p>Share your goals and timeline, and we can map out the best next step.</p>
+          <p>Describe your idea and I will help you shape the right next step.</p>
         </section>
 
         <section className="detail-card contact-grid">
           <div className="contact-info-column">
-            <h2>Direct Contact</h2>
-            <p className="contact-intro">
-              Send a quick WhatsApp message and simply describe your idea in plain language. I will
-              help shape the right solution from there.
-            </p>
             <div className="inline-actions">
               <a href={whatsappLink} target="_blank" rel="noreferrer" className="btn btn-primary">
                 Start on WhatsApp
               </a>
             </div>
-            <p>
-              <strong>Phone:</strong> 07707 287340
-            </p>
-            <p>
-              <strong>Email:</strong> georgebrennan932@gmail.com
-            </p>
 
-            <h3>Typical Response Time</h3>
-            <p>Most enquiries receive a reply within a few hours.</p>
+            <p>
+              <strong>Business phone:</strong> 07707 287340
+            </p>
+            <p>
+              <strong>Business email:</strong> georgebrennan932@gmail.com
+            </p>
+            <p>
+              <strong>Average response:</strong> within a few hours
+            </p>
           </div>
 
           <form onSubmit={onSubmit} className="contact-form">
@@ -786,12 +884,6 @@ function App() {
               {formStatus === 'submitting' ? 'Sending...' : 'Send Enquiry'}
             </button>
 
-            <div className="reassurance-list" aria-label="Reassurance points">
-              <p>✓ No obligation</p>
-              <p>✓ No spam</p>
-              <p>✓ You'll deal directly with the developer building your project.</p>
-            </div>
-
             {formStatus === 'success' ? (
               <p className="success-note">
                 Thanks! Your enquiry has been sent successfully. I'll review it personally and get
@@ -806,16 +898,6 @@ function App() {
               </p>
             ) : null}
           </form>
-        </section>
-
-        <section className="detail-card faq-block">
-          <h2>FAQ</h2>
-          {faqs.map((faq) => (
-            <article key={faq.q} className="faq-item">
-              <h3>{faq.q}</h3>
-              <p>{faq.a}</p>
-            </article>
-          ))}
         </section>
       </main>
     )
@@ -839,6 +921,10 @@ function App() {
 
     if (path === '/services') {
       return renderServicesPage()
+    }
+
+    if (activeService) {
+      return renderServiceDetailPage(activeService)
     }
 
     if (path === '/projects') {

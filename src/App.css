@@ -91,7 +91,7 @@
 }
 
 .hero {
-  padding: 86px 0 54px;
+  padding: 68px 0 34px;
 }
 
 .eyebrow {
@@ -125,7 +125,7 @@ h1 {
 }
 
 .section {
-  margin-top: 34px;
+  margin-top: 24px;
 }
 
 .compact-section {
@@ -222,6 +222,20 @@ p {
   color: var(--brand);
 }
 
+.service-card p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.full-service-grid {
+  margin-top: 24px;
+}
+
+.service-link-card {
+  align-content: space-between;
+  min-height: 140px;
+}
+
 .project-grid {
   margin-top: 18px;
   display: grid;
@@ -283,8 +297,8 @@ p {
 }
 
 .cta {
-  margin-top: 34px;
-  margin-bottom: 80px;
+  margin-top: 24px;
+  margin-bottom: 56px;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: linear-gradient(155deg, rgba(14, 34, 52, 0.95), rgba(9, 22, 35, 0.95));
@@ -326,6 +340,10 @@ p {
 
 .detail-card p {
   margin: 12px 0 0;
+}
+
+.service-detail-card > h3 {
+  margin-top: 20px;
 }
 
 .detail-card ul {
@@ -505,6 +523,10 @@ p {
   margin-top: 14px;
 }
 
+.service-faq-block {
+  margin-top: 10px;
+}
+
 .faq-item + .faq-item {
   margin-top: 12px;
   padding-top: 12px;
@@ -639,7 +661,7 @@ p {
   }
 
   .hero {
-    padding: 58px 0 30px;
+    padding: 52px 0 20px;
   }
 
   .compact-section {
