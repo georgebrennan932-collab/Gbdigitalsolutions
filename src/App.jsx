@@ -1,21 +1,16 @@
 ﻿import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import {
-  ArrowRight,
   BarChart3,
   Bot,
   BriefcaseBusiness,
-  CalendarCheck,
   CheckCircle2,
   Code2,
-  Globe,
-  HeartPulse,
   Layers,
   Mail,
   MessageSquare,
   Settings,
   Shield,
-  ShoppingCart,
   Smartphone,
   Wallet,
   Workflow,
@@ -36,6 +31,14 @@ const assetMap = Object.fromEntries(
 
 function getAsset(fileName) {
   return assetMap[fileName.toLowerCase()] ?? null
+}
+
+function getPageFromHash() {
+  if (typeof window === 'undefined') {
+    return 'home'
+  }
+
+  return window.location.hash === '#about' ? 'about' : 'home'
 }
 
 const services = [
@@ -82,65 +85,6 @@ const heroShowcase = [
     image: 'vault-case.png',
     device: 'laptop',
     caseStudyIndex: 2,
-  },
-]
-
-const whatWeBuild = [
-  {
-    label: 'Business Websites',
-    icon: Globe,
-    description:
-      'Modern, responsive websites that help businesses build trust, generate enquiries and convert visitors into customers.',
-    examples: ['Trades', 'Healthcare', 'Beauty & Aesthetics', 'Restaurants', 'Professional Services'],
-  },
-  {
-    label: 'Mobile Apps',
-    icon: Smartphone,
-    description:
-      'Custom Android and iPhone applications designed around your business and your customers.',
-    examples: ['Customer apps', 'Staff apps', 'Booking apps', 'Loyalty apps'],
-  },
-  {
-    label: 'AI Assistants',
-    icon: Bot,
-    description:
-      'AI-powered assistants that answer questions, automate tasks and save time for both staff and customers.',
-    examples: ['Customer support', 'Internal AI tools', 'Knowledge assistants', 'Document analysis'],
-  },
-  {
-    label: 'E-commerce',
-    icon: ShoppingCart,
-    description:
-      'Online shops with secure payments, inventory management and easy-to-use administration.',
-    examples: ['Retail', 'Collectables', 'Clothing', 'Subscription products'],
-  },
-  {
-    label: 'Booking Systems',
-    icon: CalendarCheck,
-    description:
-      'Allow customers to book online, receive reminders and manage appointments without endless phone calls.',
-    examples: ['Clinics', 'Salons', 'Garages', 'Consultants'],
-  },
-  {
-    label: 'Dashboards',
-    icon: BarChart3,
-    description:
-      'Bring all of your business information together into one place with powerful reporting and real-time insights.',
-    examples: ['Sales', 'Staff', 'Customers', 'Performance'],
-  },
-  {
-    label: 'Workflow Automation',
-    icon: Settings,
-    description:
-      'Reduce repetitive admin by connecting systems and automating everyday business processes.',
-    examples: ['Email automation', 'Appointment reminders', 'CRM integration', 'Business workflows'],
-  },
-  {
-    label: 'Healthcare Software',
-    icon: HeartPulse,
-    description:
-      'Digital solutions built specifically for healthcare organisations to improve efficiency, reduce paperwork and streamline patient care.',
-    examples: ['Clinical dashboards', 'Appointment systems', 'Patient information', 'Internal workflow tools'],
   },
 ]
 
@@ -288,9 +232,275 @@ const trustBannerItems = [
   },
 ]
 
+function AboutPage({ aboutPortrait }) {
+  return (
+    <div className="site-shell">
+      <div className="bg-aurora" aria-hidden="true" />
+      <div className="bg-grid" aria-hidden="true" />
+      <div className="network-bg" aria-hidden="true">
+        <svg viewBox="0 0 1400 900" preserveAspectRatio="none">
+          <path d="M80 180 L340 260 L620 180 L900 310 L1240 190" />
+          <path d="M170 500 L420 420 L700 560 L1020 480 L1300 610" />
+          <path d="M120 730 L360 640 L700 720 L1030 660 L1260 760" />
+          <path d="M620 180 L700 560 L700 720" />
+          <path d="M340 260 L420 420 L360 640" />
+          <path d="M900 310 L1020 480 L1030 660" />
+        </svg>
+        {[...Array(14)].map((_, i) => (
+          <span key={i} style={{ '--n': i }} />
+        ))}
+      </div>
+
+      <header className="topbar section-wrap">
+        <a className="brand" href="#home" aria-label="GB Digital Solutions Home">
+          <span className="brand-dot" aria-hidden="true" />
+          GB Digital Solutions
+        </a>
+        <nav className="nav-links" aria-label="Primary navigation">
+          <a href="#home">Home</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <section className="section-wrap about-page-header">
+          <motion.p className="eyebrow" variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.5 }}>
+            About George Brennan
+          </motion.p>
+          <motion.h1 variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.6, delay: 0.08 }}>
+            Meet the Developer Behind GB Digital Solutions
+          </motion.h1>
+          <motion.p
+            className="hero-subheading"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.6, delay: 0.16 }}
+          >
+            Building websites, mobile apps and custom software designed around real business problems.
+          </motion.p>
+          <motion.div
+            className="hero-actions"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.6, delay: 0.22 }}
+          >
+            <a className="btn btn-primary" href="#contact">
+              Start Your Project
+            </a>
+            <a className="btn btn-secondary" href="#home">
+              Back to Home
+            </a>
+          </motion.div>
+        </section>
+
+        <section className="section-wrap about-section">
+          <div className="about-layout">
+            <motion.div
+              className="about-visual"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="about-floating-icons" aria-hidden="true">
+                <span>
+                  <Bot size={16} /> AI
+                </span>
+                <span>
+                  <Workflow size={16} /> Automation
+                </span>
+                <span>
+                  <Shield size={16} /> Secure
+                </span>
+                <span>
+                  <BarChart3 size={16} /> Growth
+                </span>
+              </div>
+              <div className="about-portrait-card" role="img" aria-label="Professional portrait">
+                {aboutPortrait ? (
+                  <img className="about-portrait-image" src={aboutPortrait} alt="George Brennan" loading="lazy" />
+                ) : (
+                  <div className="about-portrait-fallback" aria-hidden="true" />
+                )}
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="about-content"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: 0.1 }}
+            >
+              <h2 className="section-title">Meet the Developer Behind GB Digital Solutions</h2>
+              <p className="about-subheading">
+                Building websites, mobile apps and custom software designed around real business problems.
+              </p>
+              <div className="about-identity">
+                <p className="about-name">George Brennan</p>
+                <p className="about-title">Founder, GB Digital Solutions</p>
+              </div>
+
+              <div className="about-copy">
+                <p>Hi, I'm George Brennan, founder of GB Digital Solutions.</p>
+                <p>
+                  I build websites, mobile apps and custom software that help businesses work smarter,
+                  improve customer experience and save time.
+                </p>
+                <p>
+                  Before becoming a software developer, I served in the British Army and later worked
+                  as a registered nurse within the NHS.
+                </p>
+                <p>
+                  Those careers taught me how to solve problems under pressure, communicate effectively,
+                  and build systems people can depend on.
+                </p>
+                <p>
+                  Today I combine that real-world experience with modern software development to create
+                  practical digital solutions rather than software for the sake of technology.
+                </p>
+                <p>
+                  Whether you need a business website, booking platform, mobile app, AI integration,
+                  or bespoke software, every project is designed around your goals rather than a
+                  one-size-fits-all template.
+                </p>
+                <p>
+                  I believe the best software starts with understanding the problem. Technology is simply
+                  the tool used to solve it.
+                </p>
+              </div>
+
+              <div className="about-feature-grid">
+                {aboutFeatureCards.map((feature, index) => {
+                  const Icon = feature.icon
+
+                  return (
+                    <motion.article
+                      key={feature.title}
+                      className="about-feature-card"
+                      variants={fadeUp}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 0.4, delay: index * 0.06 }}
+                      whileHover={{ y: -5 }}
+                    >
+                      <div className="about-feature-icon">
+                        <Icon size={16} />
+                      </div>
+                      <h3>{feature.title}</h3>
+                      <p>{feature.text}</p>
+                    </motion.article>
+                  )
+                })}
+              </div>
+
+              <a className="btn btn-primary" href="#contact">
+                Start Your Project
+              </a>
+            </motion.div>
+          </div>
+
+          <motion.div
+            className="about-timeline-wrap"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.55 }}
+          >
+            <h3>Problem-Solving Experience Timeline</h3>
+            <div className="about-timeline">
+              {aboutTimeline.map((item) => (
+                <div key={item} className="about-timeline-item">
+                  <span className="timeline-dot" aria-hidden="true" />
+                  <p>{item}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        <section className="section-wrap about-cta">
+          <motion.h2
+            className="section-title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+          >
+            Let's Build Something That Makes A Difference
+          </motion.h2>
+          <motion.p
+            className="section-copy"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+          >
+            Whether you're starting a new business, modernizing an existing one or have an idea you'd
+            like to bring to life, I'd love to hear about it.
+          </motion.p>
+          <motion.div
+            className="about-cta-actions"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <a className="btn btn-primary" href="#contact">
+              Start Your Project
+            </a>
+            <a className="btn btn-secondary" href="#home">
+              Back to Home
+            </a>
+          </motion.div>
+        </section>
+      </main>
+
+      <footer className="footer section-wrap">
+        <p>© {new Date().getFullYear()} GB Digital Solutions. All rights reserved.</p>
+        <div className="footer-links">
+          <a href="#home">Home</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div className="social-links" aria-label="Social links">
+          <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
+            <Workflow size={16} />
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+            <MessageSquare size={16} />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+            <Mail size={16} />
+          </a>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
 function App() {
+  const [activePage, setActivePage] = useState(getPageFromHash)
   const [activeShowcase, setActiveShowcase] = useState(0)
   const [activeCaseStudy, setActiveCaseStudy] = useState(0)
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setActivePage(getPageFromHash())
+    }
+
+    window.addEventListener('hashchange', handleHashChange)
+
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -304,6 +514,10 @@ function App() {
   const activeStudy = caseStudies[activeCaseStudy]
   const aboutPortrait = getAsset('about-portrait.png')
   const caseImage = getAsset(activeStudy.image)
+
+  if (activePage === 'about') {
+    return <AboutPage aboutPortrait={aboutPortrait} />
+  }
 
   return (
     <div className="site-shell">
@@ -479,12 +693,7 @@ function App() {
                       href="#case-studies"
                       onClick={() => setActiveCaseStudy(project.caseStudyIndex)}
                       className={`hero-device-card ${project.device === 'phone' ? 'is-phone' : 'is-laptop'} ${index === activeShowcase ? 'is-active' : ''} card-${index + 1}`}
-                      animate={{ y: index === activeShowcase ? [0, -6, 0] : [0, -3, 0] }}
-                      transition={{
-                        duration: 8 + index,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }}
+                      transition={{ duration: 7 + index, repeat: Infinity, ease: 'easeInOut' }}
                       whileHover={{ y: -12, scale: 1.02 }}
                     >
                       <div className="hero-device-frame">
@@ -506,263 +715,6 @@ function App() {
               </div>
             </motion.div>
           </div>
-        </section>
-
-        <section className="section-wrap" id="what-we-build">
-          <motion.h2
-            className="section-title"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.5 }}
-          >
-            What We Build
-          </motion.h2>
-          <p className="section-copy">
-            Every business is different. Whether you need a new website, a mobile app or a way to
-            automate repetitive tasks, I build software around how your business actually works.
-          </p>
-          <div className="build-grid">
-            {whatWeBuild.map((item, index) => {
-              const Icon = item.icon
-              return (
-                <motion.article
-                  key={item.label}
-                  className="build-card"
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.45, delay: index * 0.05 }}
-                  whileHover={{ y: -8, scale: 1.015 }}
-                >
-                  <div className="build-card-header">
-                    <div className="build-card-icon">
-                      <Icon size={18} />
-                    </div>
-                    <h3>{item.label}</h3>
-                  </div>
-                  <p className="build-description">{item.description}</p>
-                  <p className="build-example-title">Example use cases</p>
-                  <ul className="build-example-list" aria-label={`${item.label} use cases`}>
-                    {item.examples.map((example) => (
-                      <li key={example}>{example}</li>
-                    ))}
-                  </ul>
-                  <a className="btn btn-secondary build-learn-btn" href="#contact">
-                    Get a Free Quote
-                    <ArrowRight size={15} />
-                  </a>
-                </motion.article>
-              )
-            })}
-          </div>
-
-          <motion.article
-            className="armed-forces-card"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.12 }}
-          >
-            <div className="armed-forces-head">
-              <div className="armed-forces-badge" aria-hidden="true">
-                <Shield size={18} />
-              </div>
-              <div>
-                <p className="armed-forces-kicker">Armed Forces Community Discount</p>
-                <h3>10% Discount for Service Personnel and Veterans</h3>
-              </div>
-            </div>
-            <p>
-              As a former British Army soldier, I understand the commitment, professionalism and
-              service that the Armed Forces community represents.
-            </p>
-            <p>
-              To say thank you, GB Digital Solutions proudly offers a 10% discount on software
-              development services for:
-            </p>
-            <ul className="armed-forces-list">
-              <li>Veterans</li>
-              <li>Serving Regular personnel</li>
-              <li>Reservists</li>
-              <li>Cadet Force Adult Volunteers</li>
-            </ul>
-            <p className="armed-forces-note">
-              A valid MOD90, HM Armed Forces Veteran Card or equivalent proof may be requested.
-            </p>
-          </motion.article>
-        </section>
-
-        <section className="section-wrap about-section" id="about">
-          <div className="about-layout">
-            <motion.div
-              className="about-visual"
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="about-floating-icons" aria-hidden="true">
-                <span>
-                  <Bot size={16} /> AI
-                </span>
-                <span>
-                  <Workflow size={16} /> Automation
-                </span>
-                <span>
-                  <Shield size={16} /> Secure
-                </span>
-                <span>
-                  <BarChart3 size={16} /> Growth
-                </span>
-              </div>
-              <div className="about-portrait-card" role="img" aria-label="Professional portrait">
-                {aboutPortrait ? (
-                  <img className="about-portrait-image" src={aboutPortrait} alt="George Brennan" loading="lazy" />
-                ) : (
-                  <div className="about-portrait-fallback" aria-hidden="true" />
-                )}
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="about-content"
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-            >
-              <h2 className="section-title">Meet the Developer Behind GB Digital Solutions</h2>
-              <p className="about-subheading">
-                Building websites, mobile apps and custom software designed around real business problems.
-              </p>
-              <div className="about-identity">
-                <p className="about-name">George Brennan</p>
-                <p className="about-title">Founder, GB Digital Solutions</p>
-              </div>
-
-              <div className="about-copy">
-                <p>Hi, I'm George Brennan, founder of GB Digital Solutions.</p>
-                <p>
-                  I build websites, mobile apps and custom software that help businesses work smarter,
-                  improve customer experience and save time.
-                </p>
-                <p>
-                  Before becoming a software developer, I served in the British Army and later worked
-                  as a registered nurse within the NHS.
-                </p>
-                <p>
-                  Those careers taught me how to solve problems under pressure, communicate effectively,
-                  and build systems people can depend on.
-                </p>
-                <p>
-                  Today I combine that real-world experience with modern software development to create
-                  practical digital solutions rather than software for the sake of technology.
-                </p>
-                <p>
-                  Whether you need a business website, booking platform, mobile app, AI integration,
-                  or bespoke software, every project is designed around your goals rather than a
-                  one-size-fits-all template.
-                </p>
-                <p>
-                  I believe the best software starts with understanding the problem. Technology is simply
-                  the tool used to solve it.
-                </p>
-              </div>
-
-              <div className="about-feature-grid">
-                {aboutFeatureCards.map((feature, index) => {
-                  const Icon = feature.icon
-
-                  return (
-                    <motion.article
-                      key={feature.title}
-                      className="about-feature-card"
-                      variants={fadeUp}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{ duration: 0.4, delay: index * 0.06 }}
-                      whileHover={{ y: -5 }}
-                    >
-                      <div className="about-feature-icon">
-                        <Icon size={16} />
-                      </div>
-                      <h3>{feature.title}</h3>
-                      <p>{feature.text}</p>
-                    </motion.article>
-                  )
-                })}
-              </div>
-
-              <a className="btn btn-primary" href="#contact">
-                Start Your Project
-              </a>
-            </motion.div>
-          </div>
-
-          <motion.div
-            className="about-timeline-wrap"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.55 }}
-          >
-            <h3>Problem-Solving Experience Timeline</h3>
-            <div className="about-timeline">
-              {aboutTimeline.map((item) => (
-                <div key={item} className="about-timeline-item">
-                  <span className="timeline-dot" aria-hidden="true" />
-                  <p>{item}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
-
-        <section className="section-wrap about-cta">
-          <motion.h2
-            className="section-title"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5 }}
-          >
-            Let's Build Something That Makes A Difference
-          </motion.h2>
-          <motion.p
-            className="section-copy"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.55, delay: 0.1 }}
-          >
-            Whether you're starting a new business, modernizing an existing one or have an idea you'd
-            like to bring to life, I'd love to hear about it.
-          </motion.p>
-          <motion.div
-            className="about-cta-actions"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-          >
-            <a className="btn btn-primary" href="#contact">
-              Start Your Project
-            </a>
-            <a className="btn btn-secondary" href="#case-studies">
-              View My Work
-            </a>
-          </motion.div>
         </section>
 
         <section className="section-wrap services-section" id="services">
@@ -866,9 +818,6 @@ function App() {
                       <span key={tag}>{tag}</span>
                     ))}
                   </div>
-                  <a className="btn btn-secondary" href="#contact">
-                    View Live Demo <ArrowRight size={15} />
-                  </a>
                 </div>
               </motion.article>
             </AnimatePresence>
