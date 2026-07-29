@@ -203,12 +203,6 @@ const services = [
   },
 ]
 
-const businessHours = [
-  'Monday to Friday: 09:00 to 18:00',
-  'Saturday: 10:00 to 14:00',
-  'Sunday: Closed',
-]
-
 const faqs = [
   {
     q: 'How quickly can we start?',
@@ -231,7 +225,7 @@ function getProjectByPath(pathname) {
 function App() {
   const [path, setPath] = useState(() => normalizePath(window.location.pathname))
   const [menuOpen, setMenuOpen] = useState(false)
-  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [formStatus, setFormStatus] = useState('idle')
 
   useEffect(() => {
     const onPopState = () => {
@@ -698,9 +692,34 @@ function App() {
   }
 
   const renderContactPage = () => {
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
       event.preventDefault()
-      setFormSubmitted(true)
+      setFormStatus('submitting')
+
+      const formElement = event.currentTarget
+      const formData = new FormData(formElement)
+      formData.append('_subject', 'New GB Digital Solutions Enquiry')
+      formData.append('_template', 'table')
+      formData.append('_captcha', 'false')
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/georgebrennan932@gmail.com', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+          },
+          body: formData,
+        })
+
+        if (!response.ok) {
+          throw new Error('Form submission failed')
+        }
+
+        formElement.reset()
+        setFormStatus('success')
+      } catch {
+        setFormStatus('error')
+      }
     }
 
     return (
@@ -712,45 +731,80 @@ function App() {
         </section>
 
         <section className="detail-card contact-grid">
-          <div>
+          <div className="contact-info-column">
             <h2>Direct Contact</h2>
+            <p className="contact-intro">
+              Send a quick WhatsApp message and simply describe your idea in plain language. I will
+              help shape the right solution from there.
+            </p>
             <div className="inline-actions">
               <a href={whatsappLink} target="_blank" rel="noreferrer" className="btn btn-primary">
-                WhatsApp
+                Start on WhatsApp
               </a>
             </div>
             <p>
               <strong>Phone:</strong> 07707 287340
             </p>
             <p>
-              <strong>Email:</strong> hello@gbdigitalsolutions.co.uk
+              <strong>Email:</strong> georgebrennan932@gmail.com
             </p>
 
-            <h3>Business Hours</h3>
-            <ul>
-              {businessHours.map((hour) => (
-                <li key={hour}>{hour}</li>
-              ))}
-            </ul>
+            <h3>Typical Response Time</h3>
+            <p>Most enquiries receive a reply within a few hours.</p>
           </div>
 
           <form onSubmit={onSubmit} className="contact-form">
             <label htmlFor="name">Name</label>
-            <input id="name" name="name" type="text" required />
+            <input id="name" name="name" type="text" placeholder="Your full name" required />
 
             <label htmlFor="email">Email</label>
-            <input id="email" name="email" type="email" required />
+            <input id="email" name="email" type="email" placeholder="you@company.com" required />
 
             <label htmlFor="project">Project Type</label>
-            <input id="project" name="project" type="text" required />
+            <select id="project" name="project" defaultValue="" required>
+              <option value="" disabled>
+                Select project type
+              </option>
+              <option value="Website">Website</option>
+              <option value="E-commerce">E-commerce</option>
+              <option value="Mobile App">Mobile App</option>
+              <option value="AI Solution">AI Solution</option>
+              <option value="Business Automation">Business Automation</option>
+              <option value="Unsure">Unsure</option>
+            </select>
 
             <label htmlFor="message">Project Brief</label>
-            <textarea id="message" name="message" rows="5" required />
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              placeholder="Tell me about the business problem you want to solve, what is currently slowing you down, and what a good outcome would look like."
+              required
+            />
 
             <button type="submit" className="btn btn-primary">
-              Send Enquiry
+              {formStatus === 'submitting' ? 'Sending...' : 'Send Enquiry'}
             </button>
-            {formSubmitted ? <p className="success-note">Thanks. Your enquiry has been captured.</p> : null}
+
+            <div className="reassurance-list" aria-label="Reassurance points">
+              <p>✓ No obligation</p>
+              <p>✓ No spam</p>
+              <p>✓ You'll deal directly with the developer building your project.</p>
+            </div>
+
+            {formStatus === 'success' ? (
+              <p className="success-note">
+                Thanks! Your enquiry has been sent successfully. I'll review it personally and get
+                back to you as soon as possible.
+              </p>
+            ) : null}
+
+            {formStatus === 'error' ? (
+              <p className="error-note">
+                Something went wrong while sending your enquiry. Please try again or message on
+                WhatsApp directly.
+              </p>
+            ) : null}
           </form>
         </section>
 

@@ -415,40 +415,90 @@ p {
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 26px;
+  padding: 30px;
+}
+
+.contact-info-column h2,
+.contact-info-column h3 {
+  margin-top: 0;
+}
+
+.contact-info-column p {
+  margin-top: 14px;
+}
+
+.contact-intro {
+  margin-top: 16px;
+  color: rgba(246, 251, 255, 0.92);
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .contact-form {
   display: grid;
-  gap: 8px;
+  gap: 12px;
 }
 
 .contact-form label {
   font-weight: 600;
   color: var(--text);
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .contact-form input,
+.contact-form select,
 .contact-form textarea {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 11px 12px;
+  border-radius: 12px;
+  padding: 13px 14px;
   background: rgba(7, 18, 29, 0.85);
   color: var(--text);
   font: inherit;
 }
 
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(183, 200, 216, 0.82);
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: rgba(40, 186, 249, 0.7);
+  box-shadow: 0 0 0 3px rgba(40, 186, 249, 0.14);
+}
+
 .contact-form textarea {
   resize: vertical;
-  min-height: 130px;
+  min-height: 150px;
+}
+
+.reassurance-list {
+  margin-top: 4px;
+  display: grid;
+  gap: 8px;
+}
+
+.reassurance-list p {
+  margin: 0;
+  color: rgba(246, 251, 255, 0.92);
 }
 
 .success-note {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   color: var(--ok);
   font-weight: 600;
+  line-height: 1.6;
+}
+
+.error-note {
+  margin: 6px 0 0;
+  color: #ffd6d6;
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 .faq-block {
@@ -549,6 +599,10 @@ p {
   .contact-grid {
     grid-template-columns: 1fr;
   }
+
+  .contact-grid {
+    padding: 24px;
+  }
 }
 
 @media (max-width: 760px) {
@@ -626,5 +680,10 @@ p {
 
   .detail-card {
     padding: 18px;
+  }
+
+  .contact-grid {
+    padding: 20px;
+    gap: 20px;
   }
 }
