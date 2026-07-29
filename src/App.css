@@ -1882,30 +1882,30 @@ h3 {
   .hero-device-screen-real img {
     object-fit: contain;
     object-position: center;
-  }
+      padding: 8px;
 
   .hero-device-meta p {
     font-size: 0.74rem;
     text-align: center;
-  }
+      aspect-ratio: 4 / 5;
 
   .hero-device-meta h3 {
     text-align: center;
-  }
+      object-fit: cover;
 
   .hero-device-stack {
     display: none;
   }
-
-  .hero-device-carousel {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) 40px;
     display: grid;
-    grid-template-columns: 36px minmax(0, 1fr) 36px;
+      gap: 12px;
     align-items: center;
     gap: 10px;
   }
 
   .hero-device-carousel-card {
-    position: relative;
+      gap: 12px;
     display: grid;
     gap: 10px;
     width: 100%;
@@ -1913,22 +1913,22 @@ h3 {
   }
 
   .hero-carousel-nav {
-    display: grid;
-    place-items: center;
+      width: 40px;
+      height: 40px;
     width: 36px;
     height: 36px;
     border-radius: 999px;
     border: 1px solid rgba(61, 213, 255, 0.24);
-    background: rgba(19, 34, 56, 0.72);
+      width: min(100%, 460px);
     color: var(--text-main);
     cursor: pointer;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
-  }
+      padding: 8px;
 
   .hero-carousel-prev {
     transform: rotate(180deg);
   }
-
+      gap: 12px;
   .hero-carousel-dots {
     display: flex;
     justify-content: center;
