@@ -258,6 +258,7 @@ function AboutPage({ aboutPortrait }) {
         </a>
         <nav className="nav-links" aria-label="Primary navigation">
           <a href="#home">Home</a>
+          <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </nav>
       </header>
@@ -289,6 +290,9 @@ function AboutPage({ aboutPortrait }) {
             <a className="btn btn-primary" href="#contact">
               Start Your Project
             </a>
+              <a className="btn btn-secondary" href="#about">
+                Meet the Developer
+              </a>
             <a className="btn btn-secondary" href="#home">
               Back to Home
             </a>
@@ -1010,21 +1014,6 @@ function App() {
                 </motion.article>
               )
             })}
-          </div>
-
-        </section>
-
-        <section className="section-wrap contact-footer-cta" id="final-cta">
-          <h2 className="section-title">Have an Idea?</h2>
-          <p>
-            You do not need to know exactly what you need. You only need a problem worth solving.
-            Let's build something incredible together.
-          </p>
-          <div className="contact-footer-actions">
-            <a className="btn btn-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer">
-              <MessageSquare size={16} />
-              Start a WhatsApp Chat
-            </a>
           </div>
         </section>
       </main>
