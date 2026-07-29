@@ -1843,7 +1843,7 @@ h3 {
   .hero-device-stack {
     min-height: auto;
     display: grid;
-    gap: 14px;
+    gap: 12px;
   }
 
   .hero-device-card {
@@ -1853,7 +1853,32 @@ h3 {
 
   .hero-device-card.is-phone,
   .hero-device-card.is-laptop {
-    width: 100%;
+    width: min(100%, 420px);
+    margin-inline: auto;
+  }
+
+  .hero-device-card.is-phone .hero-device-frame,
+  .hero-device-card.is-laptop .hero-device-frame {
+    padding: 6px;
+  }
+
+  .hero-device-card.is-phone .hero-device-screen-real,
+  .hero-device-card.is-laptop .hero-device-screen-real {
+    aspect-ratio: 16 / 10;
+  }
+
+  .hero-device-screen-real img {
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .hero-device-meta p {
+    font-size: 0.74rem;
+    text-align: center;
+  }
+
+  .hero-device-meta h3 {
+    text-align: center;
   }
 
   .whatsapp-hero-card {
@@ -1985,11 +2010,16 @@ h3 {
 
   .hero-device-card.is-phone,
   .hero-device-card.is-laptop {
-    width: 100%;
+    width: min(100%, 340px);
   }
 
   .hero-device-frame {
+    padding: 5px;
     box-shadow: 0 20px 42px rgba(0, 0, 0, 0.3), 0 0 52px rgba(61, 213, 255, 0.12);
+  }
+
+  .hero-device-stack {
+    gap: 10px;
   }
 
   .announcement-bar {

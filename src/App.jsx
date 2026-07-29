@@ -280,21 +280,6 @@ function AboutPage({ aboutPortrait }) {
           >
             Building websites, mobile apps and custom software designed around real business problems.
           </motion.p>
-          <motion.div
-            className="hero-actions"
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.6, delay: 0.22 }}
-          >
-            <a className="btn btn-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer">
-              <MessageSquare size={16} />
-              Start a WhatsApp Chat
-            </a>
-            <a className="btn btn-secondary" href="#home">
-              Back to Home
-            </a>
-          </motion.div>
         </section>
 
         <section className="section-wrap about-section">
@@ -446,6 +431,22 @@ function AboutPage({ aboutPortrait }) {
             Whether you're starting a new business, modernizing an existing one or have an idea you'd
             like to bring to life, I'd love to hear about it.
           </motion.p>
+          <motion.div
+            className="about-cta-actions"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <a className="btn btn-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer">
+              <MessageSquare size={16} />
+              Start a WhatsApp Chat
+            </a>
+            <a className="btn btn-secondary" href="#home">
+              Back to Home
+            </a>
+          </motion.div>
         </section>
       </main>
 
