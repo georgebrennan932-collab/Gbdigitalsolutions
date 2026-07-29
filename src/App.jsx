@@ -1,6 +1,7 @@
 ﻿import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import {
+  ArrowRight,
   BarChart3,
   Bot,
   BriefcaseBusiness,
@@ -476,6 +477,7 @@ function App() {
   const [activePage, setActivePage] = useState(getPageFromHash)
   const [activeShowcase, setActiveShowcase] = useState(0)
   const [activeCaseStudy, setActiveCaseStudy] = useState(0)
+  const [mobileCarouselIndex, setMobileCarouselIndex] = useState(0)
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -494,6 +496,19 @@ function App() {
 
     return () => clearInterval(timer)
   }, [])
+
+  const heroCarouselItem = heroShowcase[mobileCarouselIndex]
+  const heroCarouselImage = getAsset(heroCarouselItem.image)
+
+  const handlePreviousHero = () => {
+    setMobileCarouselIndex((prev) => (prev - 1 + heroShowcase.length) % heroShowcase.length)
+    setActiveCaseStudy((prev) => (prev - 1 + caseStudies.length) % caseStudies.length)
+  }
+
+  const handleNextHero = () => {
+    setMobileCarouselIndex((prev) => (prev + 1) % heroShowcase.length)
+    setActiveCaseStudy((prev) => (prev + 1) % caseStudies.length)
+  }
 
   const showcaseItem = heroShowcase[activeShowcase]
   const activeStudy = caseStudies[activeCaseStudy]
@@ -655,6 +670,58 @@ function App() {
               animate="visible"
               transition={{ duration: 0.65, delay: 0.18 }}
             >
+              <div className="hero-device-carousel" aria-label="Featured project carousel">
+                <button type="button" className="hero-carousel-nav hero-carousel-prev" onClick={handlePreviousHero} aria-label="Previous project">
+                  <ArrowRight size={16} />
+                </button>
+
+                <AnimatePresence mode="wait">
+                  <motion.a
+                    key={heroCarouselItem.name}
+                    href="#case-studies"
+                    onClick={() => setActiveCaseStudy(heroCarouselItem.caseStudyIndex)}
+                    className={`hero-device-card hero-device-carousel-card ${heroCarouselItem.device === 'phone' ? 'is-phone' : 'is-laptop'}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.35 }}
+                  >
+                    <div className="hero-device-frame">
+                      <div className="hero-device-screen-real">
+                        {heroCarouselImage ? (
+                          <img src={heroCarouselImage} alt={`${heroCarouselItem.name} project preview`} loading="lazy" />
+                        ) : (
+                          <div className="hero-device-fallback">{heroCarouselItem.name}</div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="hero-device-meta">
+                      <p>{heroCarouselItem.name} - {heroCarouselItem.descriptor}</p>
+                      <h3>{heroCarouselItem.name}</h3>
+                    </div>
+                  </motion.a>
+                </AnimatePresence>
+
+                <button type="button" className="hero-carousel-nav hero-carousel-next" onClick={handleNextHero} aria-label="Next project">
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+
+              <div className="hero-carousel-dots" aria-label="Project carousel navigation">
+                {heroShowcase.map((project, index) => (
+                  <button
+                    key={project.name}
+                    type="button"
+                    className={`hero-carousel-dot ${mobileCarouselIndex === index ? 'active' : ''}`}
+                    onClick={() => {
+                      setMobileCarouselIndex(index)
+                      setActiveCaseStudy(project.caseStudyIndex)
+                    }}
+                    aria-label={`Show ${project.name}`}
+                  />
+                ))}
+              </div>
+
               <AnimatePresence mode="wait">
                 <motion.p
                   key={showcaseItem.name}
