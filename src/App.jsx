@@ -750,43 +750,62 @@ function App() {
 
     return (
       <main className="page shell">
-        <section className="page-hero about-hero">
+        <section className="page-hero about-hero about-page-flow">
           <p className="eyebrow">About</p>
-          <h1>Who I Am</h1>
+          <h1>Meet George Brennan</h1>
           <p>
             I am George Brennan, founder of GB Digital Solutions. My path from the British Army and
             NHS nursing into software development shaped how I build solutions: practical,
             disciplined, and outcome-focused.
           </p>
-        </section>
 
-        <section className="detail-card split about-intro">
-          <div>
-            <h2>Background</h2>
-            <ul>
-              <li>Former British Army</li>
-              <li>Former NHS Nurse</li>
-              <li>Self-taught developer</li>
-            </ul>
-
-            <h2>Why I Started Building Software</h2>
-            <p>
-              I started GB Digital Solutions to help businesses move beyond generic tools and get
-              software built around real operational needs.
-            </p>
-
-            <h2>My Approach</h2>
-            <p>
-              I focus on clear scoping, practical delivery milestones, and direct collaboration so
-              decisions are faster and outcomes are measurable.
-            </p>
-          </div>
-          <div className="portrait-wrap">
+          <div className="portrait-wrap about-portrait-top">
             {portrait ? (
               <img src={portrait} alt="Professional portrait placeholder" loading="lazy" />
             ) : (
               <div className="image-placeholder tall">Professional Photo Placeholder</div>
             )}
+          </div>
+        </section>
+
+        <section className="detail-card about-section-card">
+          <h2>Background</h2>
+          <ul>
+            <li>Former British Army soldier</li>
+            <li>Former NHS Nurse</li>
+            <li>Self-taught software developer</li>
+          </ul>
+        </section>
+
+        <section className="detail-card about-section-card">
+          <h2>Why I Started GB Digital Solutions</h2>
+          <p>
+            I founded GB Digital Solutions because too many businesses are forced to adapt their
+            processes around generic software. I prefer building software around how your business
+            actually works.
+          </p>
+        </section>
+
+        <section className="detail-card about-section-card">
+          <h2>My Approach</h2>
+          <ul>
+            <li>Clear communication</li>
+            <li>Honest advice</li>
+            <li>Practical solutions</li>
+            <li>Direct access to the developer</li>
+            <li>No unnecessary features</li>
+            <li>Focus on measurable business outcomes</li>
+          </ul>
+        </section>
+
+        <section className="detail-card about-cta-card">
+          <h2>Let's Build Something Together</h2>
+          <p>
+            Whether you need a website, mobile app or custom business software, I'd love to hear
+            about your project.
+          </p>
+          <div className="inline-actions">
+            {renderLinkButton({ to: '/contact', className: 'btn btn-primary', children: 'Start Your Project' })}
           </div>
         </section>
       </main>

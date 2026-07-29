@@ -423,11 +423,49 @@ p {
   flex-wrap: wrap;
 }
 
-.about-intro .portrait-wrap {
+.about-page-flow {
+  display: grid;
+  gap: 24px;
+}
+
+.about-portrait-top {
+  width: min(560px, 100%);
+  margin: 0 auto;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 24px;
   overflow: hidden;
-  min-height: 320px;
+  background: rgba(9, 23, 36, 0.7);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.3), 0 0 48px rgba(40, 186, 249, 0.12);
+}
+
+.about-portrait-top img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.about-section-card,
+.about-cta-card {
+  margin-top: 22px;
+}
+
+.about-section-card h2,
+.about-cta-card h2 {
+  margin-bottom: 10px;
+}
+
+.about-section-card ul {
+  display: grid;
+  gap: 8px;
+}
+
+.about-section-card li {
+  line-height: 1.6;
+}
+
+.about-cta-card {
+  padding: 30px;
+  background: linear-gradient(155deg, rgba(14, 34, 52, 0.95), rgba(9, 22, 35, 0.95));
 }
 
 .contact-grid {
@@ -707,5 +745,18 @@ p {
   .contact-grid {
     padding: 20px;
     gap: 20px;
+  }
+
+  .about-page-flow {
+    gap: 18px;
+  }
+
+  .about-portrait-top {
+    width: 100%;
+  }
+
+  .about-section-card,
+  .about-cta-card {
+    margin-top: 14px;
   }
 }
