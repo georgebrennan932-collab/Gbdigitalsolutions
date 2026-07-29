@@ -212,6 +212,10 @@
   z-index: 2;
 }
 
+.hero-right {
+  position: relative;
+}
+
 h1 {
   margin: 20px 0 0;
   width: min(760px, 100%);
@@ -265,6 +269,10 @@ h1 {
   flex-wrap: wrap;
 }
 
+.hero-actions .btn {
+  min-width: 190px;
+}
+
 .hero-solution-badges {
   margin-top: 18px;
   display: flex;
@@ -282,10 +290,6 @@ h1 {
   padding: 8px 12px;
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.84rem;
-}
-
-.hero-right {
-  position: relative;
 }
 
 .hero-featured-label {
@@ -1650,6 +1654,10 @@ h3 {
     gap: 24px;
   }
 
+  .hero-actions .btn {
+    min-width: 0;
+  }
+
   .hero-right {
     margin-top: 12px;
   }
@@ -1754,15 +1762,19 @@ h3 {
 
 @media (max-width: 720px) {
   .section-wrap {
-    width: min(1120px, calc(100% - 28px));
+    width: min(1120px, calc(100% - 24px));
   }
 
   .topbar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 18px 0 14px;
   }
 
   .nav-links {
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 14px;
   }
 
@@ -1780,20 +1792,38 @@ h3 {
   }
 
   .hero {
-    padding: 46px 0 74px;
+    padding: 38px 0 68px;
+    text-align: center;
   }
 
   h1 {
     font-size: clamp(2rem, 9vw, 2.9rem);
+    width: 100%;
+    margin-inline: auto;
   }
 
   .hero-credibility-strip {
     margin-top: 12px;
+    justify-content: center;
   }
 
   .hero-credibility-strip span {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .hero-subheading,
+  .hero-story,
+  .hero-featured-label {
+    margin-inline: auto;
+  }
+
+  .hero-actions {
+    justify-content: stretch;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
   }
 
   .hero-actions {
@@ -1802,6 +1832,12 @@ h3 {
 
   .hero-solution-badges {
     gap: 8px;
+    justify-content: center;
+  }
+
+  .hero-solution-badges span {
+    width: 100%;
+    justify-content: center;
   }
 
   .hero-device-stack {
@@ -1822,6 +1858,10 @@ h3 {
 
   .whatsapp-hero-card {
     padding: 22px 18px;
+  }
+
+  .whatsapp-hero-card h3 {
+    font-size: clamp(1.35rem, 6vw, 1.75rem);
   }
 
   .whatsapp-hero-body {
@@ -1851,6 +1891,13 @@ h3 {
 
   .about-content {
     padding: 18px;
+  }
+
+  .about-content .btn,
+  .about-cta-actions .btn,
+  .contact-footer-actions .btn {
+    width: 100%;
+    justify-content: center;
   }
 
   .about-cta {
@@ -1893,6 +1940,67 @@ h3 {
     grid-template-columns: 34px 1fr;
   }
 
+  .about-feature-card,
+  .contact-method-card,
+  .contact-reason-card,
+  .trust-card,
+  .service-card,
+  .build-card,
+  .case-study-list,
+  .case-study-panel,
+  .experience-card,
+  .timeline,
+  .process-track {
+    padding: 16px;
+  }
+
+  .build-example-list {
+    gap: 6px;
+  }
+
+  .build-example-list li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .contact-footer-actions {
+    justify-items: stretch;
+  }
+
+  .footer-links,
+  .social-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
+@media (max-width: 480px) {
+  .announcement-item {
+    font-size: 0.74rem;
+  }
+
+  .hero {
+    padding: 34px 0 60px;
+  }
+
+  .hero-device-card.is-phone,
+  .hero-device-card.is-laptop {
+    width: 100%;
+  }
+
+  .hero-device-frame {
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.3), 0 0 52px rgba(61, 213, 255, 0.12);
+  }
+
+  .announcement-bar {
+    padding: 8px 10px;
+  }
+
+  .nav-links {
+    gap: 10px 14px;
+    font-size: 0.92rem;
+  }
+}
   .btn {
     text-align: center;
   }
