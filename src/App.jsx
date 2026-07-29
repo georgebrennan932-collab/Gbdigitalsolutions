@@ -157,11 +157,11 @@ const caseStudies = [
   },
   {
     name: 'NightPal',
-    summary: 'Nightlife platform built for local discovery and user retention.',
+    summary: 'Mobile safety app designed for rapid emergency response and trusted contact alerts.',
     problem:
-      'Local recommendations felt generic and users were not consistently re-engaging after first use.',
+      'In an emergency, every second counts. Many safety apps require multiple taps before users can get help.',
     solution:
-      'Implemented behavior-aware suggestions, map-first UX, and fast interactions for repeat usage.',
+      'Developed a mobile safety app focused on rapid emergency response, enabling users to alert trusted contacts, share their live location and access essential safety tools with minimal interaction.',
     tags: ['Mobile', 'Realtime', 'Maps', 'Firebase'],
     image: 'nightpal-case.png',
   },
