@@ -497,6 +497,18 @@ function App() {
     return () => clearInterval(timer)
   }, [])
 
+  useEffect(() => {
+    const carouselTimer = setInterval(() => {
+      setMobileCarouselIndex((prev) => {
+        const next = (prev + 1) % heroShowcase.length
+        setActiveCaseStudy(heroShowcase[next].caseStudyIndex)
+        return next
+      })
+    }, 5500)
+
+    return () => clearInterval(carouselTimer)
+  }, [])
+
   const heroCarouselItem = heroShowcase[mobileCarouselIndex]
   const heroCarouselImage = getAsset(heroCarouselItem.image)
 
