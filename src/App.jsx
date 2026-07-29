@@ -194,27 +194,19 @@ const projects = [
     slug: 'platemate',
     path: '/projects/platemate',
     name: 'PlateMate',
-    shortDescription: 'A conversion-focused food ordering platform with cleaner mobile checkout.',
+    shortDescription: 'An AI nutrition and lifestyle app built for everyday meal tracking and coaching.',
     overview:
-      'PlateMate was rebuilt as a high-performance ordering experience focused on faster decisions, less friction, and stronger repeat usage.',
-    problem:
-      'The old journey overloaded users with options and unclear steps, causing significant drop-off before payment.',
+      'PlateMate is a cross-platform mobile app designed to help users track nutrition quickly, understand progress clearly, and stay consistent with healthier habits.',
+    challenge:
+      'Most nutrition apps rely on manual entry and disconnected tools, making it hard for users to log meals consistently and follow practical guidance.',
     solution:
-      'The flow was restructured into a guided path with clearer actions, simplified navigation, and stronger feedback during checkout.',
-    technologies: ['React', 'Node.js', 'Stripe', 'Analytics'],
-    screenshots: ['platemate-case.png', 'hero.png', 'vault-case.png'],
+      'Built meal logging with barcode scanning, photo logging and voice input, then paired it with AI coaching, macro and calorie tracking, and progress dashboards inside one mobile experience.',
+    technologies: ['React Native', 'Node.js', 'OpenAI API', 'Firebase', 'Nutrition Data APIs'],
+    screenshots: ['platemate-case.png', 'hero.png'],
     outcome: [
-      'Smoother checkout journey with fewer abandoned sessions.',
-      'Improved mobile usability and faster path to purchase.',
-      'Clear reporting for marketing and product decisions.',
-    ],
-    challenges: [
-      'Balancing richer product discovery with minimal checkout friction.',
-      'Maintaining speed while handling image-heavy menus on mobile.',
-    ],
-    futureImprovements: [
-      'Personalized product recommendations based on order history.',
-      'Advanced retention flows for repeat and subscription customers.',
+      'Users can log meals in seconds using barcode, photo or voice.',
+      'AI coaching gives clearer daily guidance based on nutrition patterns.',
+      'Progress dashboards make macro and calorie trends easier to act on.',
     ],
     heroImage: 'platemate-case.png',
   },
@@ -224,25 +216,17 @@ const projects = [
     name: 'NightPal',
     shortDescription: 'A personal safety app built for rapid emergency alerts and location sharing.',
     overview:
-      'NightPal is a mobile-first safety product designed to reduce response time when users feel at risk.',
-    problem:
-      'Many safety apps bury emergency actions behind multiple screens, delaying critical support in high-stress moments.',
+      'NightPal is a personal safety app focused on fast help access and trusted-contact communication in urgent situations.',
+    challenge:
+      'People in distress need immediate actions, but many safety apps add too many steps before help can be reached.',
     solution:
-      'NightPal introduced one-tap emergency actions, instant trusted-contact alerts, and live location sharing with a clearer interaction model.',
-    technologies: ['React Native', 'Firebase', 'Realtime Messaging', 'Maps'],
-    screenshots: ['nightpal-case.png', 'hero.png', 'platemate-case.png'],
+      'Created a streamlined emergency alert system with trusted-contact notifications, live location sharing, and quick access paths to emergency services.',
+    technologies: ['React Native', 'Firebase', 'Realtime Messaging', 'Location Services', 'Maps API'],
+    screenshots: ['nightpal-case.png', 'hero.png'],
     outcome: [
-      'Faster emergency activation flow with fewer taps.',
-      'Improved confidence during solo travel and late shifts.',
-      'A scalable architecture for future safety features.',
-    ],
-    challenges: [
-      'Designing high-stress interactions that remain usable under pressure.',
-      'Handling battery impact while supporting reliable live location updates.',
-    ],
-    futureImprovements: [
-      'Wearable-trigger integrations for faster emergency activation.',
-      'Expanded incident timeline reporting for post-event review.',
+      'Emergency actions can be triggered in fewer steps during high-stress moments.',
+      'Trusted contacts receive faster context and location updates.',
+      'The app provides safer solo travel confidence through rapid response design.',
     ],
     heroImage: 'nightpal-case.png',
   },
@@ -250,27 +234,19 @@ const projects = [
     slug: 'vault',
     path: '/projects/vault',
     name: 'Vault by James',
-    shortDescription: 'A secure members platform for premium content and protected digital assets.',
+    shortDescription: 'A custom Pokemon e-commerce website with operational tools for daily store management.',
     overview:
-      'Vault by James is a gated platform that balances premium brand experience with enterprise-grade access control.',
-    problem:
-      'The business needed a secure way to deliver paid content without creating login friction for customers.',
+      'Vault by James is a custom Pokemon e-commerce platform built to handle product visibility, stock control, and mobile-first purchasing.',
+    challenge:
+      'The business needed a purpose-built online store that could handle fast-changing inventory while keeping checkout simple on mobile.',
     solution:
-      'A role-based system was implemented with streamlined sign-in, protected content zones, and clear account journeys.',
-    technologies: ['Next.js', 'Authentication', 'Cloud Hosting', 'Payments'],
-    screenshots: ['vault-case.png', 'hero.png', 'nightpal-case.png'],
+      'Delivered a custom product catalogue, stock management workflows, secure checkout flow, and an admin dashboard for day-to-day updates.',
+    technologies: ['Next.js', 'Node.js', 'PostgreSQL', 'Stripe', 'Admin Dashboard Tooling'],
+    screenshots: ['vault-case.png', 'hero.png'],
     outcome: [
-      'Reliable access control for paid member content.',
-      'Reduced support requests related to account access.',
-      'A platform foundation ready for further growth.',
-    ],
-    challenges: [
-      'Keeping strict content protection without degrading user experience.',
-      'Managing multiple account roles and permissions cleanly.',
-    ],
-    futureImprovements: [
-      'Tiered membership journeys with dynamic content personalization.',
-      'Expanded analytics for content engagement and retention.',
+      'Customers can browse Pokemon products through a clearer mobile-first catalogue.',
+      'Stock changes are easier to manage through the admin dashboard.',
+      'Secure checkout provides a more reliable buying experience.',
     ],
     heroImage: 'vault-case.png',
   },
@@ -676,8 +652,8 @@ function App() {
 
         <section className="detail-card split">
           <div>
-            <h2>The Problem</h2>
-            <p>{project.problem}</p>
+            <h2>The Challenge</h2>
+            <p>{project.challenge}</p>
           </div>
           <div>
             <h2>The Solution</h2>
@@ -719,26 +695,12 @@ function App() {
               <li key={item}>{item}</li>
             ))}
           </ul>
-        </section>
-
-        <section className="detail-card">
-          <h2>Challenges</h2>
-          <ul>
-            {project.challenges.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="detail-card">
-          <h2>Future Improvements</h2>
-          <ul>
-            {project.futureImprovements.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
           <div className="inline-actions">
-            {renderLinkButton({ to: '/contact', className: 'btn btn-primary', children: 'Start Your Project' })}
+            {renderLinkButton({
+              to: '/contact',
+              className: 'btn btn-primary',
+              children: 'Start Your Project',
+            })}
           </div>
         </section>
       </main>
