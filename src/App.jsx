@@ -290,9 +290,6 @@ function AboutPage({ aboutPortrait }) {
             <a className="btn btn-primary" href="#contact">
               Start Your Project
             </a>
-              <a className="btn btn-secondary" href="#about">
-                Meet the Developer
-              </a>
             <a className="btn btn-secondary" href="#home">
               Back to Home
             </a>
