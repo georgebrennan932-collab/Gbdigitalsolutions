@@ -287,8 +287,9 @@ function AboutPage({ aboutPortrait }) {
             animate="visible"
             transition={{ duration: 0.6, delay: 0.22 }}
           >
-            <a className="btn btn-primary" href="#contact">
-              Start Your Project
+            <a className="btn btn-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer">
+              <MessageSquare size={16} />
+              Start a WhatsApp Chat
             </a>
             <a className="btn btn-secondary" href="#home">
               Back to Home
@@ -400,9 +401,6 @@ function AboutPage({ aboutPortrait }) {
                 })}
               </div>
 
-              <a className="btn btn-primary" href="#contact">
-                Start Your Project
-              </a>
             </motion.div>
           </div>
 
@@ -448,21 +446,6 @@ function AboutPage({ aboutPortrait }) {
             Whether you're starting a new business, modernizing an existing one or have an idea you'd
             like to bring to life, I'd love to hear about it.
           </motion.p>
-          <motion.div
-            className="about-cta-actions"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-          >
-            <a className="btn btn-primary" href="#contact">
-              Start Your Project
-            </a>
-            <a className="btn btn-secondary" href="#home">
-              Back to Home
-            </a>
-          </motion.div>
         </section>
       </main>
 
