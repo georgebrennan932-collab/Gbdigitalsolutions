@@ -79,7 +79,6 @@ const servicePages = [
       'Enquiry funnels and analytics-ready setup',
     ],
     technologies: ['React', 'Vite', 'Modern CSS', 'Analytics'],
-    startingPrice: 'Estimated starting price: from GBP 2,500',
     faq: [
       {
         q: 'How long does a business website take?',
@@ -109,7 +108,6 @@ const servicePages = [
       'Scalable architecture for future releases',
     ],
     technologies: ['React Native', 'Firebase', 'REST APIs', 'Push Notifications'],
-    startingPrice: 'Estimated starting price: from GBP 8,000',
     faq: [
       {
         q: 'Do you build for both Android and iOS?',
@@ -139,7 +137,6 @@ const servicePages = [
       'Monitoring for quality, reliability and ROI',
     ],
     technologies: ['OpenAI APIs', 'Python', 'Node.js', 'Workflow Engines'],
-    startingPrice: 'Estimated starting price: from GBP 3,500',
     faq: [
       {
         q: 'Will AI replace my existing workflow?',
@@ -169,7 +166,6 @@ const servicePages = [
       'Incremental delivery with clear milestones',
     ],
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Cloud Infrastructure'],
-    startingPrice: 'Estimated starting price: from GBP 10,000',
     faq: [
       {
         q: 'Can this integrate with current systems?',
@@ -536,9 +532,22 @@ function App() {
         <p>
           <strong>Who it is for:</strong> {service.whoFor}
         </p>
-        <p>
-          <strong>{service.startingPrice}</strong>
-        </p>
+
+        <section className="investment-box" aria-label="Investment">
+          <h2>Investment</h2>
+          <p>
+            Every project is tailored to your business, goals and required functionality. After a
+            free consultation, you'll receive a fixed, no-obligation quotation with no hidden costs.
+          </p>
+
+          <h3>What you can expect:</h3>
+          <ul className="investment-list">
+            <li>Free discovery call</li>
+            <li>Fixed-price quotation</li>
+            <li>Clear project timeline</li>
+            <li>Ongoing support available</li>
+          </ul>
+        </section>
 
         <div className="detail-columns">
           <div>
@@ -576,12 +585,18 @@ function App() {
           ))}
         </div>
 
-        <div className="inline-actions">
-          {renderLinkButton({
-            to: '/contact',
-            className: 'btn btn-primary',
-            children: 'Start This Service',
-          })}
+        <div className="service-cta-card">
+          <h2>Get Your Free Quote</h2>
+          <p>
+            Tell us about your project and we'll provide a tailored proposal and fixed quotation.
+          </p>
+          <div className="inline-actions">
+            {renderLinkButton({
+              to: '/contact',
+              className: 'btn btn-primary btn-highlight',
+              children: 'Get Your Free Quote',
+            })}
+          </div>
         </div>
       </section>
     </main>
