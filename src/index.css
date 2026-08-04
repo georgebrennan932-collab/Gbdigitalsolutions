@@ -2,7 +2,15 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
+  --deep-navy: #07162E;
+  --navy-blue: #0B2D63;
+  --mid-blue: #0E5FA8;
+  --accent-blue: #168BFF;
+  --glow-blue: rgba(76, 201, 255, 0.18);
+  --text-main: #FFFFFF;
+  --text-secondary: #C8D6E5;
+  --glass-border: rgba(255, 255, 255, 0.10);
 }
 
 * {
@@ -16,8 +24,8 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--deep-navy);
+  color: var(--text-main);
   font-family: 'Manrope', 'Segoe UI', sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -26,6 +34,97 @@ body {
 
 #root {
   min-height: 100vh;
+}
+
+.site-main {
+  position: relative;
+}
+
+.site-main > * {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Two-tone alternating sections on all routes */
+.site-main section,
+.site-main > div,
+.site-main > article {
+  position: relative;
+}
+
+.site-main section:nth-of-type(odd) {
+  background:
+    radial-gradient(circle at 18% 15%, rgba(76, 201, 255, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(11, 45, 99, 0.42) 0%, rgba(7, 22, 46, 0.38) 100%);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.site-main section:nth-of-type(even) {
+  background:
+    radial-gradient(circle at 82% 70%, rgba(22, 156, 255, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(7, 22, 46, 0.48) 0%, rgba(11, 45, 99, 0.34) 100%);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* Subtle wrapper treatment for non-section route layouts */
+.site-main > * {
+  background:
+    radial-gradient(circle at 14% 24%, rgba(76, 201, 255, 0.06), transparent 38%),
+    linear-gradient(180deg, rgba(7, 22, 46, 0.16) 0%, rgba(11, 45, 99, 0.18) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Glass card system */
+.site-main article,
+.site-main form {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+}
+
+.site-main article {
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.site-main article:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(22, 139, 255, 0.12) inset;
+}
+
+/* Shared typography tone */
+.site-main p,
+.site-main li,
+.site-main label,
+.site-main small {
+  color: var(--text-secondary);
+  line-height: 1.62;
+}
+
+.site-main h1,
+.site-main h2,
+.site-main h3,
+.site-main h4,
+.site-main h5,
+.site-main h6 {
+  color: var(--text-main);
+}
+
+/* Inputs on dark surface */
+.site-main input,
+.site-main select,
+.site-main textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--glass-border);
+  color: var(--text-main);
+}
+
+.site-main input::placeholder,
+.site-main textarea::placeholder {
+  color: rgba(200, 214, 229, 0.86);
 }
 
 a {
@@ -39,8 +138,8 @@ img {
 }
 
 ::selection {
-  background: rgba(14, 165, 233, 0.18);
-  color: #0f172a;
+  background: rgba(76, 201, 255, 0.28);
+  color: #ffffff;
 }
 
 .font-display {

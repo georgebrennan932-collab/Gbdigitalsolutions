@@ -8,7 +8,6 @@ import {
   CalendarDays,
   CheckCircle2,
   ChevronRight,
-  ChevronDown,
   Clock3,
   Code2,
   Globe,
@@ -19,7 +18,6 @@ import {
   PhoneCall,
   Smartphone,
   Sparkles,
-  Star,
   Workflow,
   X,
 } from 'lucide-react'
@@ -27,12 +25,12 @@ import aboutPortrait from './assets/about-portrait.png'
 import {
   aboutContent,
   blogPosts,
-  homeContent,
   industryPages,
   navigationItems,
   projects,
   servicePages,
 } from './siteContent'
+import brandLogoImage from './assets/logo.png'
 
 const emailAddress = 'georgebrennan932@gmail.com'
 const phoneNumber = '+44 7707 287340'
@@ -42,7 +40,17 @@ const whatsappNumberLocal = '07707 287340'
 const whatsappPrefill =
   ' Hi George, I am interested in working with GB Digital Solutions. Can i have more information please?'
 const whatsappLink = `https://wa.me/${whatsappNumberInternational}?text=${encodeURIComponent(whatsappPrefill)}`
-const businessHours = 'Business hours placeholder'
+const weekdayHours = '9:00am - 6:00pm'
+
+const businessHours = [
+  { day: 'Monday', hours: weekdayHours },
+  { day: 'Tuesday', hours: weekdayHours },
+  { day: 'Wednesday', hours: weekdayHours },
+  { day: 'Thursday', hours: weekdayHours },
+  { day: 'Friday', hours: weekdayHours },
+  { day: 'Saturday', hours: '10:00am - 2:00pm' },
+  { day: 'Sunday', hours: 'Closed' },
+]
 
 const reveal = {
   hidden: { opacity: 0, y: 24 },
@@ -59,13 +67,12 @@ const iconMap = {
   'Custom Business Software': Code2,
 }
 
-const serviceDropdownItems = [
-  { label: 'Website Design', path: '/services/website-design' },
-  { label: 'Mobile Apps', path: '/services/mobile-app-development' },
-  { label: 'AI Chatbots', path: '/services/ai-chatbots' },
-  { label: 'Business Automation', path: '/services/business-automation' },
-  { label: 'Booking Systems', path: '/smart-booking-systems' },
-  { label: 'CRM Systems', path: '/services/custom-business-software' },
+const primaryDesktopNav = [
+  { label: 'Home', path: '/' },
+  { label: 'Portfolio', path: '/portfolio' },
+  { label: 'Services', path: '/services' },
+  { label: 'About', path: '/about' },
+  { label: 'Contact', path: '/contact' },
 ]
 
 function normalizePath(pathname) {
@@ -216,25 +223,46 @@ function Reveal({ children, className = '', delay = 0 }) {
 function SectionTitle({ eyebrow, title, description, align = 'left' }) {
   return (
     <div className={align === 'center' ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'}>
-      <p className="font-display text-sm font-semibold uppercase tracking-[0.28em] text-sky-600">
+      <p className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-[#168BFF]">
         {eyebrow}
       </p>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
         {title}
       </h1>
-      <p className="mt-4 text-base leading-8 text-slate-600 sm:text-lg">{description}</p>
+      {description ? <p className="mt-4 text-base leading-8 text-[#C8D6E5] sm:text-lg">{description}</p> : null}
     </div>
+  )
+}
+
+function BrandLogo({ className = '', large = false }) {
+  const [useFallback, setUseFallback] = useState(false)
+
+  if (!useFallback) {
+    return (
+      <img
+        src={brandLogoImage}
+        alt="GB Digital Solutions logo"
+        className={className || (large ? 'h-24 w-24 object-contain' : 'h-11 w-11 object-contain')}
+        onError={() => setUseFallback(true)}
+      />
+    )
+  }
+
+  return (
+    <span className={`inline-flex items-center justify-center rounded-2xl bg-[#168BFF] text-sm font-bold tracking-[0.2em] text-white ${large ? 'h-24 w-24 text-2xl' : 'h-11 w-11'} ${className}`}>
+      GB
+    </span>
   )
 }
 
 function LinkButton({ to, navigate, children, variant = 'primary', className = '' }) {
   const styles = {
     primary:
-      'bg-sky-600 text-white shadow-lg shadow-sky-200 hover:bg-sky-700',
+      'bg-gradient-to-r from-[#0E5FA8] to-[#0B4B87] text-white shadow-lg shadow-[#0E5FA8]/30 hover:-translate-y-[3px] hover:shadow-[0_14px_30px_rgba(14,95,168,0.4)]',
     secondary:
-      'border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
-    dark: 'bg-sky-600 text-white shadow-lg shadow-sky-200 hover:bg-sky-700',
-    ghost: 'text-slate-950 hover:text-sky-700',
+      'border border-white/35 bg-transparent text-white hover:-translate-y-[3px] hover:border-[#4CC9FF]/50 hover:bg-white/5',
+    dark: 'bg-gradient-to-r from-[#0E5FA8] to-[#0B4B87] text-white shadow-lg shadow-[#0E5FA8]/30 hover:-translate-y-[3px] hover:shadow-[0_14px_30px_rgba(14,95,168,0.4)]',
+    ghost: 'text-[#C8D6E5] hover:text-[#169CFF]',
   }
 
   return (
@@ -246,7 +274,7 @@ function LinkButton({ to, navigate, children, variant = 'primary', className = '
           navigate(to)
         }
       }}
-      className={`inline-flex items-center justify-center rounded-full px-6 py-4 text-sm font-semibold transition ${styles[variant]} ${className}`}
+      className={`inline-flex items-center justify-center rounded-full px-6 py-4 text-sm font-semibold transition duration-300 ${styles[variant]} ${className}`}
     >
       {children}
     </a>
@@ -266,7 +294,7 @@ function NavLink({ item, currentPath, navigate, className = '' }) {
         event.preventDefault()
         navigate(item.path)
       }}
-      className={className || `text-sm font-medium transition ${isActive ? 'text-slate-950' : 'text-slate-600 hover:text-slate-950'}`}
+      className={className || `text-sm font-medium transition duration-300 ${isActive ? 'text-white' : 'text-[#C8D3E0] hover:text-[#169CFF] hover:drop-shadow-[0_0_12px_rgba(76,201,255,0.45)]'}`}
     >
       {item.label}
     </a>
@@ -275,30 +303,30 @@ function NavLink({ item, currentPath, navigate, className = '' }) {
 
 function BrowserFrame({ children }) {
   return (
-    <div className="overflow-hidden rounded-[1.8rem] border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-      <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-50 px-4 py-3">
-        <span className="h-2.5 w-2.5 rounded-full bg-rose-300" />
-        <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
-        <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
+    <div className="overflow-hidden rounded-[1.8rem] border border-white/10 bg-[#0D2345] shadow-[0_24px_60px_rgba(5,15,35,0.35)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_32px_72px_rgba(22,156,255,0.16)]">
+      <div className="flex items-center gap-2 border-b border-white/10 bg-[#0D2345] px-4 py-3">
+        <span className="h-2.5 w-2.5 rounded-full bg-[#4CC9FF]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#168BFF]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#0E5FA8]" />
       </div>
-      <div className="bg-white p-4 sm:p-5">{children}</div>
+      <div className="bg-[#0D2345] p-4 sm:p-5">{children}</div>
     </div>
   )
 }
 
 function PhoneFrame({ children }) {
   return (
-    <div className="mx-auto w-[220px] rounded-[2.2rem] border-[10px] border-slate-950 bg-slate-950 p-2 shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
+    <div className="mx-auto w-[220px] rounded-[2.2rem] border-[10px] border-slate-950 bg-[#081A33] p-2 shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
       <div className="mx-auto mb-2 h-1.5 w-20 rounded-full bg-slate-700" />
-      <div className="overflow-hidden rounded-[1.5rem] bg-white">{children}</div>
+      <div className="overflow-hidden rounded-[1.5rem] bg-[#0D2345]">{children}</div>
     </div>
   )
 }
 
 function TabletFrame({ children }) {
   return (
-    <div className="mx-auto rounded-[2rem] border-[8px] border-slate-900 bg-slate-900 p-3 shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
-      <div className="overflow-hidden rounded-[1.5rem] bg-white">{children}</div>
+    <div className="mx-auto rounded-[2rem] border-[8px] border-slate-900 bg-[#081A33] p-3 shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
+      <div className="overflow-hidden rounded-[1.5rem] bg-[#0D2345]">{children}</div>
     </div>
   )
 }
@@ -309,7 +337,7 @@ function ScreenshotImage({ image, onOpen }) {
       <button
         type="button"
         onClick={() => onOpen?.(image)}
-        className="h-full w-full cursor-zoom-in rounded-[0.9rem] outline-none transition hover:scale-[1.01] focus:ring-4 focus:ring-sky-100"
+        className="h-full w-full cursor-zoom-in rounded-[0.9rem] outline-none transition hover:scale-[1.01] focus:ring-4 focus:ring-[#168BFF]/20"
         aria-label="Open project image full screen"
       >
         <img
@@ -328,15 +356,15 @@ function MockInterface({ mock }) {
     case 'website-agency':
       return (
         <div className="space-y-4">
-          <div className="rounded-[1.4rem] bg-sky-50 p-5">
-            <div className="h-3 w-28 rounded-full bg-sky-200" />
-            <div className="mt-4 h-8 w-2/3 rounded-2xl bg-white" />
-            <div className="mt-3 h-3 w-full rounded-full bg-white" />
-            <div className="mt-2 h-3 w-4/5 rounded-full bg-white" />
+          <div className="rounded-[1.4rem] bg-blue-50 p-5">
+            <div className="h-3 w-28 rounded-full bg-blue-200" />
+            <div className="mt-4 h-8 w-2/3 rounded-2xl bg-[#0D2345]" />
+            <div className="mt-3 h-3 w-full rounded-full bg-[#0D2345]" />
+            <div className="mt-2 h-3 w-4/5 rounded-full bg-[#0D2345]" />
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
             {[1, 2, 3].map((item) => (
-              <div key={item} className="rounded-[1.2rem] bg-slate-50 p-4">
+              <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4">
                 <div className="h-10 rounded-2xl bg-slate-200" />
                 <div className="mt-3 h-3 w-2/3 rounded-full bg-slate-200" />
                 <div className="mt-2 h-3 w-full rounded-full bg-slate-100" />
@@ -348,13 +376,13 @@ function MockInterface({ mock }) {
     case 'website-mobile':
       return (
         <div className="space-y-3 p-4">
-          <div className="rounded-[1.2rem] bg-sky-50 p-4">
-            <div className="h-3 w-16 rounded-full bg-sky-200" />
-            <div className="mt-3 h-5 w-4/5 rounded-full bg-white" />
-            <div className="mt-2 h-3 w-full rounded-full bg-white" />
+          <div className="rounded-[1.2rem] bg-blue-50 p-4">
+            <div className="h-3 w-16 rounded-full bg-blue-200" />
+            <div className="mt-3 h-5 w-4/5 rounded-full bg-[#0D2345]" />
+            <div className="mt-2 h-3 w-full rounded-full bg-[#0D2345]" />
           </div>
           {[1, 2, 3].map((item) => (
-            <div key={item} className="rounded-[1.1rem] bg-slate-50 p-3">
+            <div key={item} className="rounded-[1.1rem] bg-[#0D2345] p-3">
               <div className="h-3 w-20 rounded-full bg-slate-200" />
               <div className="mt-2 h-3 w-full rounded-full bg-slate-100" />
             </div>
@@ -366,15 +394,15 @@ function MockInterface({ mock }) {
         <div className="space-y-4">
           <div className="rounded-[1.4rem] bg-rose-50 p-5">
             <div className="h-3 w-24 rounded-full bg-rose-200" />
-            <div className="mt-4 h-8 w-3/5 rounded-2xl bg-white" />
-            <div className="mt-3 h-3 w-full rounded-full bg-white" />
-            <div className="mt-2 h-3 w-4/5 rounded-full bg-white" />
+            <div className="mt-4 h-8 w-3/5 rounded-2xl bg-[#0D2345]" />
+            <div className="mt-3 h-3 w-full rounded-full bg-[#0D2345]" />
+            <div className="mt-2 h-3 w-4/5 rounded-full bg-[#0D2345]" />
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {['Anti-wrinkle', 'Skin boosters', 'Consultation', 'Aftercare'].map((item) => (
-              <div key={item} className="rounded-[1.2rem] bg-slate-50 p-4">
+              <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4">
                 <div className="h-20 rounded-[1rem] bg-rose-100" />
-                <div className="mt-3 text-sm font-semibold text-slate-800">{item}</div>
+                <div className="mt-3 text-sm font-semibold text-[#d6e2ef]">{item}</div>
               </div>
             ))}
           </div>
@@ -386,7 +414,7 @@ function MockInterface({ mock }) {
           {['Consultation', 'Treatment guide', 'Book appointment', 'Aftercare notes'].map((item) => (
             <div key={item} className="rounded-[1.2rem] bg-rose-50 p-4">
               <div className="h-3 w-20 rounded-full bg-rose-200" />
-              <div className="mt-3 text-sm font-semibold text-slate-800">{item}</div>
+              <div className="mt-3 text-sm font-semibold text-[#d6e2ef]">{item}</div>
             </div>
           ))}
         </div>
@@ -395,16 +423,16 @@ function MockInterface({ mock }) {
       return (
         <div className="space-y-3 p-4">
           <div className="rounded-[1.2rem] bg-rose-50 p-4">
-            <div className="text-sm font-semibold text-slate-900">Choose a treatment</div>
+            <div className="text-sm font-semibold text-white">Choose a treatment</div>
             <div className="mt-3 space-y-2">
               {['Lip filler consultation', 'Botox review', 'Skin booster'].map((item) => (
-                <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-700">
+                <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#d0dbea]">
                   {item}
                 </div>
               ))}
             </div>
           </div>
-          <div className="rounded-[1.2rem] bg-slate-50 p-4 text-sm text-slate-600">Tap to book consultation</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm text-[#C8D3E0]">Tap to book consultation</div>
         </div>
       )
     case 'restaurant-site':
@@ -412,23 +440,23 @@ function MockInterface({ mock }) {
         <div className="space-y-4">
           <div className="rounded-[1.4rem] bg-amber-50 p-5">
             <div className="h-3 w-20 rounded-full bg-amber-200" />
-            <div className="mt-4 h-8 w-3/5 rounded-2xl bg-white" />
-            <div className="mt-3 h-3 w-full rounded-full bg-white" />
+            <div className="mt-4 h-8 w-3/5 rounded-2xl bg-[#0D2345]" />
+            <div className="mt-3 h-3 w-full rounded-full bg-[#0D2345]" />
           </div>
           <div className="grid gap-3 sm:grid-cols-[1.1fr_0.9fr]">
-            <div className="rounded-[1.2rem] bg-slate-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">Book a table</div>
+            <div className="rounded-[1.2rem] bg-[#0D2345] p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">Book a table</div>
               <div className="mt-3 grid gap-2">
                 {['Date', 'Time', 'Guests'].map((item) => (
-                  <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                  <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
                 ))}
               </div>
             </div>
-            <div className="rounded-[1.2rem] bg-slate-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">Menu highlights</div>
+            <div className="rounded-[1.2rem] bg-[#0D2345] p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">Menu highlights</div>
               <div className="mt-3 space-y-2">
                 {['Small plates', 'Mains', 'Desserts'].map((item) => (
-                  <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                  <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
                 ))}
               </div>
             </div>
@@ -440,9 +468,9 @@ function MockInterface({ mock }) {
         <div className="grid gap-3 p-4 sm:grid-cols-2">
           {['Starters', 'Mains', 'Sides', 'Drinks'].map((item) => (
             <div key={item} className="rounded-[1.2rem] bg-amber-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">{item}</div>
-              <div className="mt-2 h-3 w-full rounded-full bg-white" />
-              <div className="mt-2 h-3 w-4/5 rounded-full bg-white" />
+              <div className="text-sm font-semibold text-[#d6e2ef]">{item}</div>
+              <div className="mt-2 h-3 w-full rounded-full bg-[#0D2345]" />
+              <div className="mt-2 h-3 w-4/5 rounded-full bg-[#0D2345]" />
             </div>
           ))}
         </div>
@@ -450,12 +478,12 @@ function MockInterface({ mock }) {
     case 'restaurant-mobile':
       return (
         <div className="space-y-3 p-4">
-          <div className="rounded-[1.2rem] bg-amber-50 p-4 text-sm font-semibold text-slate-800">Reserve tonight</div>
-          <div className="rounded-[1.2rem] bg-white p-4 ring-1 ring-slate-100">
-            <div className="text-sm text-slate-600">Time</div>
+          <div className="rounded-[1.2rem] bg-amber-50 p-4 text-sm font-semibold text-[#d6e2ef]">Reserve tonight</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 ring-1 ring-white/10">
+            <div className="text-sm text-[#C8D3E0]">Time</div>
             <div className="mt-2 flex flex-wrap gap-2">
               {['18:00', '19:30', '20:45'].map((item) => (
-                <span key={item} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">{item}</span>
+                <span key={item} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-[#d0dbea]">{item}</span>
               ))}
             </div>
           </div>
@@ -464,22 +492,22 @@ function MockInterface({ mock }) {
     case 'trades-site':
       return (
         <div className="space-y-4">
-          <div className="rounded-[1.4rem] bg-sky-50 p-5">
-            <div className="h-3 w-24 rounded-full bg-sky-200" />
-            <div className="mt-4 h-8 w-3/5 rounded-2xl bg-white" />
-            <div className="mt-3 h-3 w-full rounded-full bg-white" />
+          <div className="rounded-[1.4rem] bg-blue-50 p-5">
+            <div className="h-3 w-24 rounded-full bg-blue-200" />
+            <div className="mt-4 h-8 w-3/5 rounded-2xl bg-[#0D2345]" />
+            <div className="mt-3 h-3 w-full rounded-full bg-[#0D2345]" />
           </div>
           <div className="grid gap-3 sm:grid-cols-[1fr_1fr]">
-            <div className="rounded-[1.2rem] bg-slate-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">Request a quote</div>
+            <div className="rounded-[1.2rem] bg-[#0D2345] p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">Request a quote</div>
               <div className="mt-3 space-y-2">
                 {['Job type', 'Postcode', 'Best contact method'].map((item) => (
-                  <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                  <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
                 ))}
               </div>
             </div>
-            <div className="rounded-[1.2rem] bg-slate-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">Proof of work</div>
+            <div className="rounded-[1.2rem] bg-[#0D2345] p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">Proof of work</div>
               <div className="mt-3 grid grid-cols-2 gap-2">
                 {[1, 2, 3, 4].map((item) => (
                   <div key={item} className="h-16 rounded-xl bg-slate-200" />
@@ -492,45 +520,45 @@ function MockInterface({ mock }) {
     case 'trades-quote':
       return (
         <div className="space-y-3 p-4">
-          <div className="rounded-[1.2rem] bg-sky-50 p-4 text-sm font-semibold text-slate-800">Quote request details</div>
+          <div className="rounded-[1.2rem] bg-blue-50 p-4 text-sm font-semibold text-[#d6e2ef]">Quote request details</div>
           {['Urgency', 'Photo upload', 'Preferred appointment'].map((item) => (
-            <div key={item} className="rounded-xl bg-slate-50 px-3 py-3 text-sm text-slate-600">{item}</div>
+            <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-3 text-sm text-[#C8D3E0]">{item}</div>
           ))}
         </div>
       )
     case 'trades-mobile':
       return (
         <div className="space-y-3 p-4">
-          <div className="rounded-[1.2rem] bg-sky-50 p-4 text-sm font-semibold text-slate-900">Call now or request a quote</div>
-          <div className="rounded-[1.2rem] bg-white p-4 ring-1 ring-slate-100 text-sm text-slate-600">Fast mobile enquiry flow</div>
+          <div className="rounded-[1.2rem] bg-blue-50 p-4 text-sm font-semibold text-white">Call now or request a quote</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 ring-1 ring-white/10 text-sm text-[#C8D3E0]">Fast mobile enquiry flow</div>
         </div>
       )
     case 'booking-dashboard':
       return (
         <div className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-[0.95fr_1.05fr]">
-            <div className="rounded-[1.2rem] bg-slate-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">Working hours</div>
+            <div className="rounded-[1.2rem] bg-[#0D2345] p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">Working hours</div>
               <div className="mt-3 space-y-2">
                 {['Mon-Fri', 'Break windows', 'Treatment lengths'].map((item) => (
-                  <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                  <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
                 ))}
               </div>
             </div>
-            <div className="rounded-[1.2rem] bg-sky-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">Diary updates</div>
+            <div className="rounded-[1.2rem] bg-blue-50 p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">Diary updates</div>
               <div className="mt-3 space-y-2">
                 {['New booking confirmed', 'Reminder scheduled', 'Staff notified'].map((item) => (
-                  <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                  <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
                 ))}
               </div>
             </div>
           </div>
-          <div className="rounded-[1.2rem] bg-white p-4 ring-1 ring-slate-100">
-            <div className="text-sm font-semibold text-slate-800">Upcoming bookings</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 ring-1 ring-white/10">
+            <div className="text-sm font-semibold text-[#d6e2ef]">Upcoming bookings</div>
             <div className="mt-3 grid gap-2 sm:grid-cols-3">
               {['Consultation', 'Treatment review', 'Botox follow-up'].map((item) => (
-                <div key={item} className="rounded-xl bg-slate-50 px-3 py-3 text-sm text-slate-600">{item}</div>
+                <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-3 text-sm text-[#C8D3E0]">{item}</div>
               ))}
             </div>
           </div>
@@ -539,19 +567,19 @@ function MockInterface({ mock }) {
     case 'booking-calendar':
       return (
         <div className="grid gap-3 p-4 sm:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[1.2rem] bg-slate-50 p-4">
-            <div className="text-sm font-semibold text-slate-800">Available slots</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4">
+            <div className="text-sm font-semibold text-[#d6e2ef]">Available slots</div>
             <div className="mt-3 grid grid-cols-2 gap-2">
               {['09:30', '10:30', '12:15', '14:00', '15:45', '17:00'].map((item) => (
-                <div key={item} className="rounded-xl bg-white px-3 py-3 text-sm text-slate-600">{item}</div>
+                <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-3 text-sm text-[#C8D3E0]">{item}</div>
               ))}
             </div>
           </div>
-          <div className="rounded-[1.2rem] bg-sky-50 p-4">
-            <div className="text-sm font-semibold text-slate-800">Booking rules</div>
+          <div className="rounded-[1.2rem] bg-blue-50 p-4">
+            <div className="text-sm font-semibold text-[#d6e2ef]">Booking rules</div>
             <div className="mt-3 space-y-2">
               {['Treatment duration', 'Breaks respected', 'Diary synced'].map((item) => (
-                <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
               ))}
             </div>
           </div>
@@ -560,25 +588,25 @@ function MockInterface({ mock }) {
     case 'booking-mobile':
       return (
         <div className="space-y-3 p-4">
-          <div className="rounded-[1.2rem] bg-sky-50 p-4 text-sm font-semibold text-slate-900">Choose a treatment</div>
+          <div className="rounded-[1.2rem] bg-blue-50 p-4 text-sm font-semibold text-white">Choose a treatment</div>
           {['Botox consultation', 'Skin booster', 'Follow-up review'].map((item) => (
-            <div key={item} className="rounded-xl bg-white px-3 py-3 text-sm text-slate-600 ring-1 ring-slate-100">{item}</div>
+            <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-3 text-sm text-[#C8D3E0] ring-1 ring-white/10">{item}</div>
           ))}
-          <div className="rounded-[1.2rem] bg-slate-50 p-4 text-sm text-slate-600">Pick a valid appointment slot</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm text-[#C8D3E0]">Pick a valid appointment slot</div>
         </div>
       )
     case 'chatbot-desktop':
       return (
         <div className="space-y-3">
-          <div className="max-w-[75%] rounded-[1.3rem] rounded-bl-md bg-slate-100 px-4 py-3 text-sm text-slate-700">
+          <div className="max-w-[75%] rounded-[1.3rem] rounded-bl-md bg-slate-100 px-4 py-3 text-sm text-[#d0dbea]">
             I need help booking a service.
           </div>
-          <div className="ml-auto max-w-[80%] rounded-[1.3rem] rounded-br-md bg-sky-600 px-4 py-3 text-sm text-white">
+          <div className="ml-auto max-w-[80%] rounded-[1.3rem] rounded-br-md bg-[#168BFF] px-4 py-3 text-sm text-white">
             I can help with that. Which treatment or service are you looking for?
           </div>
           <div className="flex flex-wrap gap-2 pt-2">
             {['Consultation', 'Boiler service', 'Need a quote'].map((item) => (
-              <span key={item} className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600">{item}</span>
+              <span key={item} className="rounded-full border border-white/10 px-3 py-1.5 text-xs font-semibold text-[#C8D3E0]">{item}</span>
             ))}
           </div>
         </div>
@@ -586,11 +614,11 @@ function MockInterface({ mock }) {
     case 'chatbot-mobile':
       return (
         <div className="space-y-3 p-4">
-          <div className="rounded-[1.2rem] bg-slate-100 px-3 py-3 text-sm text-slate-700">Tell me what you need help with.</div>
-          <div className="rounded-[1.2rem] bg-sky-600 px-3 py-3 text-sm text-white">I can guide the next step and collect details.</div>
+          <div className="rounded-[1.2rem] bg-slate-100 px-3 py-3 text-sm text-[#d0dbea]">Tell me what you need help with.</div>
+          <div className="rounded-[1.2rem] bg-[#168BFF] px-3 py-3 text-sm text-white">I can guide the next step and collect details.</div>
           <div className="flex flex-wrap gap-2">
             {['Book', 'Ask a question', 'Get quote'].map((item) => (
-              <span key={item} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">{item}</span>
+              <span key={item} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-[#d0dbea]">{item}</span>
             ))}
           </div>
         </div>
@@ -598,16 +626,16 @@ function MockInterface({ mock }) {
     case 'chatbot-handoff':
       return (
         <div className="grid gap-3 p-4 sm:grid-cols-2">
-          <div className="rounded-[1.2rem] bg-slate-50 p-4 text-sm text-slate-700">Qualified lead summary</div>
-          <div className="rounded-[1.2rem] bg-sky-50 p-4 text-sm text-slate-700">Send to team or booking flow</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm text-[#d0dbea]">Qualified lead summary</div>
+          <div className="rounded-[1.2rem] bg-blue-50 p-4 text-sm text-[#d0dbea]">Send to team or booking flow</div>
         </div>
       )
     case 'automation-pipeline':
       return (
         <div className="grid gap-3 sm:grid-cols-4">
           {['Lead received', 'Quote sent', 'Reminder scheduled', 'Follow-up queued'].map((item) => (
-            <div key={item} className="rounded-[1.2rem] bg-slate-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">{item}</div>
+            <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">{item}</div>
               <div className="mt-2 h-3 w-full rounded-full bg-slate-200" />
             </div>
           ))}
@@ -617,11 +645,11 @@ function MockInterface({ mock }) {
       return (
         <div className="grid gap-3 p-4 sm:grid-cols-3">
           {['New leads', 'Waiting review', 'Completed actions'].map((item) => (
-            <div key={item} className="rounded-[1.2rem] bg-slate-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">{item}</div>
+            <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">{item}</div>
               <div className="mt-3 space-y-2">
                 {[1, 2, 3].map((value) => (
-                  <div key={value} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">Task item</div>
+                  <div key={value} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">Task item</div>
                 ))}
               </div>
             </div>
@@ -632,26 +660,26 @@ function MockInterface({ mock }) {
       return (
         <div className="space-y-3 p-4">
           {['Lead captured', 'Reminder ready', 'Awaiting reply'].map((item) => (
-            <div key={item} className="rounded-xl bg-slate-50 px-3 py-3 text-sm text-slate-600">{item}</div>
+            <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-3 text-sm text-[#C8D3E0]">{item}</div>
           ))}
         </div>
       )
     case 'call-system':
       return (
         <div className="grid gap-3 sm:grid-cols-[1fr_1fr]">
-          <div className="rounded-[1.2rem] bg-slate-50 p-4">
-            <div className="text-sm font-semibold text-slate-800">Call queue</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4">
+            <div className="text-sm font-semibold text-[#d6e2ef]">Call queue</div>
             <div className="mt-3 space-y-2">
               {['Appointment reminder', 'Follow-up call', 'Service confirmation'].map((item) => (
-                <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
               ))}
             </div>
           </div>
-          <div className="rounded-[1.2rem] bg-sky-50 p-4">
-            <div className="text-sm font-semibold text-slate-800">Call status</div>
+          <div className="rounded-[1.2rem] bg-blue-50 p-4">
+            <div className="text-sm font-semibold text-[#d6e2ef]">Call status</div>
             <div className="mt-3 space-y-2">
               {['Queued', 'Calling', 'Delivered'].map((item) => (
-                <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
               ))}
             </div>
           </div>
@@ -661,82 +689,82 @@ function MockInterface({ mock }) {
       return (
         <div className="space-y-3 p-4">
           {['Reminder ready', 'Next call trigger', 'Delivery update'].map((item) => (
-            <div key={item} className="rounded-xl bg-slate-50 px-3 py-3 text-sm text-slate-600">{item}</div>
+            <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-3 text-sm text-[#C8D3E0]">{item}</div>
           ))}
         </div>
       )
     case 'call-system-queue':
       return (
         <div className="grid gap-3 p-4 sm:grid-cols-2">
-          <div className="rounded-[1.2rem] bg-slate-50 p-4 text-sm text-slate-700">Reminder campaigns</div>
-          <div className="rounded-[1.2rem] bg-white p-4 ring-1 ring-slate-100 text-sm text-slate-700">Call reporting</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm text-[#d0dbea]">Reminder campaigns</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 ring-1 ring-white/10 text-sm text-[#d0dbea]">Call reporting</div>
         </div>
       )
     case 'custom-software':
       return (
         <div className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-[1.1fr_0.9fr]">
-            <div className="rounded-[1.2rem] bg-slate-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">Workflow dashboard</div>
+            <div className="rounded-[1.2rem] bg-[#0D2345] p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">Workflow dashboard</div>
               <div className="mt-3 grid gap-2">
                 {['Open tasks', 'Approvals', 'Jobs in progress'].map((item) => (
-                  <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                  <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
                 ))}
               </div>
             </div>
-            <div className="rounded-[1.2rem] bg-sky-50 p-4">
-              <div className="text-sm font-semibold text-slate-800">Role-based tools</div>
+            <div className="rounded-[1.2rem] bg-blue-50 p-4">
+              <div className="text-sm font-semibold text-[#d6e2ef]">Role-based tools</div>
               <div className="mt-3 space-y-2">
                 {['Admin', 'Operations', 'Staff'].map((item) => (
-                  <div key={item} className="rounded-xl bg-white px-3 py-2 text-sm text-slate-600">{item}</div>
+                  <div key={item} className="rounded-xl bg-[#0D2345] px-3 py-2 text-sm text-[#C8D3E0]">{item}</div>
                 ))}
               </div>
             </div>
           </div>
-          <div className="rounded-[1.2rem] bg-white p-4 ring-1 ring-slate-100">
-            <div className="text-sm font-semibold text-slate-800">Record view</div>
-            <div className="mt-3 h-28 rounded-[1rem] bg-slate-50" />
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 ring-1 ring-white/10">
+            <div className="text-sm font-semibold text-[#d6e2ef]">Record view</div>
+            <div className="mt-3 h-28 rounded-[1rem] bg-[#0D2345]" />
           </div>
         </div>
       )
     case 'custom-software-tablet':
       return (
         <div className="grid gap-3 p-4 sm:grid-cols-2">
-          <div className="rounded-[1.2rem] bg-slate-50 p-4 text-sm text-slate-700">Client records</div>
-          <div className="rounded-[1.2rem] bg-sky-50 p-4 text-sm text-slate-700">Workflow approvals</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm text-[#d0dbea]">Client records</div>
+          <div className="rounded-[1.2rem] bg-blue-50 p-4 text-sm text-[#d0dbea]">Workflow approvals</div>
         </div>
       )
     case 'custom-software-mobile':
       return (
         <div className="space-y-3 p-4">
-          <div className="rounded-xl bg-slate-50 px-3 py-3 text-sm text-slate-700">Assigned task</div>
-          <div className="rounded-xl bg-white px-3 py-3 text-sm text-slate-700 ring-1 ring-slate-100">Status update</div>
+          <div className="rounded-xl bg-[#0D2345] px-3 py-3 text-sm text-[#d0dbea]">Assigned task</div>
+          <div className="rounded-xl bg-[#0D2345] px-3 py-3 text-sm text-[#d0dbea] ring-1 ring-white/10">Status update</div>
         </div>
       )
     case 'nightpal-support':
       return (
         <div className="grid gap-3 p-4 sm:grid-cols-2">
-          <div className="rounded-[1.2rem] bg-slate-50 p-4 text-sm text-slate-700">Trusted contacts</div>
-          <div className="rounded-[1.2rem] bg-sky-50 p-4 text-sm text-slate-700">Safety actions</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm text-[#d0dbea]">Trusted contacts</div>
+          <div className="rounded-[1.2rem] bg-blue-50 p-4 text-sm text-[#d0dbea]">Safety actions</div>
         </div>
       )
     case 'platemate-flow':
       return (
         <div className="grid gap-3 p-4 sm:grid-cols-3">
           {['Log meal', 'Review guidance', 'Track progress'].map((item) => (
-            <div key={item} className="rounded-[1.2rem] bg-slate-50 p-4 text-sm text-slate-700">{item}</div>
+            <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm text-[#d0dbea]">{item}</div>
           ))}
         </div>
       )
     case 'vault-admin':
       return (
         <div className="grid gap-3 p-4 sm:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-[1.2rem] bg-slate-50 p-4 text-sm text-slate-700">Catalogue management</div>
-          <div className="rounded-[1.2rem] bg-white p-4 ring-1 ring-slate-100 text-sm text-slate-700">Stock and order tools</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm text-[#d0dbea]">Catalogue management</div>
+          <div className="rounded-[1.2rem] bg-[#0D2345] p-4 ring-1 ring-white/10 text-sm text-[#d0dbea]">Stock and order tools</div>
         </div>
       )
     default:
-      return <div className="h-40 rounded-[1.4rem] bg-slate-50" />
+      return <div className="h-40 rounded-[1.4rem] bg-[#0D2345]" />
   }
 }
 
@@ -760,7 +788,7 @@ function MediaSlotLabel({ shot }) {
   }
 
   return (
-    <div className="mb-3 inline-flex rounded-full border border-dashed border-sky-300 bg-white px-3 py-1.5 text-xs font-semibold tracking-[0.12em] text-sky-700">
+    <div className="mb-3 inline-flex rounded-full border border-dashed border-[#168BFF]/40 bg-[#0D2345] px-3 py-1.5 text-xs font-semibold tracking-[0.12em] text-[#168BFF]">
       Add {shot.placeholderFileName}
     </div>
   )
@@ -771,35 +799,35 @@ function ServiceCard({ service, navigate, index, compact = false }) {
 
   return (
     <Reveal delay={index * 0.05}>
-      <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
+      <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-700">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#168BFF]">
             <Icon className="h-5 w-5" />
           </div>
-          <h2 className="font-display text-xl font-semibold text-slate-950">{service.title}</h2>
+          <h2 className="font-display text-xl font-semibold text-white">{service.title}</h2>
         </div>
-        <p className="mt-4 text-sm leading-7 text-slate-600">{service.summary}</p>
+        <p className="mt-4 text-sm leading-7 text-[#C8D3E0]">{service.summary}</p>
         {!compact ? (
           <div className="mt-6 grid gap-4 lg:grid-cols-3">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Who it is for</p>
-              <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-600">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9eb2c8]">Who it is for</p>
+              <ul className="mt-3 space-y-2 text-sm leading-7 text-[#C8D3E0]">
                 {service.whoFor.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Problems it solves</p>
-              <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-600">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9eb2c8]">Problems it solves</p>
+              <ul className="mt-3 space-y-2 text-sm leading-7 text-[#C8D3E0]">
                 {service.problems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Benefits</p>
-              <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-600">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9eb2c8]">Benefits</p>
+              <ul className="mt-3 space-y-2 text-sm leading-7 text-[#C8D3E0]">
                 {service.benefits.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -807,17 +835,14 @@ function ServiceCard({ service, navigate, index, compact = false }) {
             </div>
           </div>
         ) : null}
-        <div className="mt-6 flex flex-wrap gap-3">
-          <LinkButton to={`/services/${service.slug}`} navigate={navigate} variant="secondary" className="px-5 py-3">
-            Learn More
-          </LinkButton>
-          {service.flagshipPath ? (
+        {service.flagshipPath ? (
+          <div className="mt-6 flex flex-wrap gap-3">
             <LinkButton to={service.flagshipPath} navigate={navigate} variant="ghost" className="px-0 py-3">
               Flagship booking journey
               <ChevronRight className="ml-2 h-4 w-4" />
             </LinkButton>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
       </article>
     </Reveal>
   )
@@ -828,24 +853,24 @@ function ProjectCard({ project, navigate, index, compact = false, onOpenImage })
 
   return (
     <Reveal delay={index * 0.04}>
-      <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.06)]">
-        <div className="bg-slate-50 p-4">
+      <article className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0D2345] shadow-[0_20px_50px_rgba(5,15,35,0.35)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_30px_68px_rgba(22,156,255,0.16)]">
+        <div className="bg-[#0D2345] p-4">
           <MediaSlotLabel shot={primaryShot} />
           <DeviceMock shot={primaryShot} onOpenImage={onOpenImage} />
         </div>
         <div className="p-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">{project.industry}</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold text-slate-950">{project.title}</h2>
-          <p className="mt-3 text-sm leading-7 text-slate-600">{project.overview}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#168BFF]">{project.industry}</p>
+          <h2 className="mt-2 font-display text-2xl font-semibold text-white">{project.title}</h2>
+          <p className="mt-3 text-sm leading-7 text-[#C8D3E0]">{project.overview}</p>
           {!compact ? (
             <div className="mt-5 grid gap-4 lg:grid-cols-2">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Problem</p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">{project.problem}</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9eb2c8]">Problem</p>
+                <p className="mt-2 text-sm leading-7 text-[#C8D3E0]">{project.problem}</p>
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Features</p>
-                <ul className="mt-2 space-y-2 text-sm leading-7 text-slate-600">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9eb2c8]">Features</p>
+                <ul className="mt-2 space-y-2 text-sm leading-7 text-[#C8D3E0]">
                   {project.features.slice(0, 3).map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -869,15 +894,15 @@ function PortfolioPreviewTile({ project, navigate, index, onOpenImage }) {
 
   return (
     <Reveal delay={index * 0.05}>
-      <article className="overflow-hidden rounded-[1.8rem] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-        <div className="bg-slate-50 p-3">
+      <article className="overflow-hidden rounded-[1.8rem] border border-white/10 bg-[#0D2345] shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+        <div className="bg-[#0D2345] p-3">
           <MediaSlotLabel shot={primaryShot} />
           <DeviceMock shot={primaryShot} onOpenImage={onOpenImage} />
         </div>
         <div className="flex items-center justify-between gap-3 px-5 py-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-600">{project.industry}</p>
-            <h2 className="mt-1 font-display text-lg font-semibold text-slate-950">{project.title}</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#168BFF]">{project.industry}</p>
+            <h2 className="mt-1 font-display text-lg font-semibold text-white">{project.title}</h2>
           </div>
           <LinkButton to={`/portfolio/${project.slug}`} navigate={navigate} variant="ghost" className="px-0 py-2">
             Open
@@ -892,10 +917,10 @@ function PortfolioPreviewTile({ project, navigate, index, onOpenImage }) {
 function ArticleCard({ post, navigate, index }) {
   return (
     <Reveal delay={index * 0.05}>
-      <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">{post.category}</p>
-        <h2 className="mt-3 font-display text-2xl font-semibold text-slate-950">{post.title}</h2>
-        <p className="mt-3 text-sm leading-7 text-slate-600">{post.excerpt}</p>
+      <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#168BFF]">{post.category}</p>
+        <h2 className="mt-3 font-display text-2xl font-semibold text-white">{post.title}</h2>
+        <p className="mt-3 text-sm leading-7 text-[#C8D3E0]">{post.excerpt}</p>
         <div className="mt-6">
           <LinkButton to={`/blog/${post.slug}`} navigate={navigate} variant="secondary" className="px-5 py-3">
             Read Article
@@ -909,10 +934,10 @@ function ArticleCard({ post, navigate, index }) {
 function IndustryCard({ industry, navigate, index }) {
   return (
     <Reveal delay={index * 0.05}>
-      <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">Industry focus</p>
-        <h2 className="mt-3 font-display text-2xl font-semibold text-slate-950">{industry.title}</h2>
-        <p className="mt-3 text-sm leading-7 text-slate-600">{industry.summary}</p>
+      <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#168BFF]">Industry focus</p>
+        <h2 className="mt-3 font-display text-2xl font-semibold text-white">{industry.title}</h2>
+        <p className="mt-3 text-sm leading-7 text-[#C8D3E0]">{industry.summary}</p>
         <div className="mt-6">
           <LinkButton to={`/industries/${industry.slug}`} navigate={navigate} variant="secondary" className="px-5 py-3">
             See Industry Detail
@@ -953,49 +978,49 @@ function QuoteForm() {
     <form
       action={`https://formsubmit.co/${emailAddress}`}
       method="POST"
-      className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.06)] sm:p-7"
+      className="rounded-[2rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_20px_50px_rgba(5,15,35,0.35)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_30px_68px_rgba(22,156,255,0.16)] sm:p-7"
     >
       <input type="hidden" name="_subject" value="New GB Digital Solutions enquiry" />
       <input type="hidden" name="_captcha" value="false" />
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">Get free quote</p>
-          <h2 className="mt-2 font-display text-3xl font-semibold text-slate-950">Tell George what you need</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#168BFF]">Get free quote</p>
+          <h2 className="mt-2 font-display text-3xl font-semibold text-white">Tell George what you need</h2>
         </div>
-        <BriefcaseBusiness className="mt-1 h-6 w-6 text-sky-600" />
+        <BriefcaseBusiness className="mt-1 h-6 w-6 text-[#168BFF]" />
       </div>
-      <p className="mt-4 text-sm leading-7 text-slate-600">
+      <p className="mt-4 text-sm leading-7 text-[#C8D3E0]">
         Send this form directly via FormSubmit or use WhatsApp with the same enquiry details.
       </p>
       <div className="mt-8 grid gap-5 md:grid-cols-2">
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
+        <label className="grid gap-2 text-sm font-medium text-[#d0dbea]">
           Name
-          <input required name="name" type="text" value={formState.name} onChange={handleChange('name')} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="Your name" />
+          <input required name="name" type="text" value={formState.name} onChange={handleChange('name')} className="rounded-2xl border border-white/10 px-4 py-3 outline-none transition focus:border-[#168BFF]/60 focus:ring-4 focus:ring-[#168BFF]/20" placeholder="Your name" />
         </label>
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
+        <label className="grid gap-2 text-sm font-medium text-[#d0dbea]">
           Business
-          <input required name="business" type="text" value={formState.business} onChange={handleChange('business')} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="Business name" />
+          <input required name="business" type="text" value={formState.business} onChange={handleChange('business')} className="rounded-2xl border border-white/10 px-4 py-3 outline-none transition focus:border-[#168BFF]/60 focus:ring-4 focus:ring-[#168BFF]/20" placeholder="Business name" />
         </label>
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
+        <label className="grid gap-2 text-sm font-medium text-[#d0dbea]">
           Email
-          <input required name="email" type="email" value={formState.email} onChange={handleChange('email')} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="you@business.com" />
+          <input required name="email" type="email" value={formState.email} onChange={handleChange('email')} className="rounded-2xl border border-white/10 px-4 py-3 outline-none transition focus:border-[#168BFF]/60 focus:ring-4 focus:ring-[#168BFF]/20" placeholder="you@business.com" />
         </label>
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
+        <label className="grid gap-2 text-sm font-medium text-[#d0dbea]">
           Service
-          <select name="service" value={formState.service} onChange={handleChange('service')} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100">
+          <select name="service" value={formState.service} onChange={handleChange('service')} className="rounded-2xl border border-white/10 px-4 py-3 outline-none transition focus:border-[#168BFF]/60 focus:ring-4 focus:ring-[#168BFF]/20">
             {servicePages.map((service) => (
               <option key={service.slug} value={service.title}>{service.title}</option>
             ))}
           </select>
         </label>
-        <label className="grid gap-2 text-sm font-medium text-slate-700 md:col-span-2">
+        <label className="grid gap-2 text-sm font-medium text-[#d0dbea] md:col-span-2">
           Brief
-          <textarea required name="brief" rows={6} value={formState.brief} onChange={handleChange('brief')} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="What do you need, what is causing friction, and what would a better outcome look like?" />
+          <textarea required name="brief" rows={6} value={formState.brief} onChange={handleChange('brief')} className="rounded-2xl border border-white/10 px-4 py-3 outline-none transition focus:border-[#168BFF]/60 focus:ring-4 focus:ring-[#168BFF]/20" placeholder="What do you need, what is causing friction, and what would a better outcome look like?" />
         </label>
       </div>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <button type="submit" className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-sky-200 transition hover:bg-sky-700">
+          <button type="submit" className="inline-flex items-center justify-center rounded-full bg-[#0E5FA8] px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-[#0E5FA8]/30 transition hover:bg-[#0B4B87]">
             Send Enquiry
             <ArrowRight className="ml-2 h-4 w-4" />
           </button>
@@ -1003,13 +1028,13 @@ function QuoteForm() {
             href={whatsappFormLink}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-6 py-4 text-sm font-semibold !text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600"
+            className="inline-flex items-center justify-center rounded-full bg-[#0F7A45] px-6 py-4 text-sm font-semibold !text-white shadow-lg shadow-[#0F7A45]/30 transition hover:bg-[#0C6338]"
           >
             Send on WhatsApp ({whatsappNumberLocal})
             <PhoneCall className="ml-2 h-4 w-4" />
           </a>
         </div>
-        <div className="flex items-center gap-2 text-sm text-slate-500">
+        <div className="flex items-center gap-2 text-sm text-[#9eb2c8]">
           <Clock3 className="h-4 w-4" />
           FormSubmit sends to {emailAddress}.
         </div>
@@ -1019,110 +1044,138 @@ function QuoteForm() {
 }
 
 function HomePage({ navigate, onOpenImage }) {
-  const featuredServices = homeContent.featuredServiceSlugs.map(getServiceBySlug).filter(Boolean)
-  const featuredProjects = homeContent.featuredProjectSlugs.map(getProjectBySlug).filter(Boolean)
-  const latestProject = getProjectBySlug(homeContent.latestProjectSlug)
+  const featuredProjects = ['restaurant-website', 'tradesman-website', 'booking-system']
+    .map(getProjectBySlug)
+    .filter(Boolean)
+
+  const servicesPreview = [
+    {
+      title: 'Website Design',
+      summary: 'Premium websites built for trust, speed and conversion.',
+      icon: Globe,
+    },
+    {
+      title: 'Mobile Apps',
+      summary: 'iOS and Android experiences designed around real workflows.',
+      icon: Smartphone,
+    },
+    {
+      title: 'AI Integration',
+      summary: 'Practical AI features for support, bookings and lead handling.',
+      icon: Bot,
+    },
+    {
+      title: 'Business Automation',
+      summary: 'Automations that remove repetitive admin and manual follow-up.',
+      icon: Workflow,
+    },
+  ]
+
+  const whyPoints = ['Custom Built', 'Fast Performance', 'AI Powered', 'Ongoing Support']
 
   return (
     <>
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.14),_transparent_28%),linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-14 sm:px-6 lg:grid-cols-[1fr_0.95fr] lg:px-8 lg:pb-24 lg:pt-20">
-          <Reveal className="max-w-2xl self-center">
-            <p className="font-display text-sm font-semibold uppercase tracking-[0.28em] text-sky-600">{homeContent.hero.eyebrow}</p>
-            <h1 className="mt-6 text-4xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-6xl lg:text-7xl">{homeContent.hero.title}</h1>
-            <p className="mt-6 max-w-xl text-base leading-8 text-slate-600 sm:text-xl">{homeContent.hero.description}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <LinkButton to={homeContent.hero.primaryCta.path} navigate={navigate} variant="primary">
-                {homeContent.hero.primaryCta.label}
+      <section className="relative flex min-h-[calc(100vh-72px)] items-center overflow-hidden bg-[#0B1220]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(22,139,255,0.32),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(22,139,255,0.18),transparent_32%),linear-gradient(160deg,#0b1220_0%,#121b30_60%,#0b1220_100%)]" />
+        <motion.div
+          className="pointer-events-none absolute -left-20 top-14 h-60 w-60 rounded-full bg-[#168BFF]/25 blur-3xl"
+          animate={{ x: [0, 18, 0], y: [0, -14, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-[#168BFF]/20 blur-3xl"
+          animate={{ x: [0, -20, 0], y: [0, 12, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <Reveal className="mx-auto max-w-4xl text-center">
+            <div className="mx-auto flex w-fit items-center justify-center rounded-[2rem] border border-white/15 bg-[#0D2345]/5 p-4 shadow-[0_22px_60px_rgba(22,139,255,0.3)]">
+              <BrandLogo large className="h-24 w-24 rounded-[1.5rem]" />
+            </div>
+            <h1 className="mt-8 text-4xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+              Websites, Apps and AI that help businesses grow.
+            </h1>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-[#C8D3E0] sm:text-lg">
+              We build premium websites, mobile apps, AI tools and automation designed to save time, win customers and simplify your business.
+            </p>
+            <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+              <LinkButton to="/contact" navigate={navigate} variant="primary" className="px-7 py-4">
+                Get Free Quote
               </LinkButton>
-              <LinkButton to={homeContent.hero.secondaryCta.path} navigate={navigate} variant="secondary">
-                {homeContent.hero.secondaryCta.label}
+              <LinkButton to="/portfolio" navigate={navigate} variant="secondary" className="border-white/25 bg-[#0D2345]/10 text-white hover:bg-[#0D2345]/15 hover:text-white">
+                View Portfolio
               </LinkButton>
             </div>
           </Reveal>
-          <Reveal delay={0.08} className="self-center">
-            <BrowserFrame>
-              <MockInterface mock="website-agency" />
-            </BrowserFrame>
-          </Reveal>
         </div>
       </section>
 
       <section className="py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle eyebrow="Introduction" title={homeContent.intro.title} description={homeContent.intro.description} />
+            <SectionTitle
+              eyebrow="Featured Work"
+              title="Featured Projects"
+              description="A quick look at polished build quality before you dive into the full portfolio."
+            />
           </Reveal>
-          <div className="mt-10 grid gap-4 lg:grid-cols-3">
-            {homeContent.intro.points.map((item, index) => (
-              <Reveal key={item} delay={index * 0.05}>
-                <article className="rounded-[1.7rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-                  <CheckCircle2 className="h-6 w-6 text-sky-600" />
-                  <p className="mt-4 text-base leading-8 text-slate-600">{item}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-slate-50 py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <Reveal>
-              <SectionTitle eyebrow="Featured services" title="Choose the right build for the bottleneck slowing growth." description="Start with the clearest need now, then expand into automation, booking or software when the business is ready." />
-            </Reveal>
-            <Reveal delay={0.06}>
-              <LinkButton to="/services" navigate={navigate} variant="ghost" className="px-0 py-3">
-                View All Services
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </LinkButton>
-            </Reveal>
-          </div>
-          <div className="mt-12 grid gap-6 xl:grid-cols-3">
-            {featuredServices.map((service, index) => (
-              <ServiceCard key={service.slug} service={service} navigate={navigate} index={index} compact />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <Reveal>
-              <SectionTitle eyebrow="Featured portfolio" title="See real examples before starting the conversation." description="Proof of capability matters more than filler, so the work is easy to reach and easy to scan." />
-            </Reveal>
-            <Reveal delay={0.06}>
-              <LinkButton to="/portfolio" navigate={navigate} variant="ghost" className="px-0 py-3">
-                View All Case Studies
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </LinkButton>
-            </Reveal>
-          </div>
           <div className="mt-12 grid gap-8 xl:grid-cols-3">
-            {featuredProjects.map((project, index) => (
-              <ProjectCard key={project.slug} project={project} navigate={navigate} index={index} compact />
-            ))}
+            {featuredProjects.map((project, index) => {
+              const primaryShot = project.gallery[0]
+
+              return (
+                <Reveal key={project.slug} delay={index * 0.05}>
+                  <article className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0D2345] shadow-[0_20px_50px_rgba(5,15,35,0.35)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_30px_68px_rgba(22,156,255,0.16)]">
+                    <div className="bg-[#0D2345] p-4">
+                      <DeviceMock shot={primaryShot} onOpenImage={onOpenImage} />
+                    </div>
+                    <div className="p-6">
+                      <h2 className="font-display text-2xl font-semibold text-white">{project.title}</h2>
+                      <p className="mt-3 text-sm leading-7 text-[#C8D3E0]">{project.overview}</p>
+                      <div className="mt-6">
+                        <LinkButton to={`/portfolio/${project.slug}`} navigate={navigate} variant="secondary" className="px-5 py-3">
+                          View Project
+                        </LinkButton>
+                      </div>
+                    </div>
+                  </article>
+                </Reveal>
+              )
+            })}
           </div>
+          <Reveal delay={0.12} className="mt-10 flex justify-center sm:justify-start">
+            <LinkButton to="/portfolio" navigate={navigate} variant="primary" className="px-6 py-4">
+              View Full Portfolio
+            </LinkButton>
+          </Reveal>
         </div>
       </section>
 
-      <section className="bg-slate-50 py-20 sm:py-24">
+      <section className="bg-[#0D2345] py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle eyebrow="Why choose us" title="Work directly with a developer focused on useful outcomes, not agency theatre." description="Every part of the engagement stays tied to clarity, execution and a practical next step for the business." />
+            <SectionTitle
+              eyebrow="Services"
+              title="Services Preview"
+              description="A concise overview of the core build capabilities."
+            />
           </Reveal>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {homeContent.whyChooseUs.map((item, index) => (
-              <Reveal key={item.title} delay={index * 0.05}>
-                <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-                  <h2 className="font-display text-2xl font-semibold text-slate-950">{item.title}</h2>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
-                </article>
-              </Reveal>
-            ))}
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {servicesPreview.map((item, index) => {
+              const Icon = item.icon
+
+              return (
+                <Reveal key={item.title} delay={index * 0.05}>
+                  <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#168BFF]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h2 className="mt-5 font-display text-xl font-semibold text-white">{item.title}</h2>
+                    <p className="mt-3 text-sm leading-7 text-[#C8D3E0]">{item.summary}</p>
+                  </article>
+                </Reveal>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -1130,74 +1183,48 @@ function HomePage({ navigate, onOpenImage }) {
       <section className="py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle eyebrow="Testimonials" title="Client feedback belongs here once approved, not invented for decoration." description="Approved testimonials or message screenshots can be dropped into these slots without changing the structure." />
+            <SectionTitle
+              eyebrow="Why GB Digital Solutions"
+              title="Built for growth"
+              description=""
+            />
           </Reveal>
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            {homeContent.testimonials.map((item, index) => (
-              <Reveal key={`${item.title}-${index}`} delay={index * 0.05}>
-                <article className="rounded-[1.8rem] border border-dashed border-slate-300 bg-slate-50 p-6">
-                  <div className="flex items-center gap-1 text-slate-300">
-                    {[1, 2, 3, 4, 5].map((value) => (
-                      <Star key={value} className="h-4 w-4" />
-                    ))}
-                  </div>
-                  <h2 className="mt-4 font-display text-xl font-semibold text-slate-900">{item.title}</h2>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {latestProject ? (
-        <section className="bg-slate-50 py-20 sm:py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-            <Reveal>
-              <SectionTitle eyebrow="Latest project" title={latestProject.title} description={latestProject.overview} />
-            </Reveal>
-            <div className="mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-              <Reveal>
-                <BrowserFrame>
-                  <DeviceMock shot={latestProject.gallery[0]} onOpenImage={onOpenImage} />
-                </BrowserFrame>
-              </Reveal>
-              <Reveal delay={0.06} className="self-center">
-                <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)] sm:p-8">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">{latestProject.industry}</p>
-                  <h2 className="mt-3 font-display text-3xl font-semibold text-slate-950">{latestProject.title}</h2>
-                  <p className="mt-4 text-base leading-8 text-slate-600">{latestProject.solution}</p>
-                  <div className="mt-6">
-                    <LinkButton to={`/portfolio/${latestProject.slug}`} navigate={navigate} variant="dark">
-                      View Case Study
-                    </LinkButton>
-                  </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {whyPoints.map((point, index) => (
+              <Reveal key={point} delay={index * 0.04}>
+                <div className="flex items-center gap-3 rounded-[1.3rem] border border-white/10 bg-[#0D2345] px-5 py-4 shadow-sm">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                  <span className="text-sm font-semibold text-[#d6e2ef]">{point}</span>
                 </div>
               </Reveal>
-            </div>
+            ))}
           </div>
-        </section>
-      ) : null}
+          <Reveal delay={0.12} className="mt-8">
+            <LinkButton to="/about" navigate={navigate} variant="secondary" className="px-6 py-4">
+              About George
+            </LinkButton>
+          </Reveal>
+        </div>
+      </section>
 
-      <section className="py-20 sm:py-24">
+      <section className="pb-20 sm:pb-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
           <Reveal>
-            <div className="rounded-[2.3rem] border border-slate-200 bg-slate-950 px-6 py-12 text-white shadow-[0_35px_90px_rgba(15,23,42,0.18)] sm:px-10 lg:px-14">
-              <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-                <div className="max-w-2xl">
-                  <p className="font-display text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">Get started</p>
-                  <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">{homeContent.finalCta.title}</h2>
-                  <p className="mt-4 text-base leading-8 text-slate-300 sm:text-lg">{homeContent.finalCta.description}</p>
-                </div>
-                <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-                  <LinkButton to={homeContent.finalCta.primaryCta.path} navigate={navigate} variant="secondary" className="px-6 py-4">
-                    {homeContent.finalCta.primaryCta.label}
-                  </LinkButton>
-                  <LinkButton to={homeContent.finalCta.secondaryCta.path} navigate={navigate} variant="ghost" className="px-0 py-4 text-white hover:text-cyan-300">
-                    {homeContent.finalCta.secondaryCta.label}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </LinkButton>
-                </div>
+            <div className="rounded-[2.2rem] border border-[#1d2c4a] bg-[#0B1220] px-6 py-12 text-white shadow-[0_35px_90px_rgba(11,18,32,0.4)] sm:px-10">
+              <p className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-[#7eb8ff]">Ready to build your next project?</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Start with a focused conversation.</h2>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <LinkButton to="/contact" navigate={navigate} variant="primary" className="px-6 py-4">
+                  Get Free Quote
+                </LinkButton>
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-[#0F7A45] px-6 py-4 text-sm font-semibold text-white transition hover:bg-[#0C6338]"
+                >
+                  WhatsApp
+                </a>
               </div>
             </div>
           </Reveal>
@@ -1215,31 +1242,31 @@ function AboutPage({ navigate }) {
       </Reveal>
       <div className="mt-12 grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
         <Reveal>
-          <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0D2345] shadow-[0_24px_60px_rgba(5,15,35,0.35)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_32px_72px_rgba(22,156,255,0.16)]">
             <img src={aboutPortrait} alt="Professional headshot" loading="lazy" className="h-full w-full object-cover" />
           </div>
         </Reveal>
         <div className="grid gap-6">
           <Reveal delay={0.04}>
-            <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-              <h2 className="font-display text-2xl font-semibold text-slate-950">Who I am</h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">{aboutContent.whoIAm}</p>
+            <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+              <h2 className="font-display text-2xl font-semibold text-white">Who I am</h2>
+              <p className="mt-4 text-base leading-8 text-[#C8D3E0]">{aboutContent.whoIAm}</p>
             </article>
           </Reveal>
           <Reveal delay={0.08}>
-            <article className="rounded-[1.8rem] border border-slate-200 bg-slate-50 p-6">
-              <h2 className="font-display text-2xl font-semibold text-slate-950">My journey</h2>
+            <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
+              <h2 className="font-display text-2xl font-semibold text-white">My journey</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {aboutContent.journey.map((item) => (
-                  <div key={item} className="rounded-[1.2rem] bg-white p-4 shadow-sm ring-1 ring-slate-100 text-sm text-slate-700">{item}</div>
+                  <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4 shadow-sm ring-1 ring-white/10 text-sm text-[#d0dbea]">{item}</div>
                 ))}
               </div>
             </article>
           </Reveal>
           <Reveal delay={0.12}>
-            <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-              <h2 className="font-display text-2xl font-semibold text-slate-950">Why I started GB Digital Solutions</h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">{aboutContent.whyStarted}</p>
+            <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+              <h2 className="font-display text-2xl font-semibold text-white">Why I started GB Digital Solutions</h2>
+              <p className="mt-4 text-base leading-8 text-[#C8D3E0]">{aboutContent.whyStarted}</p>
             </article>
           </Reveal>
         </div>
@@ -1247,26 +1274,26 @@ function AboutPage({ navigate }) {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <Reveal>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">My values</h2>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">My values</h2>
             <div className="mt-4 space-y-4">
               {aboutContent.values.map((item) => (
-                <div key={item.title} className="rounded-[1.2rem] bg-slate-50 p-4">
-                  <h3 className="text-base font-semibold text-slate-900">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">{item.description}</p>
+                <div key={item.title} className="rounded-[1.2rem] bg-[#0D2345] p-4">
+                  <h3 className="text-base font-semibold text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-[#C8D3E0]">{item.description}</p>
                 </div>
               ))}
             </div>
           </article>
         </Reveal>
         <Reveal delay={0.05}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">How I work with clients</h2>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">How I work with clients</h2>
             <div className="mt-4 space-y-4">
               {aboutContent.workStyle.map((item) => (
-                <div key={item} className="flex items-start gap-3 rounded-[1.2rem] bg-slate-50 p-4">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-sky-600" />
-                  <p className="text-sm leading-7 text-slate-600">{item}</p>
+                <div key={item} className="flex items-start gap-3 rounded-[1.2rem] bg-[#0D2345] p-4">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#168BFF]" />
+                  <p className="text-sm leading-7 text-[#C8D3E0]">{item}</p>
                 </div>
               ))}
             </div>
@@ -1275,13 +1302,13 @@ function AboutPage({ navigate }) {
       </div>
 
       <Reveal delay={0.08} className="mt-10">
-        <article className="rounded-[1.8rem] border border-slate-200 bg-slate-50 p-6">
-          <h2 className="font-display text-2xl font-semibold text-slate-950">Timeline of experience</h2>
+        <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
+          <h2 className="font-display text-2xl font-semibold text-white">Timeline of experience</h2>
           <div className="mt-6 grid gap-4 lg:grid-cols-4">
             {aboutContent.timeline.map((item) => (
-              <div key={item.label} className="rounded-[1.3rem] bg-white p-5 shadow-sm ring-1 ring-slate-100">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">{item.label}</p>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{item.detail}</p>
+              <div key={item.label} className="rounded-[1.3rem] bg-[#0D2345] p-5 shadow-sm ring-1 ring-white/10">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#168BFF]">{item.label}</p>
+                <p className="mt-3 text-sm leading-7 text-[#C8D3E0]">{item.detail}</p>
               </div>
             ))}
           </div>
@@ -1289,11 +1316,11 @@ function AboutPage({ navigate }) {
       </Reveal>
 
       <Reveal delay={0.12} className="mt-10">
-        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)] sm:p-8">
+        <div className="rounded-[2rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)] sm:p-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
-              <h2 className="font-display text-2xl font-semibold text-slate-950">See how that experience translates into real build work.</h2>
-              <p className="mt-3 text-base leading-8 text-slate-600">The strongest next step is to look at the case studies and see how the thinking shows up in real project outputs.</p>
+              <h2 className="font-display text-2xl font-semibold text-white">See how that experience translates into real build work.</h2>
+              <p className="mt-3 text-base leading-8 text-[#C8D3E0]">The strongest next step is to look at the case studies and see how the thinking shows up in real project outputs.</p>
             </div>
             <LinkButton to={aboutContent.cta.path} navigate={navigate} variant="dark">
               {aboutContent.cta.label}
@@ -1348,9 +1375,9 @@ function CaseStudyPage({ navigate, project, onOpenImage }) {
           ['Technologies', project.technologies.join(', ')],
         ].map(([label, value], index) => (
           <Reveal key={label} delay={index * 0.04}>
-            <article className="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">{label}</p>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{value}</p>
+            <article className="rounded-[1.6rem] border border-white/10 bg-[#0D2345] p-5 shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#168BFF]">{label}</p>
+              <p className="mt-3 text-sm leading-7 text-[#C8D3E0]">{value}</p>
             </article>
           </Reveal>
         ))}
@@ -1358,33 +1385,33 @@ function CaseStudyPage({ navigate, project, onOpenImage }) {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <Reveal>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Problem</h2>
-            <p className="mt-4 text-base leading-8 text-slate-600">{project.problem}</p>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Problem</h2>
+            <p className="mt-4 text-base leading-8 text-[#C8D3E0]">{project.problem}</p>
           </article>
         </Reveal>
         <Reveal delay={0.05}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Solution</h2>
-            <p className="mt-4 text-base leading-8 text-slate-600">{project.solution}</p>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Solution</h2>
+            <p className="mt-4 text-base leading-8 text-[#C8D3E0]">{project.solution}</p>
           </article>
         </Reveal>
       </div>
 
       <Reveal delay={0.08} className="mt-10">
-        <article className="rounded-[1.8rem] border border-slate-200 bg-slate-50 p-6">
-          <h2 className="font-display text-2xl font-semibold text-slate-950">Features</h2>
+        <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
+          <h2 className="font-display text-2xl font-semibold text-white">Features</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {project.features.map((item) => (
-              <div key={item} className="rounded-[1.2rem] bg-white p-4 shadow-sm ring-1 ring-slate-100 text-sm text-slate-700">{item}</div>
+              <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4 shadow-sm ring-1 ring-white/10 text-sm text-[#d0dbea]">{item}</div>
             ))}
           </div>
         </article>
       </Reveal>
 
       <Reveal delay={0.1} className="mt-10">
-        <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-          <h2 className="font-display text-2xl font-semibold text-slate-950">Image gallery</h2>
+        <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+          <h2 className="font-display text-2xl font-semibold text-white">Image gallery</h2>
           <div className="mt-6 grid gap-6 lg:grid-cols-3">
             {project.gallery.map((shot, index) => (
               <Reveal key={`${project.slug}-${index}`} delay={index * 0.05}>
@@ -1397,12 +1424,12 @@ function CaseStudyPage({ navigate, project, onOpenImage }) {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <Reveal>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Results</h2>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Results</h2>
             <ul className="mt-4 space-y-3">
               {project.results.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm leading-7 text-slate-600">
-                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-sky-600" />
+                <li key={item} className="flex items-start gap-3 text-sm leading-7 text-[#C8D3E0]">
+                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#168BFF]" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -1410,12 +1437,12 @@ function CaseStudyPage({ navigate, project, onOpenImage }) {
           </article>
         </Reveal>
         <Reveal delay={0.05}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Lessons learned</h2>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Lessons learned</h2>
             <ul className="mt-4 space-y-3">
               {project.lessons.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm leading-7 text-slate-600">
-                  <Sparkles className="mt-1 h-4 w-4 shrink-0 text-sky-600" />
+                <li key={item} className="flex items-start gap-3 text-sm leading-7 text-[#C8D3E0]">
+                  <Sparkles className="mt-1 h-4 w-4 shrink-0 text-[#168BFF]" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -1425,11 +1452,11 @@ function CaseStudyPage({ navigate, project, onOpenImage }) {
       </div>
 
       <Reveal delay={0.12} className="mt-10">
-        <div className="rounded-[2rem] border border-slate-200 bg-slate-950 px-6 py-10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:px-8">
+        <div className="rounded-[2rem] border border-white/10 bg-[#081A33] px-6 py-10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:px-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <h2 className="font-display text-2xl font-semibold">Start a similar project with a clearer first step.</h2>
-              <p className="mt-3 text-base leading-8 text-slate-300">The next conversation can focus on the customer journey, operational bottleneck or product idea that matters most right now.</p>
+              <p className="mt-3 text-base leading-8 text-[#C8D3E0]">The next conversation can focus on the customer journey, operational bottleneck or product idea that matters most right now.</p>
             </div>
             <LinkButton to="/contact" navigate={navigate} variant="secondary">
               Get Free Quote
@@ -1469,12 +1496,12 @@ function ServiceDetailPage({ navigate, service, onOpenImage }) {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-3">
         <Reveal>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Who it is for</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Who it is for</h2>
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-[#C8D3E0]">
               {service.whoFor.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-sky-600" />
+                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#168BFF]" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -1482,9 +1509,9 @@ function ServiceDetailPage({ navigate, service, onOpenImage }) {
           </article>
         </Reveal>
         <Reveal delay={0.05}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Problems it solves</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Problems it solves</h2>
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-[#C8D3E0]">
               {service.problems.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -1492,9 +1519,9 @@ function ServiceDetailPage({ navigate, service, onOpenImage }) {
           </article>
         </Reveal>
         <Reveal delay={0.1}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Benefits</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Benefits</h2>
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-[#C8D3E0]">
               {service.benefits.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -1504,8 +1531,8 @@ function ServiceDetailPage({ navigate, service, onOpenImage }) {
       </div>
 
       <Reveal delay={0.12} className="mt-10">
-        <article className="rounded-[1.8rem] border border-slate-200 bg-slate-50 p-6">
-          <h2 className="font-display text-2xl font-semibold text-slate-950">Example screenshots</h2>
+        <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
+          <h2 className="font-display text-2xl font-semibold text-white">Example screenshots</h2>
           <div className="mt-6 grid gap-6 lg:grid-cols-3">
             {service.gallery.map((shot, index) => (
               <Reveal key={`${service.slug}-${index}`} delay={index * 0.05}>
@@ -1518,26 +1545,26 @@ function ServiceDetailPage({ navigate, service, onOpenImage }) {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <Reveal>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Process</h2>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Process</h2>
             <div className="mt-4 space-y-3">
               {service.process.map((item, index) => (
-                <div key={item} className="flex items-start gap-3 rounded-[1.2rem] bg-slate-50 p-4">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-600 text-sm font-semibold text-white">{index + 1}</div>
-                  <p className="text-sm leading-7 text-slate-600">{item}</p>
+                <div key={item} className="flex items-start gap-3 rounded-[1.2rem] bg-[#0D2345] p-4">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#168BFF] text-sm font-semibold text-white">{index + 1}</div>
+                  <p className="text-sm leading-7 text-[#C8D3E0]">{item}</p>
                 </div>
               ))}
             </div>
           </article>
         </Reveal>
         <Reveal delay={0.05}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Frequently asked questions</h2>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Frequently asked questions</h2>
             <div className="mt-4 space-y-4">
               {service.faqs.map((item) => (
-                <div key={item.q} className="rounded-[1.2rem] bg-slate-50 p-4">
-                  <h3 className="text-base font-semibold text-slate-900">{item.q}</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">{item.a}</p>
+                <div key={item.q} className="rounded-[1.2rem] bg-[#0D2345] p-4">
+                  <h3 className="text-base font-semibold text-white">{item.q}</h3>
+                  <p className="mt-2 text-sm leading-7 text-[#C8D3E0]">{item.a}</p>
                 </div>
               ))}
             </div>
@@ -1546,18 +1573,18 @@ function ServiceDetailPage({ navigate, service, onOpenImage }) {
       </div>
 
       <Reveal delay={0.1} className="mt-10">
-        <div className="rounded-[2rem] border border-slate-200 bg-slate-950 px-6 py-10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:px-8">
+        <div className="rounded-[2rem] border border-white/10 bg-[#081A33] px-6 py-10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:px-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <h2 className="font-display text-2xl font-semibold">Turn this service into a concrete project brief.</h2>
-              <p className="mt-3 text-base leading-8 text-slate-300">The next step is a direct conversation about fit, scope and the fastest useful version to build first.</p>
+              <p className="mt-3 text-base leading-8 text-[#C8D3E0]">The next step is a direct conversation about fit, scope and the fastest useful version to build first.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <LinkButton to="/contact" navigate={navigate} variant="secondary">
                 Get Free Quote
               </LinkButton>
               {service.flagshipPath ? (
-                <LinkButton to={service.flagshipPath} navigate={navigate} variant="ghost" className="text-white hover:text-cyan-300">
+                <LinkButton to={service.flagshipPath} navigate={navigate} variant="ghost" className="text-white hover:text-[#7eb8ff]">
                   View Flagship Journey
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </LinkButton>
@@ -1581,13 +1608,13 @@ function BookingLandingPage({ navigate, onOpenImage }) {
 
       <div className="mt-12 grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
         <Reveal>
-          <article className="rounded-[2rem] border border-slate-200 bg-slate-950 p-6 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:p-7">
+          <article className="rounded-[2rem] border border-white/10 bg-[#081A33] p-6 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:p-7">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">Workflow</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-[#7eb8ff]">Workflow</p>
                 <h2 className="mt-2 font-display text-2xl font-semibold">From settings to confirmed booking</h2>
               </div>
-              <CalendarCheck2 className="h-6 w-6 text-cyan-300" />
+              <CalendarCheck2 className="h-6 w-6 text-[#7eb8ff]" />
             </div>
             <div className="mt-6 space-y-4">
               {[
@@ -1600,8 +1627,8 @@ function BookingLandingPage({ navigate, onOpenImage }) {
                 'Diary is updated.',
                 'Staff are notified.',
               ].map((item, index) => (
-                <div key={item} className="flex items-start gap-4 rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cyan-300/15 text-sm font-semibold text-cyan-200">{index + 1}</div>
+                <div key={item} className="flex items-start gap-4 rounded-[1.3rem] border border-white/10 bg-[#0D2345]/5 px-4 py-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#168BFF]/20 text-sm font-semibold text-[#8fc2ff]">{index + 1}</div>
                   <p className="text-sm leading-7 text-slate-100">{item}</p>
                 </div>
               ))}
@@ -1611,18 +1638,18 @@ function BookingLandingPage({ navigate, onOpenImage }) {
 
         <div className="grid gap-6">
           <Reveal delay={0.05}>
-            <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-              <h2 className="font-display text-2xl font-semibold text-slate-950">Interactive workflow diagram</h2>
+            <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+              <h2 className="font-display text-2xl font-semibold text-white">Interactive workflow diagram</h2>
               <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 {['Treatment selected', 'Valid slot found', 'Confirmation sent', 'Reminder queued'].map((item) => (
-                  <div key={item} className="rounded-[1.2rem] bg-slate-50 p-4 text-sm font-medium text-slate-700">{item}</div>
+                  <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4 text-sm font-medium text-[#d0dbea]">{item}</div>
                 ))}
               </div>
             </article>
           </Reveal>
           <Reveal delay={0.1}>
-            <article className="rounded-[1.8rem] border border-slate-200 bg-slate-50 p-6">
-              <h2 className="font-display text-2xl font-semibold text-slate-950">Mock booking screens and calendar UI</h2>
+            <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
+              <h2 className="font-display text-2xl font-semibold text-white">Mock booking screens and calendar UI</h2>
               <div className="mt-6 grid gap-6 lg:grid-cols-3">
                 {service.gallery.map((shot, index) => (
                   <Reveal key={`booking-${index}`} delay={index * 0.04}>
@@ -1637,31 +1664,31 @@ function BookingLandingPage({ navigate, onOpenImage }) {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-3">
         <Reveal>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Client booking journey</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">Customers choose the right treatment, see only valid slots and move smoothly into confirmation without needing staff to manually check the diary.</p>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Client booking journey</h2>
+            <p className="mt-4 text-sm leading-7 text-[#C8D3E0]">Customers choose the right treatment, see only valid slots and move smoothly into confirmation without needing staff to manually check the diary.</p>
           </article>
         </Reveal>
         <Reveal delay={0.05}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Admin dashboard</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">Staff can manage availability rules, working patterns, confirmations and reminder behaviour without relying on awkward manual workarounds.</p>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Admin dashboard</h2>
+            <p className="mt-4 text-sm leading-7 text-[#C8D3E0]">Staff can manage availability rules, working patterns, confirmations and reminder behaviour without relying on awkward manual workarounds.</p>
           </article>
         </Reveal>
         <Reveal delay={0.1}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Next step</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">Start with the appointment rules, treatment list and current diary process, then shape the booking system around how the business actually runs.</p>
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Next step</h2>
+            <p className="mt-4 text-sm leading-7 text-[#C8D3E0]">Start with the appointment rules, treatment list and current diary process, then shape the booking system around how the business actually runs.</p>
           </article>
         </Reveal>
       </div>
 
       <Reveal delay={0.12} className="mt-10">
-        <div className="rounded-[2rem] border border-slate-200 bg-slate-950 px-6 py-10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:px-8">
+        <div className="rounded-[2rem] border border-white/10 bg-[#081A33] px-6 py-10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:px-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <h2 className="font-display text-2xl font-semibold">Turn booking friction into a cleaner client journey.</h2>
-              <p className="mt-3 text-base leading-8 text-slate-300">The first conversation can focus on treatments, diary rules and where the current booking process slows the team down.</p>
+              <p className="mt-3 text-base leading-8 text-[#C8D3E0]">The first conversation can focus on treatments, diary rules and where the current booking process slows the team down.</p>
             </div>
             <LinkButton to="/contact" navigate={navigate} variant="secondary">
               Get Free Quote
@@ -1703,12 +1730,12 @@ function IndustryDetailPage({ navigate, industry }) {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <Reveal>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">Common pain points</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">Common pain points</h2>
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-[#C8D3E0]">
               {industry.painPoints.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-sky-600" />
+                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#168BFF]" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -1716,9 +1743,9 @@ function IndustryDetailPage({ navigate, industry }) {
           </article>
         </Reveal>
         <Reveal delay={0.05}>
-          <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-            <h2 className="font-display text-2xl font-semibold text-slate-950">How GB Digital Solutions helps</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+          <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+            <h2 className="font-display text-2xl font-semibold text-white">How GB Digital Solutions helps</h2>
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-[#C8D3E0]">
               {industry.help.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -1728,8 +1755,8 @@ function IndustryDetailPage({ navigate, industry }) {
       </div>
 
       <Reveal delay={0.08} className="mt-10">
-        <article className="rounded-[1.8rem] border border-slate-200 bg-slate-50 p-6">
-          <h2 className="font-display text-2xl font-semibold text-slate-950">Relevant services</h2>
+        <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
+          <h2 className="font-display text-2xl font-semibold text-white">Relevant services</h2>
           <div className="mt-6 grid gap-6 lg:grid-cols-3">
             {relevantServices.map((service, index) => (
               <ServiceCard key={service.slug} service={service} navigate={navigate} index={index} compact />
@@ -1739,11 +1766,11 @@ function IndustryDetailPage({ navigate, industry }) {
       </Reveal>
 
       <Reveal delay={0.1} className="mt-10">
-        <div className="rounded-[2rem] border border-slate-200 bg-slate-950 px-6 py-10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:px-8">
+        <div className="rounded-[2rem] border border-white/10 bg-[#081A33] px-6 py-10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:px-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <h2 className="font-display text-2xl font-semibold">Shape a more useful digital journey for this industry.</h2>
-              <p className="mt-3 text-base leading-8 text-slate-300">The first step is identifying where trust, speed, booking or follow-up is currently leaking value.</p>
+              <p className="mt-3 text-base leading-8 text-[#C8D3E0]">The first step is identifying where trust, speed, booking or follow-up is currently leaking value.</p>
             </div>
             <LinkButton to="/contact" navigate={navigate} variant="secondary">
               Get Free Quote
@@ -1783,19 +1810,19 @@ function BlogDetailPage({ navigate, post }) {
       <div className="mt-12 space-y-6">
         {post.sections.map((section, index) => (
           <Reveal key={section.heading} delay={index * 0.05}>
-            <article className="rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
-              <h2 className="font-display text-2xl font-semibold text-slate-950">{section.heading}</h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">{section.body}</p>
+            <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+              <h2 className="font-display text-2xl font-semibold text-white">{section.heading}</h2>
+              <p className="mt-4 text-base leading-8 text-[#C8D3E0]">{section.body}</p>
             </article>
           </Reveal>
         ))}
       </div>
       <Reveal delay={0.15} className="mt-10">
-        <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6">
+        <div className="rounded-[2rem] border border-white/10 bg-[#0D2345] p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-display text-2xl font-semibold text-slate-950">Need this turned into a practical project?</h2>
-              <p className="mt-3 text-base leading-8 text-slate-600">Move from idea to scope by starting a direct conversation about the problem that matters most right now.</p>
+              <h2 className="font-display text-2xl font-semibold text-white">Need this turned into a practical project?</h2>
+              <p className="mt-3 text-base leading-8 text-[#C8D3E0]">Move from idea to scope by starting a direct conversation about the problem that matters most right now.</p>
             </div>
             <LinkButton to="/contact" navigate={navigate} variant="dark">
               Get Free Quote
@@ -1813,17 +1840,17 @@ function ImageLightbox({ image, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/88 p-4 backdrop-blur-sm" onClick={onClose} role="dialog" aria-modal="true" aria-label="Full screen project image">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#081A33]/88 p-4 backdrop-blur-sm" onClick={onClose} role="dialog" aria-modal="true" aria-label="Full screen project image">
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:bg-white/20"
+        className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-[#0D2345]/10 text-white transition hover:bg-[#0D2345]/20"
         aria-label="Close full screen image"
       >
         <X className="h-5 w-5" />
       </button>
       <div className="max-h-[92vh] w-full max-w-6xl" onClick={(event) => event.stopPropagation()}>
-        <img src={image} alt="Full screen project screenshot" className="max-h-[92vh] w-full rounded-[1.5rem] bg-white object-contain" />
+        <img src={image} alt="Full screen project screenshot" className="max-h-[92vh] w-full rounded-[1.5rem] bg-[#0D2345] object-contain" />
       </div>
     </div>
   )
@@ -1836,7 +1863,7 @@ function FloatingWhatsAppButton() {
       target="_blank"
       rel="noreferrer"
       aria-label={`Open WhatsApp chat ${whatsappNumberLocal}`}
-      className="fixed bottom-5 right-5 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_14px_30px_rgba(16,185,129,0.35)] transition hover:bg-emerald-600 focus:outline-none focus:ring-4 focus:ring-emerald-200"
+      className="fixed bottom-5 right-5 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#0F7A45] text-white shadow-[0_14px_30px_rgba(15,122,69,0.35)] transition hover:bg-[#0C6338] focus:outline-none focus:ring-4 focus:ring-[#89E4B6]/45"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true" className="h-7 w-7 fill-current">
         <path d="M19.05 4.91A9.82 9.82 0 0 0 12.03 2C6.57 2 2.13 6.43 2.13 11.9c0 1.75.46 3.47 1.33 4.99L2 22l5.26-1.38a9.86 9.86 0 0 0 4.73 1.21h.01c5.46 0 9.9-4.43 9.9-9.9 0-2.64-1.03-5.12-2.85-7.02zm-7.02 15.24h-.01a8.14 8.14 0 0 1-4.16-1.14l-.3-.18-3.12.82.84-3.04-.2-.31a8.18 8.18 0 0 1-1.25-4.37c0-4.52 3.67-8.2 8.2-8.2 2.19 0 4.24.85 5.79 2.41a8.15 8.15 0 0 1 2.39 5.8c0 4.53-3.68 8.21-8.18 8.21zm4.5-6.14c-.25-.13-1.48-.73-1.71-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.79.97-.15.17-.29.19-.54.06-.25-.13-1.04-.38-1.97-1.22-.73-.65-1.22-1.46-1.37-1.71-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.48-.41-.41-.56-.42l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.78.6.26 1.08.41 1.45.52.61.19 1.16.16 1.59.1.49-.07 1.48-.6 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.1-.22-.17-.47-.29z" />
@@ -1853,12 +1880,12 @@ function ContactPage() {
       </Reveal>
       <div className="mt-12 grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
         <Reveal>
-          <div className="rounded-[2rem] border border-slate-200 bg-slate-950 p-6 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:p-7">
+          <div className="rounded-[2rem] border border-white/10 bg-[#081A33] p-6 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:p-7">
             <h2 className="font-display text-2xl font-semibold">What happens after an enquiry</h2>
             <div className="mt-6 space-y-4">
               {['The brief is reviewed directly by George.', 'A reply follows with questions, fit notes or a suggested call.', 'The next recommendation focuses on the clearest useful scope first.'].map((item, index) => (
-                <div key={item} className="flex items-start gap-4 rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cyan-300/15 text-sm font-semibold text-cyan-200">{index + 1}</div>
+                <div key={item} className="flex items-start gap-4 rounded-[1.3rem] border border-white/10 bg-[#0D2345]/5 px-4 py-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#168BFF]/20 text-sm font-semibold text-[#8fc2ff]">{index + 1}</div>
                   <p className="text-sm leading-7 text-slate-100">{item}</p>
                 </div>
               ))}
@@ -1868,29 +1895,30 @@ function ContactPage() {
                 <span className="flex items-center gap-3"><PhoneCall className="h-5 w-5 text-emerald-200" />WhatsApp {whatsappNumberLocal}</span>
                 <ChevronRight className="h-4 w-4" />
               </a>
-              <a href={`mailto:${emailAddress}`} className="flex items-center justify-between rounded-[1.3rem] border border-white/10 bg-white/5 px-5 py-4 text-sm font-medium transition hover:bg-white/10">
-                <span className="flex items-center gap-3"><Mail className="h-5 w-5 text-cyan-300" />{emailAddress}</span>
+              <a href={`mailto:${emailAddress}`} className="flex items-center justify-between rounded-[1.3rem] border border-white/10 bg-[#0D2345]/5 px-5 py-4 text-sm font-medium transition hover:bg-[#0D2345]/10">
+                <span className="flex items-center gap-3"><Mail className="h-5 w-5 text-[#7eb8ff]" />{emailAddress}</span>
                 <ChevronRight className="h-4 w-4" />
               </a>
-              <a href={phoneLink} className="flex items-center justify-between rounded-[1.3rem] border border-white/10 bg-white/5 px-5 py-4 text-sm font-medium transition hover:bg-white/10">
-                <span className="flex items-center gap-3"><Phone className="h-5 w-5 text-cyan-300" />{phoneNumber}</span>
+              <a href={phoneLink} className="flex items-center justify-between rounded-[1.3rem] border border-white/10 bg-[#0D2345]/5 px-5 py-4 text-sm font-medium transition hover:bg-[#0D2345]/10">
+                <span className="flex items-center gap-3"><Phone className="h-5 w-5 text-[#7eb8ff]" />{phoneNumber}</span>
                 <ChevronRight className="h-4 w-4" />
               </a>
             </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[1.3rem] border border-white/10 bg-white/5 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Business hours</p>
-                <p className="mt-2 text-sm leading-7 text-slate-200">{businessHours}</p>
+              <div className="rounded-[1.3rem] border border-white/10 bg-[#0D2345]/5 p-6 min-h-[270px] sm:col-span-2">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#7eb8ff]">Business hours</p>
+                <ul className="mt-3 space-y-2 text-sm leading-7 text-[#d6e2ef]">
+                  {businessHours.map((item) => (
+                    <li key={item.day} className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-white/8 pb-1 last:border-b-0 last:pb-0">
+                      <span>{item.day}</span>
+                      <span className="whitespace-nowrap text-right">{item.hours}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="rounded-[1.3rem] border border-white/10 bg-white/5 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Service area</p>
-                <p className="mt-2 text-sm leading-7 text-slate-200">UK-wide remote delivery for businesses that need stronger digital systems.</p>
-              </div>
-            </div>
-            <div className="mt-8 rounded-[1.6rem] border border-dashed border-white/15 bg-white/5 p-6 text-sm text-slate-300">
-              <div className="flex items-center gap-3">
-                <MapPin className="h-5 w-5 text-cyan-300" />
-                Map placeholder
+              <div className="rounded-[1.3rem] border border-white/10 bg-[#0D2345]/5 p-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#7eb8ff]">Service area</p>
+                <p className="mt-2 text-sm leading-7 text-[#d6e2ef]">UK-wide remote delivery for businesses that need stronger digital systems.</p>
               </div>
             </div>
           </div>
@@ -1916,67 +1944,28 @@ function NotFoundPage({ navigate }) {
   )
 }
 
-function SiteHeader({ currentPath, navigate, mobileMenuOpen, setMobileMenuOpen }) {
-  const servicesActive = currentPath === '/services' || currentPath.startsWith('/services/') || currentPath === '/smart-booking-systems'
-
+function SiteHeader({ currentPath, navigate, mobileMenuOpen, setMobileMenuOpen, isScrolled }) {
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
+    <header className={`sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl transition-colors duration-300 ${isScrolled ? 'bg-[#07162E]/94' : 'bg-[#07162E]/62'}`}>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
         <a href="/" onClick={(event) => { event.preventDefault(); navigate('/') }} className="flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-600 text-sm font-bold tracking-[0.2em] text-white shadow-lg shadow-sky-200">GB</span>
+          <BrandLogo className="h-10 w-10 rounded-xl" />
           <div>
-            <p className="font-display text-base font-semibold text-slate-950">GB Digital Solutions</p>
-            <p className="text-sm text-slate-500">Software agency for growth-focused businesses</p>
+            <p className="font-display text-base font-semibold text-white">GB Digital Solutions</p>
+            <p className="text-xs text-[#C8D6E5]">Websites, apps and automation</p>
           </div>
         </a>
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-          {navigationItems.map((item) => {
-            if (item.path === '/services') {
-              return (
-                <div key={item.path} className="group relative">
-                  <button
-                    type="button"
-                    className={`inline-flex items-center gap-1 text-sm font-medium transition ${servicesActive ? 'text-slate-950' : 'text-slate-600 hover:text-slate-950'}`}
-                    aria-haspopup="menu"
-                    aria-expanded="false"
-                  >
-                    Services
-                    <ChevronDown className="h-4 w-4" />
-                  </button>
-                  <div className="invisible absolute left-0 top-full z-40 mt-3 w-64 rounded-2xl border border-slate-200 bg-white p-2 opacity-0 shadow-[0_18px_40px_rgba(15,23,42,0.08)] transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                    {serviceDropdownItems.map((serviceItem) => (
-                      <a
-                        key={serviceItem.path}
-                        href={serviceItem.path}
-                        onClick={(event) => {
-                          event.preventDefault()
-                          navigate(serviceItem.path)
-                        }}
-                        className="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-slate-950"
-                      >
-                        {serviceItem.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )
-            }
-
-            return (
-              <NavLink key={item.path} item={item} currentPath={currentPath} navigate={navigate} />
-            )
-          })}
+          {primaryDesktopNav.map((item) => (
+            <NavLink key={item.path} item={item} currentPath={currentPath} navigate={navigate} />
+          ))}
         </nav>
-        <div className="hidden items-center gap-3 lg:flex">
-          <LinkButton to="/portfolio" navigate={navigate} variant="secondary" className="px-5 py-3">View Portfolio</LinkButton>
-          <LinkButton to="/contact" navigate={navigate} variant="primary" className="px-5 py-3">Get Free Quote</LinkButton>
-        </div>
-        <button type="button" aria-expanded={mobileMenuOpen} aria-controls="mobile-nav" aria-label="Toggle navigation" onClick={() => setMobileMenuOpen((open) => !open)} className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 text-slate-700 lg:hidden">
+        <button type="button" aria-expanded={mobileMenuOpen} aria-controls="mobile-nav" aria-label="Toggle navigation" onClick={() => setMobileMenuOpen((open) => !open)} className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 text-[#d0dbea] lg:hidden">
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
       {mobileMenuOpen ? (
-        <div id="mobile-nav" className="border-t border-slate-200 px-5 py-4 lg:hidden">
+        <div id="mobile-nav" className="border-t border-white/10 px-5 py-4 lg:hidden">
           <nav className="flex flex-col gap-2" aria-label="Mobile">
             {navigationItems.map((item) => {
               const isActive = currentPath === item.path || (item.path !== '/' && currentPath.startsWith(item.path))
@@ -1990,7 +1979,7 @@ function SiteHeader({ currentPath, navigate, mobileMenuOpen, setMobileMenuOpen }
                     setMobileMenuOpen(false)
                     navigate(path)
                   }}
-                  className={`rounded-full border-l-[3px] px-4 py-3 text-sm transition-colors duration-300 ease-out ${isActive ? 'border-l-white/90 bg-sky-600 !text-white font-semibold' : 'border-l-transparent bg-white text-slate-800 font-medium hover:bg-slate-50'}`}
+                  className={`rounded-full border-l-[3px] px-4 py-3 text-sm transition-colors duration-300 ease-out ${isActive ? 'border-l-white/90 bg-[#0E5FA8] !text-white font-semibold' : 'border-l-transparent bg-[#0B2D63] text-[#C8D6E5] font-medium hover:bg-[#0E5FA8]/30'}`}
                 />
               )
             })}
@@ -2000,7 +1989,7 @@ function SiteHeader({ currentPath, navigate, mobileMenuOpen, setMobileMenuOpen }
               href={whatsappLink}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-600"
+              className="inline-flex items-center justify-center rounded-full bg-[#0F7A45] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#0C6338]"
             >
               WhatsApp
             </a>
@@ -2013,23 +2002,23 @@ function SiteHeader({ currentPath, navigate, mobileMenuOpen, setMobileMenuOpen }
 
 function SiteFooter({ navigate }) {
   return (
-    <footer className="bg-slate-950 text-slate-300">
+    <footer className="bg-[#07162E] text-[#C8D6E5]">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1fr_0.7fr_0.8fr] lg:px-8">
         <div>
           <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-600 text-sm font-bold tracking-[0.2em] text-white">GB</span>
+            <BrandLogo className="h-11 w-11 rounded-xl" />
             <div>
               <p className="font-display text-lg font-semibold text-white">GB Digital Solutions</p>
-              <p className="text-sm text-slate-400">Professional websites, apps and automation</p>
+              <p className="text-sm text-[#C8D6E5]">Professional websites, apps and automation</p>
             </div>
           </div>
-          <p className="mt-5 max-w-md text-base leading-7 text-slate-400">Professional digital systems designed to help businesses save time, win customers and operate with more clarity.</p>
+          <p className="mt-5 max-w-md text-base leading-7 text-[#C8D6E5]">Professional digital systems designed to help businesses save time, win customers and operate with more clarity.</p>
         </div>
         <div>
           <p className="font-display text-sm font-semibold uppercase tracking-[0.24em] text-white">Navigation</p>
           <div className="mt-4 flex flex-col gap-3">
             {navigationItems.map((item) => (
-              <a key={item.path} href={item.path} onClick={(event) => { event.preventDefault(); navigate(item.path) }} className="text-sm text-slate-400 transition hover:text-white">{item.label}</a>
+              <a key={item.path} href={item.path} onClick={(event) => { event.preventDefault(); navigate(item.path) }} className="text-sm text-[#C8D6E5] transition hover:text-white">{item.label}</a>
             ))}
           </div>
         </div>
@@ -2039,7 +2028,7 @@ function SiteFooter({ navigate }) {
             <a href={`mailto:${emailAddress}`} className="transition hover:text-white">{emailAddress}</a>
             <a href={phoneLink} className="transition hover:text-white">{phoneNumber}</a>
             <a href={whatsappLink} className="transition hover:text-white">WhatsApp</a>
-            <div className="flex items-center gap-2 text-slate-400"><MapPin className="h-4 w-4" />UK-wide remote service</div>
+            <div className="flex items-center gap-2 text-[#C8D6E5]"><MapPin className="h-4 w-4" />UK-wide remote service</div>
           </div>
         </div>
       </div>
@@ -2084,6 +2073,7 @@ function App() {
   const [currentPath, setCurrentPath] = useState(() => normalizePath(window.location.pathname))
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [lightboxImage, setLightboxImage] = useState(null)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     const handlePopState = () => {
@@ -2099,6 +2089,17 @@ function App() {
     document.title = getRouteTitle(currentPath)
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
   }, [currentPath])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 12)
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     if (!lightboxImage) {
@@ -2130,9 +2131,10 @@ function App() {
   }
 
   return (
-    <div className="bg-white text-slate-900">
-      <SiteHeader currentPath={currentPath} navigate={navigate} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-      <main>{renderRoute(currentPath, navigate, setLightboxImage)}</main>
+    <div className="relative bg-[#07162E] text-white">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_16%_20%,rgba(76,201,255,0.14),transparent_32%),radial-gradient(circle_at_84%_78%,rgba(22,156,255,0.1),transparent_34%),linear-gradient(180deg,#07162E_0%,#0B2D63_58%,#07162E_100%)]" />
+      <SiteHeader currentPath={currentPath} navigate={navigate} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} isScrolled={isScrolled} />
+      <main className="relative site-main">{renderRoute(currentPath, navigate, setLightboxImage)}</main>
       <SiteFooter navigate={navigate} />
       {currentPath === '/' ? <FloatingWhatsAppButton /> : null}
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
@@ -2141,3 +2143,6 @@ function App() {
 }
 
 export default App
+
+
+
