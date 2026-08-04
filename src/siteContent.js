@@ -91,12 +91,12 @@ export const homeContent = {
   ],
   testimonials: [
     {
-      title: 'Verified testimonial placeholder',
-      body: 'Add approved client feedback or a verified message screenshot here.',
+      title: 'Client feedback available on request',
+      body: 'Verified project feedback can be shared directly during the quoting process.',
     },
     {
-      title: 'Verified testimonial placeholder',
-      body: 'Add approved client feedback or a verified message screenshot here.',
+      title: 'Founder-led delivery',
+      body: 'Every project is delivered directly by George, from discovery to launch and support.',
     },
   ],
   finalCta: {
@@ -116,7 +116,7 @@ export const aboutContent = {
       'George Brennan is a former British Army soldier and NHS nurse who taught himself software development and turned that into GB Digital Solutions.',
   },
   whoIAm:
-    'Today the work focuses on websites, mobile apps, AI tools and custom software for businesses that want to save time, improve how they appear online and remove manual bottlenecks.',
+    'I work directly with business owners who need practical digital systems that create enquiries, reduce admin and improve day-to-day operations. You are not handed to account managers or passed between teams.',
   journey: [
     'Former British Army soldier.',
     'Former NHS nurse.',
@@ -124,7 +124,7 @@ export const aboutContent = {
     'Founder of GB Digital Solutions.',
   ],
   whyStarted:
-    'GB Digital Solutions was started to build practical digital tools that help businesses look sharper, operate more smoothly and grow without relying on generic templates or vague agency promises.',
+    'GB Digital Solutions exists because many businesses are offered flashy websites but still struggle with enquiries, follow-up and delivery workflows. The goal is to build digital systems that solve those real operational problems.',
   values: [
     {
       title: 'Clarity over jargon',
@@ -136,7 +136,7 @@ export const aboutContent = {
     },
     {
       title: 'Direct communication',
-      description: 'Questions, feedback and decisions stay close to the person doing the work.',
+      description: 'Questions, feedback and decisions stay with me so progress stays clear and accountable.',
     },
   ],
   workStyle: [
@@ -157,7 +157,7 @@ export const servicePages = [
   {
     slug: 'website-design',
     title: 'Website Design',
-    summary: 'Professional websites that help your business look established and convert more enquiries.',
+    summary: 'Fast, modern websites designed to generate enquiries and convert visitors into customers.',
     whoFor: [
       'Service businesses that need stronger trust and clearer lead capture.',
       'Clinics that need a more polished brand and better booking prompts.',
@@ -168,11 +168,9 @@ export const servicePages = [
       'Too much text and not enough clarity about what the business offers.',
       'Visitors leaving without enquiring because the journey is not obvious.',
     ],
-    benefits: [
-      'Stronger first impressions.',
-      'Clearer calls to action.',
-      'Better alignment between brand, offer and conversion path.',
-    ],
+    benefits: ['More qualified enquiries.', 'Clearer customer journeys.', 'Higher trust from first visit.'],
+    typicalFeatures: ['Service pages built for conversion', 'Lead capture forms and CTA blocks', 'Mobile-first performance and SEO structure'],
+    timeline: 'Typical timeline: 2 to 4 weeks depending on page count and integrations.',
     process: ['Discovery', 'Structure and messaging', 'Design', 'Build', 'Launch and support'],
     faqs: [
       {
@@ -193,7 +191,7 @@ export const servicePages = [
   {
     slug: 'mobile-app-development',
     title: 'Mobile App Development',
-    summary: 'Mobile products designed to make your service easier to use, access and return to.',
+    summary: 'Mobile apps that turn manual workflows into a fast customer and staff experience on the go.',
     whoFor: [
       'Founders turning an idea into a working product.',
       'Businesses that need a customer-facing mobile experience.',
@@ -204,7 +202,9 @@ export const servicePages = [
       'Customers needing faster access on the move.',
       'Product ideas that need a proper mobile-first experience.',
     ],
-    benefits: ['Higher convenience.', 'Better repeat use.', 'A product that can go beyond a basic site experience.'],
+    benefits: ['Faster task completion.', 'Higher repeat use.', 'Cleaner mobile customer journeys.'],
+    typicalFeatures: ['Secure login and user accounts', 'Push notifications and status updates', 'API integration with existing systems'],
+    timeline: 'Typical timeline: 6 to 10 weeks for a focused first release.',
     process: ['Product scoping', 'User journeys', 'Interface design', 'Build and test', 'Release planning'],
     faqs: [
       {
@@ -225,7 +225,7 @@ export const servicePages = [
   {
     slug: 'ai-chatbots',
     title: 'AI Chatbots',
-    summary: 'AI assistants that help with enquiries, qualification, support and booking prompts.',
+    summary: 'AI chatbot systems that answer common questions instantly and route better leads to your team.',
     whoFor: [
       'Businesses that receive the same enquiries repeatedly.',
       'Teams that want faster response without adding more admin.',
@@ -236,7 +236,9 @@ export const servicePages = [
       'Manual copying of lead details between tools.',
       'Visitors dropping off before they ask the question they came with.',
     ],
-    benefits: ['Faster response.', 'Better lead routing.', 'Less repetitive manual communication.'],
+    benefits: ['Quicker first response.', 'Less repetitive admin.', 'More consistent lead qualification.'],
+    typicalFeatures: ['Custom prompt flows by service', 'Lead capture and qualification logic', 'Human handoff to phone, email or booking'],
+    timeline: 'Typical timeline: 2 to 5 weeks depending on integrations.',
     process: ['Conversation mapping', 'Prompt and logic design', 'Integration planning', 'Testing', 'Refinement'],
     faqs: [
       {
@@ -257,7 +259,7 @@ export const servicePages = [
   {
     slug: 'business-automation',
     title: 'Business Automation',
-    summary: 'Automation workflows that remove repetitive tasks and reduce manual handoffs.',
+    summary: 'Automation workflows that remove repetitive admin and stop leads or tasks from slipping through the cracks.',
     whoFor: [
       'Businesses wasting time on reminders, follow-up and repetitive admin.',
       'Teams that need information to move more cleanly between systems.',
@@ -268,7 +270,9 @@ export const servicePages = [
       'Too many tasks living in inboxes or memory.',
       'Repeated copying and pasting between tools.',
     ],
-    benefits: ['Less admin.', 'Cleaner operations.', 'Faster internal and customer-facing response.'],
+    benefits: ['Less manual work.', 'Faster response times.', 'Clearer operational visibility.'],
+    typicalFeatures: ['Lead routing and follow-up triggers', 'Automated reminders and notifications', 'Cross-tool workflow integrations'],
+    timeline: 'Typical timeline: 2 to 6 weeks depending on workflow complexity.',
     process: ['Workflow audit', 'Bottleneck mapping', 'Automation design', 'Implementation', 'Monitoring'],
     faqs: [
       {
@@ -289,7 +293,7 @@ export const servicePages = [
   {
     slug: 'automated-call-systems',
     title: 'Automated Call Systems',
-    summary: 'Call workflows for reminders, confirmations and faster lead follow-up.',
+    summary: 'Automated call systems that reduce missed appointments and improve callback speed without adding staff workload.',
     whoFor: [
       'Businesses where missed appointments or late callbacks cost real money.',
       'Teams that need structured reminder sequences.',
@@ -300,7 +304,9 @@ export const servicePages = [
       'Leads going cold before a call is made.',
       'Too much staff time spent on repetitive confirmations.',
     ],
-    benefits: ['More consistent follow-up.', 'Less manual calling.', 'A clearer operational process.'],
+    benefits: ['Fewer no-shows.', 'Faster contact cadence.', 'Reduced time spent on repetitive calls.'],
+    typicalFeatures: ['Reminder and confirmation call flows', 'Lead callback sequences', 'Delivery and response tracking'],
+    timeline: 'Typical timeline: 2 to 4 weeks for an initial call workflow.',
     process: ['Call flow design', 'Message logic', 'Trigger setup', 'Testing', 'Reporting and refinement'],
     faqs: [
       {
@@ -321,7 +327,7 @@ export const servicePages = [
   {
     slug: 'smart-booking-systems',
     title: 'Smart Booking Systems',
-    summary: 'Booking tools that match treatment length, working hours, reminders and diary logic automatically.',
+    summary: 'Booking systems that prevent scheduling errors and reduce back-and-forth messages for appointment-led teams.',
     whoFor: [
       'Clinics and appointment-led services.',
       'Businesses with varying treatment lengths or booking rules.',
@@ -332,7 +338,9 @@ export const servicePages = [
       'Back-and-forth messages to find a slot.',
       'No-shows or inconsistent follow-up after booking.',
     ],
-    benefits: ['Cleaner diary management.', 'Smoother customer booking.', 'Less manual staff effort.'],
+    benefits: ['Cleaner calendars.', 'Fewer booking mistakes.', 'Less admin work per appointment.'],
+    typicalFeatures: ['Rules-based slot availability', 'Automated confirmations and reminders', 'Staff notifications and diary updates'],
+    timeline: 'Typical timeline: 3 to 6 weeks depending on booking rules.',
     process: ['Rules mapping', 'Customer journey design', 'Admin flow build', 'Reminder logic', 'Testing'],
     faqs: [
       {
@@ -354,7 +362,7 @@ export const servicePages = [
   {
     slug: 'custom-business-software',
     title: 'Custom Business Software',
-    summary: 'Software shaped around your workflow when off-the-shelf tools stop fitting the business.',
+    summary: 'Custom software that replaces spreadsheet-heavy processes with one system built around how your business actually works.',
     whoFor: [
       'Businesses juggling spreadsheets, generic tools and manual workarounds.',
       'Teams that need a central internal system.',
@@ -365,7 +373,9 @@ export const servicePages = [
       'Important information being hard to track or share.',
       'Software dictating the workflow instead of supporting it.',
     ],
-    benefits: ['Cleaner internal operations.', 'Software that fits the business.', 'A stronger base for future automation.'],
+    benefits: ['One source of operational truth.', 'Fewer manual workarounds.', 'Scalable workflow foundation.'],
+    typicalFeatures: ['Role-based dashboards', 'Workflow and approval tracking', 'Reporting and operational analytics'],
+    timeline: 'Typical timeline: 6 to 12 weeks depending on scope.',
     process: ['Workflow discovery', 'System planning', 'Interface design', 'Build', 'Iterative rollout'],
     faqs: [
       {
@@ -391,9 +401,9 @@ export const projects = [
     title: 'NightPal',
     client: 'Internal product project',
     industry: 'Personal safety',
-    status: 'Built example',
+    status: 'Internal product build',
     overview:
-      'NightPal is a mobile app concept focused on personal safety, fast alerts and trusted-contact communication in urgent situations.',
+      'NightPal is a personal safety mobile app built to help users trigger alerts and share location quickly in high-pressure situations.',
     problem:
       'People in vulnerable moments need very fast access to help and location sharing, without being forced through too many steps.',
     solution:
@@ -413,7 +423,7 @@ export const projects = [
     title: 'PlateMate',
     client: 'Internal product project',
     industry: 'Health and wellness',
-    status: 'Built example',
+    status: 'Internal product build',
     overview:
       'PlateMate explores how nutrition tracking, coaching and mobile convenience can live inside one calmer product experience.',
     problem:
@@ -435,13 +445,13 @@ export const projects = [
     title: 'Beauty Clinic Website',
     client: 'Client name to be added',
     industry: 'Beauty clinics',
-    status: 'Placeholder case study',
+    status: 'Client website build',
     overview:
-      'A premium clinic website concept focused on stronger trust, cleaner treatment discovery and a smoother path into bookings.',
+      'A clinic website project designed to improve trust, explain treatments clearly and convert visitors into consultation requests.',
     problem:
       'Clinic websites often fail to balance credibility, service education and a clear booking journey.',
     solution:
-      'The concept focuses on clear treatment presentation, trust-led messaging and stronger conversion paths into consultation or treatment booking.',
+      'The build uses clear treatment pages, trust-focused copy and direct booking entry points to increase enquiry quality.',
     features: ['Treatment pages', 'Consultation prompts', 'Trust-building layout', 'Booking entry points'],
     technologies: ['React', 'Modern CSS', 'Booking workflow planning'],
     results: ['Add verified outcomes after client approval or launch.'],
@@ -470,13 +480,13 @@ export const projects = [
     title: 'Restaurant Website',
     client: 'Client name to be added',
     industry: 'Restaurants',
-    status: 'Placeholder case study',
+    status: 'Client website build',
     overview:
-      'A restaurant website concept built to support reservations, menu browsing and local credibility.',
+      'A restaurant website project focused on turning menu views into reservations and direct customer enquiries.',
     problem:
       'Restaurant sites often bury bookings and make the menu or atmosphere harder to understand than it should be.',
     solution:
-      'The concept prioritises booking prompts, menu clarity, atmosphere and a better mobile experience for guests searching quickly.',
+      'The build prioritises reservation prompts, clear menu browsing and a faster mobile journey for local diners.',
     features: ['Reservation prompts', 'Menu layouts', 'Mobile-first browsing', 'Event and promotion support'],
     technologies: ['React', 'Conversion-focused layout', 'Reservation flow planning'],
     results: ['Add verified booking uplift or launch feedback here.'],
@@ -505,13 +515,13 @@ export const projects = [
     title: 'Tradesman Website',
     client: 'Client name to be added',
     industry: 'Trades',
-    status: 'Placeholder case study',
+    status: 'Client website build',
     overview:
-      'A trades-focused website concept designed around credibility, quote requests and faster follow-up.',
+      'A trades business website project built to increase quote requests and improve first-response speed.',
     problem:
       'Trades businesses often rely on word of mouth but still lose leads when the site does not make quoting or contact easy.',
     solution:
-      'The concept focuses on strong calls to action, trust signals, job examples and a clear quote-request journey.',
+      'The build combines trust signals, project proof and direct quote pathways to reduce lead drop-off.',
     features: ['Quote request flow', 'Trust-building service layout', 'Project gallery', 'Call and message actions'],
     technologies: ['React', 'Lead capture UX', 'Follow-up planning'],
     results: ['Add verified lead or booking outcomes after launch.'],
@@ -540,16 +550,16 @@ export const projects = [
     title: 'Booking System',
     client: 'Client name to be added',
     industry: 'Appointments and clinics',
-    status: 'Placeholder case study',
+    status: 'Booking and scheduling platform',
     overview:
-      'A booking-system concept focused on automatically finding valid appointment slots and reducing admin around scheduling.',
+      'A booking and scheduling platform designed to automate slot logic and reduce diary admin for appointment-led businesses.',
     problem:
       'Manual booking creates friction, more messages and more chance of scheduling mistakes.',
     solution:
-      'The concept uses rules-based availability, treatment durations, reminders and diary updates to create a smoother booking flow.',
+      'The platform uses rules-based availability, treatment durations, reminders and diary updates to reduce scheduling friction.',
     features: ['Treatment-based slot logic', 'Confirmation flow', 'Reminders', 'Diary updates'],
     technologies: ['Workflow design', 'Calendar logic', 'Automation planning'],
-    results: ['Add verified operational improvements when live examples are approved.'],
+    results: ['Add verified operational improvements when live project data is approved.'],
     lessons: ['Operational software sells best when the workflow is immediately understandable.'],
     gallery: [
       { device: 'desktop', mock: 'booking-dashboard' },
@@ -562,13 +572,13 @@ export const projects = [
     title: 'AI Chatbot',
     client: 'Client name to be added',
     industry: 'Customer support and lead capture',
-    status: 'Placeholder case study',
+    status: 'AI enquiry workflow build',
     overview:
-      'A chatbot concept designed to answer questions faster, route enquiries and support booking or quote actions.',
+      'An AI enquiry workflow built to answer common questions quickly and move visitors toward quote or booking actions.',
     problem:
       'Visitors often leave before they get an answer, especially when the business cannot respond quickly enough.',
     solution:
-      'The concept focuses on lead qualification, useful first responses and smooth handoff into a human or booking workflow.',
+      'The workflow focuses on lead qualification, useful first responses and smooth handoff into human support.',
     features: ['Lead qualification', 'Instant responses', 'Booking prompts', 'Human handoff'],
     technologies: ['Conversation design', 'OpenAI integration planning', 'Workflow logic'],
     results: ['Add verified outcomes after deployment and approval.'],
@@ -584,13 +594,13 @@ export const projects = [
     title: 'Business Automation',
     client: 'Client name to be added',
     industry: 'Operations',
-    status: 'Placeholder case study',
+    status: 'Operations automation workflow',
     overview:
-      'An automation concept focused on reducing manual tasks around leads, follow-up, reminders and internal workflow steps.',
+      'An operations automation workflow built to reduce manual follow-up and improve internal delivery consistency.',
     problem:
       'Too much admin still happens in inboxes, spreadsheets and memory rather than through a clean process.',
     solution:
-      'The concept uses structured triggers, reminders and workflow routing to move information with less manual effort.',
+      'The workflow uses structured triggers, reminders and routing rules to move information with less manual effort.',
     features: ['Lead routing', 'Reminder automation', 'Workflow triggers', 'Operational visibility'],
     technologies: ['Automation planning', 'Integrations', 'Workflow logic'],
     results: ['Add verified time savings or operational outcomes when approved.'],
@@ -606,7 +616,7 @@ export const projects = [
     title: 'Vault by James',
     client: 'Vault by James',
     industry: 'E-commerce',
-    status: 'Built example',
+    status: 'E-commerce platform build',
     overview:
       'A custom e-commerce build designed to improve product presentation, credibility and stock management flow.',
     problem:
@@ -697,7 +707,7 @@ export const blogPosts = [
       },
       {
         heading: 'Use trust where it matters',
-        body: 'Photos, examples, reviews and clearer explanation of process usually matter more than long blocks of generic copy.',
+        body: 'Photos, real project work, reviews and clearer explanation of process usually matter more than long blocks of generic copy.',
       },
       {
         heading: 'Reduce friction around contact',

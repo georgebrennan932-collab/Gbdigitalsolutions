@@ -128,6 +128,14 @@ function getRouteTitle(path) {
     return 'Contact | GB Digital Solutions'
   }
 
+  if (path === '/privacy-policy') {
+    return 'Privacy Policy | GB Digital Solutions'
+  }
+
+  if (path === '/terms') {
+    return 'Terms | GB Digital Solutions'
+  }
+
   if (path === '/smart-booking-systems') {
     return 'Smart Booking Systems | GB Digital Solutions'
   }
@@ -181,6 +189,14 @@ function matchRoute(path) {
 
   if (currentPath === '/contact') {
     return { type: 'contact' }
+  }
+
+  if (currentPath === '/privacy-policy') {
+    return { type: 'privacy' }
+  }
+
+  if (currentPath === '/terms') {
+    return { type: 'terms' }
   }
 
   if (currentPath === '/smart-booking-systems') {
@@ -258,9 +274,9 @@ function BrandLogo({ className = '', large = false }) {
 function LinkButton({ to, navigate, children, variant = 'primary', className = '' }) {
   const styles = {
     primary:
-      'bg-gradient-to-r from-[#0E5FA8] to-[#0B4B87] text-white shadow-lg shadow-[#0E5FA8]/30 hover:-translate-y-[3px] hover:shadow-[0_14px_30px_rgba(14,95,168,0.4)]',
+      'bg-gradient-to-r from-[#0E5FA8] to-[#0B4B87] text-white shadow-lg shadow-[#0E5FA8]/30 hover:-translate-y-[3px] hover:shadow-[0_14px_30px_rgba(14,95,168,0.42)]',
     secondary:
-      'border border-white/35 bg-transparent text-white hover:-translate-y-[3px] hover:border-[#4CC9FF]/50 hover:bg-white/5',
+      'border border-white/35 bg-transparent text-white shadow-[0_0_0_rgba(76,201,255,0)] hover:-translate-y-[3px] hover:border-[#4CC9FF]/50 hover:bg-white/5 hover:shadow-[0_10px_24px_rgba(76,201,255,0.2)]',
     dark: 'bg-gradient-to-r from-[#0E5FA8] to-[#0B4B87] text-white shadow-lg shadow-[#0E5FA8]/30 hover:-translate-y-[3px] hover:shadow-[0_14px_30px_rgba(14,95,168,0.4)]',
     ghost: 'text-[#C8D6E5] hover:text-[#169CFF]',
   }
@@ -274,7 +290,7 @@ function LinkButton({ to, navigate, children, variant = 'primary', className = '
           navigate(to)
         }
       }}
-      className={`inline-flex items-center justify-center rounded-full px-6 py-4 text-sm font-semibold transition duration-300 ${styles[variant]} ${className}`}
+      className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold transition duration-300 ${styles[variant]} ${className}`}
     >
       {children}
     </a>
@@ -294,9 +310,10 @@ function NavLink({ item, currentPath, navigate, className = '' }) {
         event.preventDefault()
         navigate(item.path)
       }}
-      className={className || `text-sm font-medium transition duration-300 ${isActive ? 'text-white' : 'text-[#C8D3E0] hover:text-[#169CFF] hover:drop-shadow-[0_0_12px_rgba(76,201,255,0.45)]'}`}
+      className={className || `group relative text-sm font-medium transition-all duration-300 ${isActive ? 'text-white' : 'text-[#C8D3E0] hover:text-[#169CFF]'}`}
     >
-      {item.label}
+      <span>{item.label}</span>
+      {!className ? <span className={`absolute -bottom-1 left-0 h-[2px] bg-[#4CC9FF] transition-all duration-300 ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'}`} /> : null}
     </a>
   )
 }
@@ -782,16 +799,8 @@ function DeviceMock({ shot, onOpenImage }) {
   return <BrowserFrame>{content}</BrowserFrame>
 }
 
-function MediaSlotLabel({ shot }) {
-  if (shot.image || !shot.placeholderFileName) {
-    return null
-  }
-
-  return (
-    <div className="mb-3 inline-flex rounded-full border border-dashed border-[#168BFF]/40 bg-[#0D2345] px-3 py-1.5 text-xs font-semibold tracking-[0.12em] text-[#168BFF]">
-      Add {shot.placeholderFileName}
-    </div>
-  )
+function MediaSlotLabel() {
+  return null
 }
 
 function ServiceCard({ service, navigate, index, compact = false }) {
@@ -808,7 +817,7 @@ function ServiceCard({ service, navigate, index, compact = false }) {
         </div>
         <p className="mt-4 text-sm leading-7 text-[#C8D3E0]">{service.summary}</p>
         {!compact ? (
-          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9eb2c8]">Who it is for</p>
               <ul className="mt-3 space-y-2 text-sm leading-7 text-[#C8D3E0]">
@@ -826,23 +835,27 @@ function ServiceCard({ service, navigate, index, compact = false }) {
               </ul>
             </div>
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9eb2c8]">Benefits</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9eb2c8]">Typical features</p>
               <ul className="mt-3 space-y-2 text-sm leading-7 text-[#C8D3E0]">
-                {service.benefits.map((item) => (
+                {(service.typicalFeatures ?? service.benefits).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
           </div>
         ) : null}
-        {service.flagshipPath ? (
-          <div className="mt-6 flex flex-wrap gap-3">
-            <LinkButton to={service.flagshipPath} navigate={navigate} variant="ghost" className="px-0 py-3">
+        {!compact ? <p className="mt-5 text-sm text-[#9eb2c8]">{service.timeline}</p> : null}
+        <div className="mt-5 flex flex-wrap gap-3">
+          <LinkButton to="/contact" navigate={navigate} variant="primary" className="px-5">
+            Get Free Quote
+          </LinkButton>
+          {service.flagshipPath ? (
+            <LinkButton to={service.flagshipPath} navigate={navigate} variant="ghost" className="px-0">
               Flagship booking journey
               <ChevronRight className="ml-2 h-4 w-4" />
             </LinkButton>
-          </div>
-        ) : null}
+          ) : null}
+        </div>
       </article>
     </Reveal>
   )
@@ -878,9 +891,14 @@ function ProjectCard({ project, navigate, index, compact = false, onOpenImage })
               </div>
             </div>
           ) : null}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {project.technologies.slice(0, 4).map((tech) => (
+              <span key={tech} className="rounded-full border border-[#4CC9FF]/30 bg-[#07162E] px-2.5 py-1 text-xs font-medium text-[#9ed0ff]">{tech}</span>
+            ))}
+          </div>
           <div className="mt-6">
             <LinkButton to={`/portfolio/${project.slug}`} navigate={navigate} variant="secondary" className="px-5 py-3">
-              View Case Study
+              View Project
             </LinkButton>
           </div>
         </div>
@@ -894,20 +912,34 @@ function PortfolioPreviewTile({ project, navigate, index, onOpenImage }) {
 
   return (
     <Reveal delay={index * 0.05}>
-      <article className="overflow-hidden rounded-[1.8rem] border border-white/10 bg-[#0D2345] shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
+      <article className={`overflow-hidden rounded-[1.8rem] border bg-[#0D2345] shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)] ${index % 2 === 0 ? 'border-white/12' : 'border-[#4CC9FF]/20'}`}>
         <div className="bg-[#0D2345] p-3">
           <MediaSlotLabel shot={primaryShot} />
           <DeviceMock shot={primaryShot} onOpenImage={onOpenImage} />
         </div>
-        <div className="flex items-center justify-between gap-3 px-5 py-4">
+        <div className="px-5 py-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#168BFF]">{project.industry}</p>
             <h2 className="mt-1 font-display text-lg font-semibold text-white">{project.title}</h2>
+            <p className="mt-2 text-sm leading-7 text-[#C8D3E0]">{project.overview}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {project.features.slice(0, 3).map((item) => (
+                <span key={item} className="rounded-full border border-white/10 bg-[#0B2D63]/35 px-3 py-1 text-xs text-[#C8D6E5]">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {project.technologies.slice(0, 4).map((tech) => (
+                <span key={tech} className="rounded-full border border-[#4CC9FF]/30 bg-[#07162E] px-2.5 py-1 text-xs font-medium text-[#9ed0ff]">{tech}</span>
+              ))}
+            </div>
           </div>
-          <LinkButton to={`/portfolio/${project.slug}`} navigate={navigate} variant="ghost" className="px-0 py-2">
-            Open
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </LinkButton>
+          <div className="mt-4">
+            <LinkButton to={`/portfolio/${project.slug}`} navigate={navigate} variant="secondary" className="px-5">
+              View Project
+            </LinkButton>
+          </div>
         </div>
       </article>
     </Reveal>
@@ -1051,22 +1083,22 @@ function HomePage({ navigate, onOpenImage }) {
   const servicesPreview = [
     {
       title: 'Website Design',
-      summary: 'Premium websites built for trust, speed and conversion.',
+      summary: 'Websites built to turn visitors into enquiries with clear offers and stronger trust signals.',
       icon: Globe,
     },
     {
       title: 'Mobile Apps',
-      summary: 'iOS and Android experiences designed around real workflows.',
+      summary: 'Mobile apps that simplify customer journeys and remove manual friction for staff.',
       icon: Smartphone,
     },
     {
       title: 'AI Integration',
-      summary: 'Practical AI features for support, bookings and lead handling.',
+      summary: 'AI flows that handle repeated questions and move qualified leads to the right next step.',
       icon: Bot,
     },
     {
       title: 'Business Automation',
-      summary: 'Automations that remove repetitive admin and manual follow-up.',
+      summary: 'Automation systems that reduce repetitive admin and improve response consistency.',
       icon: Workflow,
     },
   ]
@@ -1075,7 +1107,7 @@ function HomePage({ navigate, onOpenImage }) {
 
   return (
     <>
-      <section className="relative flex min-h-[calc(100vh-72px)] items-center overflow-hidden bg-[#0B1220]">
+      <section className="relative flex min-h-[calc(100vh-64px)] items-center overflow-hidden bg-[#0B1220]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(22,139,255,0.32),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(22,139,255,0.18),transparent_32%),linear-gradient(160deg,#0b1220_0%,#121b30_60%,#0b1220_100%)]" />
         <motion.div
           className="pointer-events-none absolute -left-20 top-14 h-60 w-60 rounded-full bg-[#168BFF]/25 blur-3xl"
@@ -1087,18 +1119,18 @@ function HomePage({ navigate, onOpenImage }) {
           animate={{ x: [0, -20, 0], y: [0, 12, 0] }}
           transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="relative mx-auto max-w-7xl px-5 py-12 sm:px-6 lg:px-8 lg:py-14">
           <Reveal className="mx-auto max-w-4xl text-center">
-            <div className="mx-auto flex w-fit items-center justify-center rounded-[2rem] border border-white/15 bg-[#0D2345]/5 p-4 shadow-[0_22px_60px_rgba(22,139,255,0.3)]">
+            <div className="mx-auto flex w-fit items-center justify-center rounded-[2rem] border border-white/15 bg-[#0D2345]/5 p-3 shadow-[0_22px_60px_rgba(22,139,255,0.3)]">
               <BrandLogo large className="h-24 w-24 rounded-[1.5rem]" />
             </div>
-            <h1 className="mt-8 text-4xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+            <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
               Websites, Apps and AI that help businesses grow.
             </h1>
-            <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-[#C8D3E0] sm:text-lg">
-              We build premium websites, mobile apps, AI tools and automation designed to save time, win customers and simplify your business.
+            <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-[#C8D3E0] sm:text-lg">
+              Fast digital systems that generate enquiries, remove admin bottlenecks and help your business scale with confidence.
             </p>
-            <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <LinkButton to="/contact" navigate={navigate} variant="primary" className="px-7 py-4">
                 Get Free Quote
               </LinkButton>
@@ -1110,7 +1142,7 @@ function HomePage({ navigate, onOpenImage }) {
         </div>
       </section>
 
-      <section className="py-20 sm:py-24">
+      <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <Reveal>
             <SectionTitle
@@ -1119,7 +1151,7 @@ function HomePage({ navigate, onOpenImage }) {
               description="A quick look at polished build quality before you dive into the full portfolio."
             />
           </Reveal>
-          <div className="mt-12 grid gap-8 xl:grid-cols-3">
+          <div className="mt-10 grid gap-6 xl:grid-cols-3">
             {featuredProjects.map((project, index) => {
               const primaryShot = project.gallery[0]
 
@@ -1143,7 +1175,7 @@ function HomePage({ navigate, onOpenImage }) {
               )
             })}
           </div>
-          <Reveal delay={0.12} className="mt-10 flex justify-center sm:justify-start">
+          <Reveal delay={0.12} className="mt-8 flex justify-center sm:justify-start">
             <LinkButton to="/portfolio" navigate={navigate} variant="primary" className="px-6 py-4">
               View Full Portfolio
             </LinkButton>
@@ -1151,7 +1183,7 @@ function HomePage({ navigate, onOpenImage }) {
         </div>
       </section>
 
-      <section className="bg-[#0D2345] py-20 sm:py-24">
+      <section className="bg-[#0D2345] py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <Reveal>
             <SectionTitle
@@ -1160,7 +1192,7 @@ function HomePage({ navigate, onOpenImage }) {
               description="A concise overview of the core build capabilities."
             />
           </Reveal>
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {servicesPreview.map((item, index) => {
               const Icon = item.icon
 
@@ -1180,7 +1212,7 @@ function HomePage({ navigate, onOpenImage }) {
         </div>
       </section>
 
-      <section className="py-20 sm:py-24">
+      <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <Reveal>
             <SectionTitle
@@ -1189,7 +1221,7 @@ function HomePage({ navigate, onOpenImage }) {
               description=""
             />
           </Reveal>
-          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {whyPoints.map((point, index) => (
               <Reveal key={point} delay={index * 0.04}>
                 <div className="flex items-center gap-3 rounded-[1.3rem] border border-white/10 bg-[#0D2345] px-5 py-4 shadow-sm">
@@ -1207,10 +1239,10 @@ function HomePage({ navigate, onOpenImage }) {
         </div>
       </section>
 
-      <section className="pb-20 sm:pb-24">
+      <section className="pb-14 sm:pb-16">
         <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
           <Reveal>
-            <div className="rounded-[2.2rem] border border-[#1d2c4a] bg-[#0B1220] px-6 py-12 text-white shadow-[0_35px_90px_rgba(11,18,32,0.4)] sm:px-10">
+            <div className="rounded-[2.2rem] border border-[#1d2c4a] bg-[#0B1220] px-6 py-10 text-white shadow-[0_35px_90px_rgba(11,18,32,0.4)] sm:px-10">
               <p className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-[#7eb8ff]">Ready to build your next project?</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Start with a focused conversation.</h2>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -1225,6 +1257,23 @@ function HomePage({ navigate, onOpenImage }) {
                 >
                   WhatsApp
                 </a>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="pb-16 sm:pb-20">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="grid gap-6 rounded-[2rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_22px_56px_rgba(5,15,35,0.32)] sm:p-8 lg:grid-cols-[220px_1fr] lg:items-center">
+              <div className="mx-auto w-full max-w-[220px] overflow-hidden rounded-[1.5rem] border border-white/10">
+                <img src={aboutPortrait} alt="George Brennan" loading="lazy" className="h-full w-full object-cover" />
+              </div>
+              <div>
+                <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-[#7eb8ff]">Founder-led</p>
+                <h2 className="mt-2 font-display text-2xl font-semibold text-white">Hi, I'm George.</h2>
+                <p className="mt-3 text-base leading-8 text-[#C8D3E0]">I'm the founder of GB Digital Solutions. After serving in the British Army and working as an NHS nurse, I taught myself software development to help businesses solve real problems with websites, apps and automation. When you work with GB Digital Solutions, you work directly with me from start to finish.</p>
               </div>
             </div>
           </Reveal>
@@ -1520,19 +1569,20 @@ function ServiceDetailPage({ navigate, service, onOpenImage }) {
         </Reveal>
         <Reveal delay={0.1}>
           <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
-            <h2 className="font-display text-2xl font-semibold text-white">Benefits</h2>
+            <h2 className="font-display text-2xl font-semibold text-white">Typical features</h2>
             <ul className="mt-4 space-y-3 text-sm leading-7 text-[#C8D3E0]">
-              {service.benefits.map((item) => (
+              {(service.typicalFeatures ?? service.benefits).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            <p className="mt-5 text-sm text-[#9eb2c8]">{service.timeline}</p>
           </article>
         </Reveal>
       </div>
 
       <Reveal delay={0.12} className="mt-10">
         <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
-          <h2 className="font-display text-2xl font-semibold text-white">Example screenshots</h2>
+          <h2 className="font-display text-2xl font-semibold text-white">Service interface previews</h2>
           <div className="mt-6 grid gap-6 lg:grid-cols-3">
             {service.gallery.map((shot, index) => (
               <Reveal key={`${service.slug}-${index}`} delay={index * 0.05}>
@@ -1649,7 +1699,7 @@ function BookingLandingPage({ navigate, onOpenImage }) {
           </Reveal>
           <Reveal delay={0.1}>
             <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
-              <h2 className="font-display text-2xl font-semibold text-white">Mock booking screens and calendar UI</h2>
+              <h2 className="font-display text-2xl font-semibold text-white">Booking screens and calendar UI</h2>
               <div className="mt-6 grid gap-6 lg:grid-cols-3">
                 {service.gallery.map((shot, index) => (
                   <Reveal key={`booking-${index}`} delay={index * 0.04}>
@@ -1883,7 +1933,13 @@ function ContactPage() {
           <div className="rounded-[2rem] border border-white/10 bg-[#081A33] p-6 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:p-7">
             <h2 className="font-display text-2xl font-semibold">What happens after an enquiry</h2>
             <div className="mt-6 space-y-4">
-              {['The brief is reviewed directly by George.', 'A reply follows with questions, fit notes or a suggested call.', 'The next recommendation focuses on the clearest useful scope first.'].map((item, index) => (
+              {[
+                'We discuss your project and goals in plain terms.',
+                'You receive a clear fixed quote and scope.',
+                'Development begins with agreed milestones.',
+                'You review the work and request refinements.',
+                'Launch goes live with support for next steps.',
+              ].map((item, index) => (
                 <div key={item} className="flex items-start gap-4 rounded-[1.3rem] border border-white/10 bg-[#0D2345]/5 px-4 py-4">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#168BFF]/20 text-sm font-semibold text-[#8fc2ff]">{index + 1}</div>
                   <p className="text-sm leading-7 text-slate-100">{item}</p>
@@ -1944,11 +2000,41 @@ function NotFoundPage({ navigate }) {
   )
 }
 
+function PrivacyPolicyPage({ navigate }) {
+  return (
+    <div className="mx-auto max-w-4xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <SectionTitle eyebrow="Privacy" title="Privacy Policy" description="This page explains how contact information is used when you submit an enquiry." />
+      <div className="mt-8 rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 text-sm leading-7 text-[#C8D3E0]">
+        <p>Your enquiry details are used only to respond to your request, prepare project scope and provide support related to your enquiry.</p>
+        <p className="mt-3">No personal information is sold to third parties. You can request deletion of enquiry data at any time by emailing {emailAddress}.</p>
+      </div>
+      <div className="mt-8">
+        <LinkButton to="/contact" navigate={navigate} variant="secondary">Contact</LinkButton>
+      </div>
+    </div>
+  )
+}
+
+function TermsPage({ navigate }) {
+  return (
+    <div className="mx-auto max-w-4xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <SectionTitle eyebrow="Legal" title="Terms" description="Projects are delivered against agreed scope, timeline and milestones confirmed before work starts." />
+      <div className="mt-8 rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 text-sm leading-7 text-[#C8D3E0]">
+        <p>Quotes include project scope, timeline and payment terms. Any additional features outside agreed scope are discussed and approved before implementation.</p>
+        <p className="mt-3">Support and revisions are handled according to the package or agreement provided in your quote.</p>
+      </div>
+      <div className="mt-8">
+        <LinkButton to="/contact" navigate={navigate} variant="secondary">Get Free Quote</LinkButton>
+      </div>
+    </div>
+  )
+}
+
 function SiteHeader({ currentPath, navigate, mobileMenuOpen, setMobileMenuOpen, isScrolled }) {
   return (
     <header className={`sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl transition-colors duration-300 ${isScrolled ? 'bg-[#07162E]/94' : 'bg-[#07162E]/62'}`}>
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
-        <a href="/" onClick={(event) => { event.preventDefault(); navigate('/') }} className="flex items-center gap-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-2.5 sm:px-6 lg:px-8">
+        <a href="/" onClick={(event) => { event.preventDefault(); navigate('/') }} className="flex min-h-[44px] items-center gap-3">
           <BrandLogo className="h-10 w-10 rounded-xl" />
           <div>
             <p className="font-display text-base font-semibold text-white">GB Digital Solutions</p>
@@ -2003,7 +2089,7 @@ function SiteHeader({ currentPath, navigate, mobileMenuOpen, setMobileMenuOpen, 
 function SiteFooter({ navigate }) {
   return (
     <footer className="bg-[#07162E] text-[#C8D6E5]">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1fr_0.7fr_0.8fr] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-6 lg:grid-cols-[1fr_0.9fr_1fr] lg:px-8">
         <div>
           <div className="flex items-center gap-3">
             <BrandLogo className="h-11 w-11 rounded-xl" />
@@ -2013,21 +2099,31 @@ function SiteFooter({ navigate }) {
             </div>
           </div>
           <p className="mt-5 max-w-md text-base leading-7 text-[#C8D6E5]">Professional digital systems designed to help businesses save time, win customers and operate with more clarity.</p>
+          <p className="mt-5 text-xs text-[#9eb2c8]">Copyright {new Date().getFullYear()} GB Digital Solutions. All rights reserved.</p>
         </div>
         <div>
-          <p className="font-display text-sm font-semibold uppercase tracking-[0.24em] text-white">Navigation</p>
+          <p className="font-display text-sm font-semibold uppercase tracking-[0.24em] text-white">Pages</p>
           <div className="mt-4 flex flex-col gap-3">
-            {navigationItems.map((item) => (
-              <a key={item.path} href={item.path} onClick={(event) => { event.preventDefault(); navigate(item.path) }} className="text-sm text-[#C8D6E5] transition hover:text-white">{item.label}</a>
+            {[
+              { label: 'Services', path: '/services' },
+              { label: 'Portfolio', path: '/portfolio' },
+              { label: 'About', path: '/about' },
+              { label: 'Contact', path: '/contact' },
+              { label: 'Privacy Policy', path: '/privacy-policy' },
+              { label: 'Terms', path: '/terms' },
+            ].map((item) => (
+              <a key={item.path} href={item.path} onClick={(event) => { event.preventDefault(); navigate(item.path) }} className="inline-flex min-h-[44px] items-center text-sm text-[#C8D6E5] transition hover:text-white">{item.label}</a>
             ))}
           </div>
         </div>
         <div>
-          <p className="font-display text-sm font-semibold uppercase tracking-[0.24em] text-white">Contact</p>
+          <p className="font-display text-sm font-semibold uppercase tracking-[0.24em] text-white">Contact and Social</p>
           <div className="mt-4 flex flex-col gap-3 text-sm">
-            <a href={`mailto:${emailAddress}`} className="transition hover:text-white">{emailAddress}</a>
-            <a href={phoneLink} className="transition hover:text-white">{phoneNumber}</a>
-            <a href={whatsappLink} className="transition hover:text-white">WhatsApp</a>
+            <a href={`mailto:${emailAddress}`} className="inline-flex min-h-[44px] items-center transition hover:text-white">{emailAddress}</a>
+            <a href={phoneLink} className="inline-flex min-h-[44px] items-center transition hover:text-white">{phoneNumber}</a>
+            <a href={whatsappLink} className="inline-flex min-h-[44px] items-center transition hover:text-white">WhatsApp</a>
+            <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" className="inline-flex min-h-[44px] items-center transition hover:text-white">LinkedIn</a>
+            <a href="https://www.instagram.com" target="_blank" rel="noreferrer" className="inline-flex min-h-[44px] items-center transition hover:text-white">Instagram</a>
             <div className="flex items-center gap-2 text-[#C8D6E5]"><MapPin className="h-4 w-4" />UK-wide remote service</div>
           </div>
         </div>
@@ -2062,6 +2158,10 @@ function renderRoute(path, navigate, onOpenImage) {
       return <BlogDetailPage navigate={navigate} post={getBlogPostBySlug(route.slug)} />
     case 'contact':
       return <ContactPage />
+    case 'privacy':
+      return <PrivacyPolicyPage navigate={navigate} />
+    case 'terms':
+      return <TermsPage navigate={navigate} />
     case 'home':
       return <HomePage navigate={navigate} onOpenImage={onOpenImage} />
     default:
