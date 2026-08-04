@@ -105,7 +105,7 @@ function getRouteTitle(path) {
   }
 
   if (path === '/about') {
-    return 'About | GB Digital Solutions'
+    return 'Our Story & Philosophy | GB Digital Solutions'
   }
 
   if (path === '/services') {
@@ -1298,13 +1298,13 @@ function AboutPage({ navigate }) {
         <div className="grid gap-6">
           <Reveal delay={0.04}>
             <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
-              <h2 className="font-display text-2xl font-semibold text-white">Who I am</h2>
+              <h2 className="font-display text-2xl font-semibold text-white">Introduction</h2>
               <p className="mt-4 text-base leading-8 text-[#C8D3E0]">{aboutContent.whoIAm}</p>
             </article>
           </Reveal>
           <Reveal delay={0.08}>
             <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6">
-              <h2 className="font-display text-2xl font-semibold text-white">My journey</h2>
+              <h2 className="font-display text-2xl font-semibold text-white">From Army to NHS to Software</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {aboutContent.journey.map((item) => (
                   <div key={item} className="rounded-[1.2rem] bg-[#0D2345] p-4 shadow-sm ring-1 ring-white/10 text-sm text-[#d0dbea]">{item}</div>
@@ -1314,7 +1314,7 @@ function AboutPage({ navigate }) {
           </Reveal>
           <Reveal delay={0.12}>
             <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
-              <h2 className="font-display text-2xl font-semibold text-white">Why I started GB Digital Solutions</h2>
+              <h2 className="font-display text-2xl font-semibold text-white">We Speak Business, Not Jargon</h2>
               <p className="mt-4 text-base leading-8 text-[#C8D3E0]">{aboutContent.whyStarted}</p>
             </article>
           </Reveal>
@@ -1324,7 +1324,7 @@ function AboutPage({ navigate }) {
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <Reveal>
           <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
-            <h2 className="font-display text-2xl font-semibold text-white">My values</h2>
+            <h2 className="font-display text-2xl font-semibold text-white">How We Help Your Business Grow</h2>
             <div className="mt-4 space-y-4">
               {aboutContent.values.map((item) => (
                 <div key={item.title} className="rounded-[1.2rem] bg-[#0D2345] p-4">
@@ -1337,7 +1337,7 @@ function AboutPage({ navigate }) {
         </Reveal>
         <Reveal delay={0.05}>
           <article className="rounded-[1.8rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)]">
-            <h2 className="font-display text-2xl font-semibold text-white">How I work with clients</h2>
+            <h2 className="font-display text-2xl font-semibold text-white">Our Simple Process</h2>
             <div className="mt-4 space-y-4">
               {aboutContent.workStyle.map((item) => (
                 <div key={item} className="flex items-start gap-3 rounded-[1.2rem] bg-[#0D2345] p-4">
@@ -1368,8 +1368,8 @@ function AboutPage({ navigate }) {
         <div className="rounded-[2rem] border border-white/10 bg-[#0D2345] p-6 shadow-[0_18px_40px_rgba(5,15,35,0.32)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_26px_60px_rgba(22,156,255,0.14)] sm:p-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
-              <h2 className="font-display text-2xl font-semibold text-white">See how that experience translates into real build work.</h2>
-              <p className="mt-3 text-base leading-8 text-[#C8D3E0]">The strongest next step is to look at the case studies and see how the thinking shows up in real project outputs.</p>
+              <h2 className="font-display text-2xl font-semibold text-white">Let's Win Your Time Back.</h2>
+              <p className="mt-3 text-base leading-8 text-[#C8D3E0]">You focus on running your business. Let us handle the technology that makes it run smoother.</p>
             </div>
             <LinkButton to={aboutContent.cta.path} navigate={navigate} variant="dark">
               {aboutContent.cta.label}

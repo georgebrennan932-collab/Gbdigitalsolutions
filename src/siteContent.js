@@ -110,13 +110,13 @@ export const homeContent = {
 
 export const aboutContent = {
   hero: {
-    eyebrow: 'About GB Digital Solutions',
-    title: 'Know who is building your software, website or automation.',
+    eyebrow: 'Our Story & Philosophy',
+    title: 'From Public Service to Practical Problem Solving.',
     description:
-      'George Brennan is a former British Army soldier and NHS nurse who taught himself software development and turned that into GB Digital Solutions.',
+      "GB Digital Solutions was not built by someone who followed a traditional path into software. After serving in the British Army and later working as an NHS nurse, I discovered a passion for solving problems through technology. What started as teaching myself to code quickly became building websites, mobile apps, AI-powered tools and business automation that help organisations save time and work more efficiently.",
   },
   whoIAm:
-    'I work directly with business owners who need practical digital systems that create enquiries, reduce admin and improve day-to-day operations. You are not handed to account managers or passed between teams.',
+    "I did not start this agency to build generic websites that sit on the internet doing nothing. I built it to help business owners like you eliminate manual friction, stop chasing paperwork and bring in more customers.",
   journey: [
     'Former British Army soldier.',
     'Former NHS nurse.',
@@ -124,25 +124,30 @@ export const aboutContent = {
     'Founder of GB Digital Solutions.',
   ],
   whyStarted:
-    'GB Digital Solutions exists because many businesses are offered flashy websites but still struggle with enquiries, follow-up and delivery workflows. The goal is to build digital systems that solve those real operational problems.',
+    'Many digital agencies focus on technical jargon and flashy design. We focus on practical business outcomes: does this make daily operations easier, save money and build customer trust? Software is not about lines of code. It is about human hours saved.',
   values: [
     {
-      title: 'Clarity over jargon',
-      description: 'Clients should understand what is being built, why it matters and what happens next.',
+      title: 'Websites That Work',
+      description: 'Clean, fast, mobile-friendly websites designed to rank on Google and turn visitors into paying enquiries for services, trades and clinics.',
     },
     {
-      title: 'Useful systems over filler',
-      description: 'Every feature should serve a business need rather than exist to fill space.',
+      title: 'Smart Automation',
+      description: 'Replace repetitive admin with intelligent systems like reminder workflows and booking tools that remove back-and-forth emails.',
     },
     {
-      title: 'Direct communication',
-      description: 'Questions, feedback and decisions stay with me so progress stays clear and accountable.',
+      title: 'Custom Mobile Apps',
+      description: 'From concept to Google Play Store launch, we build custom apps like NightPal and PlateMate to connect businesses directly with customers.',
+    },
+    {
+      title: 'Practical AI Tools',
+      description: 'AI assistants and automated voice systems designed to solve real customer and operational problems without hype.',
     },
   ],
   workStyle: [
-    'Discovery first, so the business problem is clear before anything is designed or built.',
-    'Focused scope, so the first release solves the most important problem instead of trying to do everything at once.',
-    'Ongoing support, so the work can keep improving after launch.',
+    'We take your ideas and define the clearest solution.',
+    'We design the workflows and user experience.',
+    'We build and test with practical business outcomes in mind.',
+    'We launch and support improvements as your business grows.',
   ],
   timeline: [
     { label: 'Army', detail: 'Discipline, structure and calm decision-making under pressure.' },
@@ -150,7 +155,7 @@ export const aboutContent = {
     { label: 'Self-taught development', detail: 'Built skill through practical problem-solving and shipped projects.' },
     { label: 'GB Digital Solutions', detail: 'Combines product thinking, software delivery and business problem-solving.' },
   ],
-  cta: { label: 'View Portfolio', path: '/portfolio' },
+  cta: { label: 'Schedule a Friendly Chat', path: '/contact' },
 }
 
 export const servicePages = [
